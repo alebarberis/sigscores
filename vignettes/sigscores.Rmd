@@ -1,0 +1,310 @@
+---
+title: "An introduction to `sigscores`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{An introduction to `sigscores`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Introduction
+**sigscores** is an helpful package providing an easy way to compute summary scores for gene signatures.
+
+There is one main function `?computeSigScores`, that can be used to compute all the available scores.
+
+## Setup
+Firstly, we load `sigscores` and other needed packages:
+
+```{r setup}
+library(sigscores)
+```
+
+
+## Seed
+Now we want to set a seed for the random number generation (RNG). In fact, different R sessions have different seeds created from current time and process ID by default, and consequently different simulation results. By fixing a seed we ensure we will be able to reproduce the results of this vignette. We can specify a seed by calling `?set.seed`.
+
+
+```{r set_seed}
+#Set a seed for RNG
+set.seed(
+  #A seed
+  seed = 5381L,                   #a randomly chosen integer value
+  #The kind of RNG to use
+  kind = "Mersenne-Twister",      #we make explicit the current R default value
+  #The kind of Normal generation
+  normal.kind = "Inversion"       #we make explicit the current R default value
+)
+```
+
+
+## Summary Scores
+A list of currently supported scores is available through the `?getAvailableScores` function call.
+
+
+```{r list_summary_scores}
+#list methods
+summary.scores = getAvailableScores()
+
+#print in table
+knitr::kable(x = summary.scores)
+```
+
+
+
+We can extract the ids by selecting the `id` column.
+
+```{r summary_scores_ids}
+#learning method ids
+summary.scores.ids = summary.scores$id
+
+#print
+print(summary.scores.ids)
+```
+
+
+
+## Data
+We create now some simulated data to use. For this vignette, we will consider a matrix with 100 genes and 10 samples.
+
+```{r create_data}
+#number of samples
+nc = 10
+#number of genes
+nr = 100
+#create matrix
+x = matrix(
+  data = sample(x = nr*nc),
+  nrow = nr,
+  ncol = nc,
+  dimnames = list(
+    paste0("g",seq_len(nr)), 
+    paste0("S",seq_len(nc))
+  )
+)
+```
+
+
+We can inspect the data by using the `?head` function, which returns the first parts of a vector, matrix, table, data frame or function. Let's print the first 6 rows of our matrix.
+
+
+```{r inspect_data}
+#print
+head(x = x, n = 6L)
+```
+
+
+We can now define our gene signature. For example, we can randomly select some genes from the matrix. Let's select 20 genes.
+
+
+```{r create_data_signature}
+#number of genes in signature
+ng = 20
+
+#select genes
+signature = rownames(x)[sample(x = seq_len(nr), size = ng)]
+
+#print
+signature
+```
+
+
+
+## Compute the Scores
+Finally, we can compute our summary scores.
+
+```{r summary_scores}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scores = summary.scores.ids
+)
+
+#print
+head(scores)
+```
+
+
+To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we see the internal function computing the trimmed mean is called `?trimmedMeanScores`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
+
+```{r summary_scores_w_args}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scores = summary.scores.ids,
+  args   = list(trimmedMean = list(trim = 0.2))
+)
+
+#print
+head(scores)
+```
+
+
+## Significance of the Scores
+We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
+
+1. Draw random samples from the original data
+2. Compute the summary scores on the simulated data
+3. Create a sampling distribution for each score
+4. Calculate the significance for each score
+
+To facilitate this computation, `?computeSigScores` can also calculate the summary scores for data sets generated using resampling. Two techniques are provided out-of-the-box in `?computeSigScores`: **permutation** (i.e. sampling without replacement) and **bootstrap** (i.e. sampling with replacement). The main new arguments we need to set are `sampling`, which indicates the technique we want to use, and `n.repeat`, which tells the function how many random samples we want to generate. 
+
+Let's create summary scores for 10 data sets generated using sampling without replacement.
+
+
+```{r summary_scores_random_signatures}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "permutation",
+  n.repeat = 10
+)
+
+#print
+head(scores)
+```
+
+
+To use bootstrap instead, we just need change the `sampling` argument.
+
+```{r summary_scores_random_signatures_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "bootstrap",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
+
+
+## Parallel Execution
+**sigscores** provides a simple approach to speed up computation on a multi-core computer via the usage of [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/html/00Index.html), [doParallel](https://cran.r-project.org/package=doParallel), and [foreach](https://cran.r-project.org/package=foreach) R packages. 
+
+To enable parallel execution we just need to set the argument `cores` in the `?computeSigScores` function with an integer greater than 1. For example, let's try to use 2 cores.
+
+
+```{r summary_scores_random_signatures_parallel, eval=FALSE}
+#compute summary scores with parallel execution
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "permutation",
+  n.repeat = 2,
+  cores    = 2
+)
+```
+
+
+As a note, the function internally perform some checks before setting a parallel environment, so if the provided number of cores is too high it will set `cores` as the maximum number of available (logical) processors on the machine minus 1.
+
+
+### Serial vs Parallel
+We could see the advantage of using a parallel execution by comparing the computation time between a serial and parallel setting when having an higher number of repeats. To time the execution of the function calls we can use the `?system.time` R function.
+
+Let's consider 500 permutations of the original data and compute the scores in a serial fashion first. 
+
+```{r summary_scores_random_signatures_sequential_time, eval=FALSE}
+#compute summary scores
+time_serial = system.time(
+  expr = {
+    scoresS = sigscores::computeSigScores(
+      x        = x,
+      i        = signature,
+      na.rm    = T,
+      scores   = summary.scores.ids,
+      sampling = "permutation",
+      n.repeat = 500
+    )
+  }
+)
+```
+
+
+Now we can run the parallel execution with the same number of repeats and selecting 5 cores. Considering that we don't need the results of the parallel execution to be in order, we can set the argument `.inorder` as `FALSE` since this can improve the performance.
+
+```{r summary_scores_random_signatures_parallel_time, eval=FALSE}
+#compute summary scores
+time_parallel = system.time(
+  expr = {
+    scoresP = sigscores::computeSigScores(
+      x        = x,
+      i        = signature,
+      na.rm    = T,
+      scores   = summary.scores.ids,
+      sampling = "permutation",
+      n.repeat = 500,
+      cores    = 5,
+      .inorder = FALSE
+    )
+  }
+)
+```
+
+```{r summary_scores_random_signatures_default_time, include=FALSE}
+#Data was retrieved from an execution.
+#We decided to use fixed numbers to avoid re-running 
+#the computation in case of changes of this vignette
+
+time_serial   = c(176.97, 0.30, 180.19, NA, NA)
+time_parallel = c(1.41,   2.47,  82.31, NA, NA)
+
+names(time_serial)   = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")
+names(time_parallel) = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")
+```
+
+
+Finally, we can compare the execution time. On a laptop having the following hardware:
+
+* Intel(R) Core(TM) i7-8650 CPU @ 1.90GHz, 2112MHz, 4 Core(s), 8 Logical Processor(s)
+* 1TB SSD Hard Drive
+* 16GB RAM
+
+the execution times for the serial and parallel computations were:
+
+```{r summary_scores_random_signatures_time_comparison}
+#create a matrix
+m = rbind(
+  serial   = time_serial,
+  parallel = time_parallel
+)
+
+#print
+print(m)
+```
+
+
+The parallel execution was around `r round(x = time_serial["elapsed"] / time_parallel["elapsed"], digits = 2)` times faster than the serial execution.
+
+<!-- ## Session Info -->
+
+<!-- The version number of R and packages loaded for generating the vignette. -->
+
+<!-- ```{r session_info} -->
+<!-- sessionInfo() -->
+<!-- ``` -->

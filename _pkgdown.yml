@@ -1,0 +1,54 @@
+template:
+  bootstrap: 5
+reference:
+- title: Summary Scores
+  desc: This is the main function to compute the summary scores
+  contents: computeSigScores
+- title: Plot Summary Scores
+  desc: These are the main functions to visualise the summary scores
+  contents:
+  - heatmapSigScores
+  - heatmapCorSigScores
+  - boxplotSigScores
+  - scatterplotSigScores
+- title: Summary Scores for Matrix
+  desc: These functions are used to compute the summary scores
+  contents:
+  - meanScores
+  - trimmedMeanScores
+  - weightedMeanScores
+  - interquartileMeanScores
+  - medianScores
+  - modeScores
+  - midrangeScores
+  - midhingeScores
+  - trimeanScores
+  - briskowScores
+  - reviewedBriskowScores
+  - weightedSumScores
+  - ssGseaScores
+  - gsvaScores
+  - plageScores
+  - zScores
+- title: Summary Scores for Vector
+  desc: These functions are used to compute the summary scores
+  contents:
+  - meanScore
+  - trimmedMeanScore
+  - weightedMeanScore
+  - interquartileMeanScore
+  - medianScore
+  - modeScore
+  - midrangeScore
+  - midhingeScore
+  - trimeanScore
+  - briskowScore
+  - reviewedBriskowScore
+  - weightedSumScore
+  - ssGseaScore
+  - gsvaScore
+  - plageScore
+  - zScore
+- title: Utility Functions
+  contents: getAvailableScores
+
