@@ -39,3 +39,5 @@ Collate:
     '3-significance.R'
     '4-plot-scores.R'
 VignetteBuilder: knitr
+URL: https://github.com/alebarberis/sigscores
+BugReports: https://github.com/alebarberis/sigscores/issues
