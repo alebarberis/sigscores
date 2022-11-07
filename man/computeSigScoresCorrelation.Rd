@@ -4,7 +4,12 @@
 \alias{computeSigScoresCorrelation}
 \title{Compute Correlation}
 \usage{
-computeSigScoresCorrelation(data, adjust = "BH", method = "pearson", ...)
+computeSigScoresCorrelation(
+  data,
+  adjust = "BH",
+  method = c("pearson", "spearman", "kendall"),
+  ...
+)
 }
 \arguments{
 \item{data}{data frame, output of \code{\link{computeSigScores}}}
@@ -21,6 +26,9 @@ between summary scores.
 
 It is a wrapper around \code{\link[psych]{corr.test}}
 function.
+}
+\seealso{
+\code{\link[psych]{corr.test}}
 }
 \author{
 Alessandro Barberis

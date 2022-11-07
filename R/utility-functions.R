@@ -649,22 +649,29 @@ getPackageName <- function(){
 #'
 #'@author Alessandro Barberis
 #'
+#'@seealso
+#'\code{\link[psych]{corr.test}}
+#'
 #'@keywords internal
 computeSigScoresCorrelation <- function(
     data,
     adjust = "BH",
-    method = "pearson",
+    method = c("pearson", "spearman", "kendall"),
     ...
   ){
 
+  #check input ---------------------------------------------------
+  method = match.arg(method)
+
   #prepare data   ------------------------------------------------
   ##convert to matrix
-  data = as.matrix(x = data, ncol = ncol(data), nrow = nrow(data))
+  data = getSigScoresAsMatrix(data)
 
   #compute corr   ------------------------------------------------
   out = psych::corr.test(
     x      = data,
     adjust = adjust,
+    method = method,
     ...
   )
 
@@ -792,4 +799,40 @@ getArgsInFunFormals <- function(
 
   #return
   return(args)
+}
+
+#'Get Signature Scores as Matrix
+#'
+#'@description This function takes a data frame output
+#'of \code{\link{computeSigScores}} and returns a
+#'numerical matrix.
+#'
+#'@param data data frame, output of \code{\link{computeSigScores}}
+#'
+#'@return A numerical matrix, containing the signature scores.
+#'
+#'@author Alessandro Barberis
+#'@keywords internal
+getSigScoresAsMatrix <- function(
+    data
+  ){
+
+  #get scores id
+  scores = getAvailableScores()$id
+
+  #match columns
+  scores = colnames(data) %in% scores
+
+  #check
+  if(isTRUE(sum(scores)>0)){
+    #update data frame
+    data = data[,scores,drop=F]
+
+    #convert to matrix
+    data = as.matrix(x = data, ncol = ncol(data), nrow = nrow(data))
+  } else {
+    stop("Error: columns in 'data' not valid. 'data' must have column names matching the score ids. Please, check your input.\n")
+  }
+
+  return(data)
 }

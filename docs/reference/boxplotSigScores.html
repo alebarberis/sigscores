@@ -37,7 +37,13 @@ pre-defined plot."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/alebarberis/sigscores/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -45,7 +51,7 @@ pre-defined plot."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Plot Summary Scores as Box Plots</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/4-plot-scores.R" class="external-link"><code>R/4-plot-scores.R</code></a></small>
       <div class="d-none name"><code>boxplotSigScores.Rd</code></div>
     </div>
 
@@ -66,10 +72,10 @@ pre-defined plot.</p>
 <span>  add.violin <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  add.boxplot <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>  boxplot.width <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>  add.scores <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  scores.shape <span class="op">=</span> <span class="fl">16</span>,</span>
-<span>  scores.jitter.w <span class="op">=</span> <span class="fl">0.2</span>,</span>
-<span>  scores.jitter.h <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  add.points <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  point.shape <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  point.jitter.w <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  point.jitter.h <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  labs.title <span class="op">=</span> <span class="st">"Summary Scores"</span>,</span>
 <span>  labs.x <span class="op">=</span> <span class="st">"Summary Scores"</span>,</span>
 <span>  labs.y <span class="op">=</span> <span class="st">"Scores"</span>,</span>
@@ -103,6 +109,29 @@ the summary score(s) to plot from <code>data</code></p></dd>
 
 <dt>boxplot.width</dt>
 <dd><p>numeric, the width of boxplot</p></dd>
+
+
+<dt>add.points</dt>
+<dd><p>logical, whether to add the computed scores
+of the individual summary measures as points in the plot</p></dd>
+
+
+<dt>point.shape</dt>
+<dd><p>the shape to use to plot the scores. It can take
+five types of values:</p><ul><li><p>An integer in [0, 25]</p></li>
+<li><p>The name of the shape</p></li>
+<li><p>A single character, used as a plotting symbol</p></li>
+<li><p>A . to draw the smallest rectangle that is visible,
+  usually 1 pixel</p></li>
+<li><p>An <code>NA</code>, to draw nothing</p></li>
+</ul><p>See <code>vignette("ggplot2-specs")</code> for further details</p></dd>
+
+
+<dt>point.jitter.w, point.jitter.h</dt>
+<dd><p>Amount of vertical and
+horizontal jitter. The jitter is added in both positive and negative
+directions, so the total spread is twice the value specified here.
+See <code><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></code> for further details</p></dd>
 
 
 <dt>labs.title</dt>
@@ -180,7 +209,6 @@ See <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="
 <span class="r-in"><span><span class="co">#Plot scores</span></span></span>
 <span class="r-in"><span><span class="fu">boxplotSigScores</span><span class="op">(</span>data <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 10 rows containing non-finite values (stat_boxplot).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 10 rows containing missing values (geom_point).</span>
 <span class="r-plt img"><img src="boxplotSigScores-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

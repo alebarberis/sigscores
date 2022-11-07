@@ -46,7 +46,14 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/alebarberis/sigscores/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -61,7 +68,7 @@
       <img src="" class="logo" alt=""><h1>An introduction to `sigscores`</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/vignettes/sigscores.Rmd" class="external-link"><code>vignettes/sigscores.Rmd</code></a></small>
       <div class="d-none name"><code>sigscores.Rmd</code></div>
     </div>
 
@@ -81,7 +88,7 @@ be used to compute all the available scores.</p>
 <p>Firstly, we load <code>sigscores</code> and other needed
 packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">sigscores</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alebarberis/sigscores" class="external-link">sigscores</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'sigscores'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:methods':</span></span>
@@ -331,6 +338,55 @@ function computing the trimmed mean is called
 <span><span class="co">#&gt; S6 -0.3916968  0.5601269</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="visualisation">Visualisation<a class="anchor" aria-label="anchor" href="#visualisation"></a>
+</h2>
+<p><code>sigscores</code> provides some basic functions for plotting.
+For example, we can plot our computed results via an heat map by using
+the <code><a href="../reference/heatmapSigScores.html">?heatmapSigScores</a></code> function, which requires the output
+of <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> as the <code>data</code>
+parameter.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#create plot</span></span>
+<span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/heatmapSigScores.html">heatmapSigScores</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">scores</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#visualise</span></span>
+<span><span class="va">p</span></span></code></pre></div>
+<p><img src="sigscores_files/figure-html/summary_scores_w_args_plot_heatmap-1.png" width="576"></p>
+<p>We can visualise the correlation of the summary scores by using
+another built-in function, i.e. <code><a href="../reference/heatmapCorSigScores.html">?heatmapCorSigScores</a></code>. The
+correlation matrix can be directly provided via the <code>cor</code>
+parameter. If <code>cor = NULL</code>, <code><a href="../reference/heatmapCorSigScores.html">?heatmapCorSigScores</a></code>
+internally computes the correlation by using the default settings of
+<code><a href="../reference/computeSigScoresCorrelation.html">?computeSigScoresCorrelation</a></code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#create plot</span></span>
+<span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/heatmapCorSigScores.html">heatmapCorSigScores</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">scores</span>,</span>
+<span>  cor  <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in cor(x, use = use, method = method): the standard deviation is zero</span></span>
+<span></span>
+<span><span class="co">#visualise</span></span>
+<span><span class="va">p</span></span></code></pre></div>
+<p><img src="sigscores_files/figure-html/summary_scores_correlation_plot_heatmap-1.png" width="576"></p>
+<p>It is also possible to represent the summary scores via box plots
+thanks to another built-in function,
+i.e. <code><a href="../reference/boxplotSigScores.html">?boxplotSigScores</a></code>. We can also subset the scores we
+want to plot by using the <code>scores</code> parameter.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#create plot</span></span>
+<span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/boxplotSigScores.html">boxplotSigScores</a></span><span class="op">(</span></span>
+<span>  data   <span class="op">=</span> <span class="va">scores</span>,</span>
+<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"median"</span>, <span class="st">"IQM"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#visualise</span></span>
+<span><span class="va">p</span></span></code></pre></div>
+<p><img src="sigscores_files/figure-html/summary_scores_plot_boxplot-1.png" width="576"></p>
+</div>
+<div class="section level2">
 <h2 id="significance-of-the-scores">Significance of the Scores<a class="anchor" aria-label="anchor" href="#significance-of-the-scores"></a>
 </h2>
 <p>We may want to understand if the computed scores are due to the
@@ -357,7 +413,7 @@ and <code>n.repeat</code>, which tells the function how many random
 samples we want to generate.</p>
 <p>Let’s create summary scores for 10 data sets generated using sampling
 without replacement.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -393,7 +449,7 @@ without replacement.</p>
 <span><span class="co">#&gt; 6  0.453742266  1.6396185</span></span></code></pre></div>
 <p>To use bootstrap instead, we just need change the
 <code>sampling</code> argument.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -439,7 +495,7 @@ packages.</p>
 <p>To enable parallel execution we just need to set the argument
 <code>cores</code> in the <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> function with
 an integer greater than 1. For example, let’s try to use 2 cores.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores with parallel execution</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -463,7 +519,7 @@ an higher number of repeats. To time the execution of the function calls
 we can use the <code><a href="https://rdrr.io/r/base/system.time.html" class="external-link">?system.time</a></code> R function.</p>
 <p>Let’s consider 500 permutations of the original data and compute the
 scores in a serial fashion first.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_serial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -482,7 +538,7 @@ and selecting 5 cores. Considering that we don’t need the results of the
 parallel execution to be in order, we can set the argument
 <code>.inorder</code> as <code>FALSE</code> since this can improve the
 performance.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_parallel</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -508,7 +564,7 @@ Logical Processor(s)</li>
 </ul>
 <p>the execution times for the serial and parallel computations
 were:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create a matrix</span></span>
 <span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  serial   <span class="op">=</span> <span class="va">time_serial</span>,</span>

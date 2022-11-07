@@ -154,6 +154,51 @@ head(scores)
 ```
 
 
+## Visualisation
+`sigscores` provides some basic functions for plotting. For example, we can plot our computed results via an heat map by using the `?heatmapSigScores` function, which requires the output of `?computeSigScores` as the `data` parameter.
+
+```{r summary_scores_w_args_plot_heatmap, fig.height = 5, fig.width = 6}
+#create plot
+p = sigscores::heatmapSigScores(
+  data = scores
+)
+
+#visualise
+p
+```
+
+
+We can visualise the correlation of the summary scores by using another built-in function, i.e. `?heatmapCorSigScores`. The correlation matrix can be directly provided via the `cor` parameter. If `cor = NULL`, `?heatmapCorSigScores` internally computes the correlation by using the default settings of `?computeSigScoresCorrelation`.
+
+
+```{r summary_scores_correlation_plot_heatmap, fig.height=6, fig.width=6}
+#create plot
+p = sigscores::heatmapCorSigScores(
+  data = scores,
+  cor  = NULL
+)
+
+#visualise
+p
+```
+
+
+
+It is also possible to represent the summary scores via box plots thanks to another built-in function, i.e. `?boxplotSigScores`. We can also subset the scores we want to plot by using the `scores` parameter.
+
+
+```{r summary_scores_plot_boxplot, fig.height=6, fig.width=6}
+#create plot
+p = sigscores::boxplotSigScores(
+  data   = scores,
+  scores = c("mean", "mode", "median", "IQM", "midrange", "midhinge", "trimean")
+)
+
+#visualise
+p
+```
+
+
 ## Significance of the Scores
 We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
 

@@ -190,7 +190,8 @@ heatmapCorSigScores <- function(
     if(isFALSE(missing(data) | is.null(data))){
       #compute
       cor = computeSigScoresCorrelation(
-        data = data
+        data   = data,
+        method = "pearson"
       )
       #extract statistic
       cor = cor$r
@@ -386,11 +387,11 @@ boxplotSigScores <- function(
     add.boxplot       = T,
     boxplot.width     = 0.1,
 
-    #scores
-    add.scores        = F,
-    scores.shape      = 16,
-    scores.jitter.w   = 0.2,
-    scores.jitter.h   = NULL,
+    #points
+    add.points        = F,
+    point.shape       = 16,
+    point.jitter.w    = 0.2,
+    point.jitter.h    = NULL,
 
     #plot labels
     labs.title        = "Summary Scores",
@@ -431,11 +432,11 @@ boxplotSigScores <- function(
     add.boxplot       = add.boxplot,
     boxplot.width     = boxplot.width,
 
-    #scores
-    add.scores        = add.scores,
-    scores.shape      = scores.shape,
-    scores.jitter.w   = scores.jitter.w,
-    scores.jitter.h   = scores.jitter.h,
+    #points
+    add.points        = add.points,
+    point.shape       = point.shape,
+    point.jitter.w    = point.jitter.w,
+    point.jitter.h    = point.jitter.h,
 
     #plot labels
     labs.title        = labs.title,
@@ -516,16 +517,16 @@ boxplotSigScores <- function(
 #'  facet.rows = "summaryScore"
 #')
 scatterplotSigScores <- function(
-    #data
+  #data
   data,
   scores            = NULL,
   runs              = NULL,
 
-  #scores
-  add.scores        = T,
-  scores.shape      = 16,
-  scores.jitter.w   = 0.2,
-  scores.jitter.h   = NULL,
+  #points
+  add.points        = T,
+  point.shape      = 16,
+  point.jitter.w   = 0.2,
+  point.jitter.h   = NULL,
 
   #plot labels
   labs.title        = "Summary Scores",
@@ -567,10 +568,10 @@ scatterplotSigScores <- function(
     add.boxplot       = F,
 
     #scores
-    add.scores        = add.scores,
-    scores.shape      = scores.shape,
-    scores.jitter.w   = scores.jitter.w,
-    scores.jitter.h   = scores.jitter.h,
+    add.points        = add.points,
+    point.shape       = point.shape,
+    point.jitter.w    = point.jitter.w,
+    point.jitter.h    = point.jitter.h,
 
     #plot labels
     labs.title        = labs.title,

@@ -8,10 +8,10 @@ scatterplotSigScores(
   data,
   scores = NULL,
   runs = NULL,
-  add.scores = T,
-  scores.shape = 16,
-  scores.jitter.w = 0.2,
-  scores.jitter.h = NULL,
+  add.points = T,
+  point.shape = 16,
+  point.jitter.w = 0.2,
+  point.jitter.h = NULL,
   labs.title = "Summary Scores",
   labs.x = "Sample IDs",
   labs.y = "Scores",
@@ -31,6 +31,27 @@ the summary score(s) to plot from \code{data}}
 
 \item{runs}{(optional) numeric vector, indicating the
 repeats to plot from \code{data}}
+
+\item{add.points}{logical, whether to add the computed scores
+of the individual summary measures as points in the plot}
+
+\item{point.shape}{the shape to use to plot the scores. It can take
+five types of values:
+\itemize{
+  \item An integer in [0, 25]
+  \item The name of the shape
+  \item A single character, used as a plotting symbol
+  \item A . to draw the smallest rectangle that is visible,
+  usually 1 pixel
+  \item An \code{NA}, to draw nothing
+}
+
+See \code{vignette("ggplot2-specs")} for further details}
+
+\item{point.jitter.w, point.jitter.h}{Amount of vertical and
+horizontal jitter. The jitter is added in both positive and negative
+directions, so the total spread is twice the value specified here.
+See \code{\link[ggplot2]{position_jitter}} for further details}
 
 \item{labs.title}{The text for the title}
 
