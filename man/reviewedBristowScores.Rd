@@ -4,7 +4,7 @@
 \alias{reviewedBristowScores}
 \title{Reviewed Bristow Scores}
 \usage{
-reviewedBristowScores(x, i, na.rm = TRUE)
+reviewedBristowScores(x, i, m = c("rows", "cols"), na.rm = TRUE)
 }
 \arguments{
 \item{x}{numerical matrix, features-by-samples}
@@ -15,6 +15,17 @@ names in \code{x}.
 If \code{missing} or \code{i = NULL}, all the rows
 in \code{x} are considered for the computation of
 the score}
+
+\item{m}{character string, indicating whether to
+compute the median abundance across the rows
+of \code{x} (\code{m = "rows"}) or across the
+columns of \code{x} (\code{m = "cols"}).
+In the first case, the median abundance is the same
+across signature elements within the same sample.
+In the second case, the median abundance of the
+\eqn{i}-th element of the signature is the same across
+samples, and different elements of \code{i} have
+different median abundances}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values before computation}

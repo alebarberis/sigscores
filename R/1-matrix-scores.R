@@ -377,8 +377,8 @@ weightedMeanScores <- function(
 ){
 
   #check weights
-  if(missing(i) || is.null(i)) {i = seq_len(length.out = nrow(x))}
-  if(missing(w) || is.null(w)) {w = rep(x = 1, times = length(i))}
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = nrow(x))}
+  if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(i))}
 
   #get dim
   numCol = ncol(x)
@@ -615,6 +615,16 @@ trimeanScores <- function(
 #'See \code{\link{bristowScore}} for further details.
 #'
 #'@inheritParams computeMatrixScore
+#'@param m character string, indicating whether to
+#'compute the median abundance across the rows
+#'of \code{x} (\code{m = "rows"}) or across the
+#'columns of \code{x} (\code{m = "cols"}).
+#'In the first case, the median abundance is the same
+#'across signature elements within the same sample.
+#'In the second case, the median abundance of the
+#'\eqn{i}-th element of the signature is the same across
+#'samples, and different elements of \code{i} have
+#'different median abundances
 #'
 #'@inherit computeMatrixScore return
 #'
@@ -622,23 +632,49 @@ trimeanScores <- function(
 #'
 #'@seealso
 #'\code{\link{bristowScore}}
+#'
+#'@references
+#'Lalonde, E. et al., *Tumour genomic and microenvironmental heterogeneity for integrated prediction of 5-year biochemical recurrence of prostate cancer: a retrospective cohort study*,
+#'The Lancet Oncology (2014), appendix
 bristowScores <- function(
     x,
     i,
+    m        = c("rows", "cols"),
     na.rm    = TRUE
   ){
+
   #get dim
   numCol = ncol(x)
 
-  #subset input
-  x = subsetMatrix(x = x, i = i, rm.dupli = T)
+  #i
+  ##check i
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = nrow(x))}
+  ##subset input
+  i = updateSig(x = x, i = i, rm.dupli = T)
+  ##check input
+  if(isTRUE(is.null(i))){   return(rep(x = getDefaultNaValue(), times = numCol))}
 
-  #check input
-  if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
-  if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
+  #median
+  ##match
+  m = match.arg(m)
+  ##check
+  if(isTRUE(identical(m, "rows"))){
+    m = NULL
+  } else {
+    #subset input
+    x = subsetMatrix(x = x, i = i, rm.dupli = T)
+    #check input
+    if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
+    if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
+    #compute
+    m = apply(X = x, MARGIN = 1, FUN = median, na.rm = na.rm, simplify = FALSE)
+    #as vector
+    m = as.vector(unlist(m))
+  }
+
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = bristowScore, na.rm = na.rm, simplify = FALSE)
+  out = apply(X = x, MARGIN = 2, FUN = bristowScore, na.rm = na.rm, m = m, simplify = FALSE)
 
   #update
   out = unlist(out)
@@ -655,6 +691,7 @@ bristowScores <- function(
 #'See \code{\link{reviewedBristowScore}} for further details.
 #'
 #'@inheritParams computeMatrixScore
+#'@inheritParams bristowScores
 #'
 #'@inherit computeMatrixScore return
 #'
@@ -665,20 +702,41 @@ bristowScores <- function(
 reviewedBristowScores <- function(
     x,
     i,
+    m        = c("rows", "cols"),
     na.rm    = TRUE
   ){
+
   #get dim
   numCol = ncol(x)
 
-  #subset input
-  x = subsetMatrix(x = x, i = i, rm.dupli = T)
+  #i
+  ##check i
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = nrow(x))}
+  ##subset input
+  i = updateSig(x = x, i = i, rm.dupli = T)
+  ##check input
+  if(isTRUE(is.null(i))){   return(rep(x = getDefaultNaValue(), times = numCol))}
 
-  #check input
-  if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
-  if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
+  #median
+  ##match
+  m = match.arg(m)
+  ##check
+  if(isTRUE(identical(m, "rows"))){
+    m = NULL
+  } else {
+    #subset input
+    x = subsetMatrix(x = x, i = i, rm.dupli = T)
+    #check input
+    if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
+    if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
+    #compute
+    m = apply(X = x, MARGIN = 1, FUN = median, na.rm = na.rm, simplify = FALSE)
+    #as vector
+    m = as.vector(unlist(m))
+  }
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = reviewedBristowScore, na.rm = na.rm, simplify = FALSE)
+  out = apply(X = x, MARGIN = 2, FUN = reviewedBristowScore, na.rm = na.rm, m = m, simplify = FALSE)
 
   #update
   out = unlist(out)
@@ -686,6 +744,7 @@ reviewedBristowScores <- function(
   #return
   return(out)
 }
+
 
 #
 # #'PC1 Scores
@@ -820,8 +879,8 @@ weightedSumScores <- function(
   normalisation = match.arg(normalisation)
 
   #check input
-  if(missing(i) || is.null(i)) {i = seq_len(length.out = nrow(x))}
-  if(missing(w) || is.null(w)) {w = rep(x = 1, times = length(i))}
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = nrow(x))}
+  if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(i))}
 
   #get dim
   numCol = ncol(x)

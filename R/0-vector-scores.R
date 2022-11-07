@@ -10,7 +10,7 @@ NULL
 #'@param i (optional) numerical vector giving the position in \code{x}
 #'or character vector matching the names in \code{x}.
 #'If \code{missing} or \code{i = NULL}, the entire \code{x} is
-#'considered for the computation of the score.
+#'considered for the computation of the score
 #'@param na.rm logical, whether to remove \code{NA}
 #'values from \code{x} before computation
 #'@param score character string indicating the summary score to compute
@@ -164,8 +164,8 @@ weightedMeanScore <- function(
 ){
 
   #check input
-  if(missing(i) || is.null(i)) {i = seq_len(length.out = length(x))}
-  if(missing(w) || is.null(w)) {w = rep(x = 1, times = length(i))}
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = length(x))}
+  if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(i))}
 
   #subset input
   i = updateSig(x = x, i = i)
@@ -415,38 +415,86 @@ trimeanScore <- function(
 #'See the **Details** section below for further information.
 #'
 #'@inheritParams computeScore
+#'@param m numerical vector of length equivalent to \code{i},
+#'containing the median abundance for each element of
+#'\code{i} in the cohort. If \code{m = NULL}, the median
+#'of \code{x} is instead used
 #'
 #'@inherit computeScore return
 #'
-#'@details The score is computed in 2 steps:
-#'\enumerate{
-#'  \item compute the median of elements in \code{x}
-#'  \item if element in \code{i} is greater than the median,
-#'  assign a \code{+1} to the score; assign \code{-1} otherwise
+#'@details To compute the score, each element in \code{i} is
+#'evaluated against the median abundance for the same element
+#'in the cohort (if \code{m} is provided) or against the
+#'median abundance of \code{x} (when \code{m = NULL}).
+#'If an element \eqn{x_{j}} is greater than the median, it
+#'receives a score of \code{+1}; if it is lower than the median,
+#'it receives a score of \code{-1}. The final score is the sum
+#'of the scores for each element in \code{i}:
+#'
+#'\deqn{bristowScore = \sum_{j=1}^{n}  f(x) =
+#'\left\{
+#'\begin{array}{l}
+#'+1, \quad \textrm{if} \quad x_{j} > median_{j} \\
+#'-1, \quad \textrm{if} \quad x_{j} < median_{j}
+#'\end{array}
+#'\right\}
 #'}
 #'
+#'where \eqn{n} is the number of elements in \code{i};
+#'\eqn{x_{j}} is the \eqn{j}-th element of vector \code{x};
+#'\eqn{median_{j}} is the \eqn{j}-th element of vector \code{m} if
+#'provided, or the median of \code{x} when \code{m = NULL}.
+#'
 #'@inherit computeScore author
+#'
+#'@references
+#'Lalonde, E. et al., *Tumour genomic and microenvironmental heterogeneity for integrated prediction of 5-year biochemical recurrence of prostate cancer: a retrospective cohort study*,
+#'The Lancet Oncology (2014), appendix
 bristowScore <- function(
     x,
     i,
+    m     = NULL,
     na.rm = TRUE
 ){
 
+  #check input
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = length(x))}
+  if(isTRUE(missing(m) || is.null(m))) {
+    #compute
+    m = median(x = x, na.rm = na.rm)
+  }
+  if(isTRUE(length(m)==1)){m = rep(x = m, times = length(i))}
+
+  if(isFALSE(length(m)==length(i))){
+    stop("Error: 'm' must be of length 1 or of the same length of 'i'. Please, check your input.\n")
+  }
+
   #subset input
-  i = subsetVector(x = x, i = i)
+  i = updateSig(x = x, i = i)
+  x = subsetVector(x = x, i = i)
 
   #check input
   if(isTRUE(is.null(i))){   return(getDefaultNaValue())}
-  if(isTRUE(all(is.na(i)))){return(getDefaultNaValue())}
+  if(isTRUE(is.null(x))){   return(getDefaultNaValue())}
+  if(isTRUE(all(is.na(x)))){return(getDefaultNaValue())}
+
+  #update w
+  m = m[getIndex(i)]
+
+  #check NAs
+  if(isTRUE(na.rm)){
+    keep = !is.na(x)
+    #update
+    x = x[keep]
+    m = m[keep]
+  }
 
   #compute
-  ##median
-  medianValue = median(x = x, na.rm = na.rm)
   ##out
-  out = vector(mode = "numeric", length = length(i))
+  out = vector(mode = "numeric", length = length(x))
   ##update
-  out[i > medianValue] = 1
-  out[i < medianValue] = -1
+  out[x > m] = 1
+  out[x < m] = -1
   ##score
   out = sum(out, na.rm = na.rm)
 
@@ -461,31 +509,45 @@ bristowScore <- function(
 #'See the **Details** section below for further information.
 #'
 #'@inheritParams computeScore
+#'@inheritParams bristowScore
 #'
 #'@inherit computeScore return
 #'
-#'@details The score is computed in 3 steps:
+#'@details To compute the score, each element in \code{i} is
+#'evaluated against the median abundance for the same element
+#'in the cohort (if \code{m} is provided) or against the
+#'median abundance of \code{x} (when \code{m = NULL}).
+#'If an element \eqn{x_{j}} is greater than the median, it
+#'receives a score of \code{+1}; if it is lower than the median,
+#'it receives a score of \code{-1}. The final score is the sum
+#'of the scores for each element in \code{i}.
+#'
+#'Summarising, the score is computed in 2 steps:
 #'\enumerate{
-#'  \item compute the median of elements in \code{x}
-#'  \item if element in \code{i} is greater than the median,
-#'  assign a \code{+1} to the score; assign \code{-1} otherwise
-#'  \item divide the score by the number of elements in \code{i}
+#'  \item compute the Bristow score
+#'  \item divide the score by the number of elements in the signature
 #'}
 #'
 #'@inherit computeScore author
+#'
+#'@seealso
+#'\code{\link{bristowScore}}
 reviewedBristowScore <- function(
     x,
     i,
+    m     = NULL,
     na.rm = TRUE
 ){
 
   #compute
   ##bristowScore
-  out = bristowScore(x = x, i = i, na.rm = na.rm)
+  out = bristowScore(x = x, i = i, m = m, na.rm = na.rm)
   #subset input
-  i = subsetVector(x = x, i = i)
+  x = subsetVector(x = x, i = i)
+  #check NAs
+  if(isTRUE(na.rm)){ x = x[!is.na(x)]}
   ##reviewed score
-  out = out / length(i)
+  out = out / length(x)
 
   #return
   return(out)
@@ -630,8 +692,8 @@ weightedSumScore <- function(
 ){
 
   #default
-  if(missing(i) || is.null(i)) {i = seq_len(length.out = length(x))}
-  if(missing(w) || is.null(w)) {w = rep(x = 1, times = length(i))}
+  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = length(x))}
+  if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(i))}
 
   #subset input
   i = updateSig(x = x, i = i)

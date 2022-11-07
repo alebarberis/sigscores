@@ -43,7 +43,7 @@ of the individual summary measures as points in the plot}
 \item{point.shape}{the shape to use to plot the scores. It can take
 five types of values:
 \itemize{
-\item An integer in \link{0, 25}
+\item An integer in \verb{[0, 25]}
 \item The name of the shape
 \item A single character, used as a plotting symbol
 \item A . to draw the smallest rectangle that is visible,
@@ -67,7 +67,7 @@ See \code{\link[ggplot2]{position_jitter}} for further details}
 \item{labs.col}{The title of the legend}
 
 \item{axis.text.x.angle, axis.text.y.angle}{Specify the x and y
-axis tick labels angles (in \link{0, 360})
+axis tick labels angles (in \code{[0, 360]})
 See \code{\link[ggplot2]{element_text}} for further details}
 
 \item{axis.text.x.size, axis.text.y.size}{Specify the x and y

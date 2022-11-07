@@ -4,7 +4,7 @@
 \alias{bristowScore}
 \title{Bristow Score}
 \usage{
-bristowScore(x, i, na.rm = TRUE)
+bristowScore(x, i, m = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{x}{(named) numerical vector}
@@ -12,7 +12,12 @@ bristowScore(x, i, na.rm = TRUE)
 \item{i}{(optional) numerical vector giving the position in \code{x}
 or character vector matching the names in \code{x}.
 If \code{missing} or \code{i = NULL}, the entire \code{x} is
-considered for the computation of the score.}
+considered for the computation of the score}
+
+\item{m}{numerical vector of length equivalent to \code{i},
+containing the median abundance for each element of
+\code{i} in the cohort. If \code{m = NULL}, the median
+of \code{x} is instead used}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
@@ -27,12 +32,32 @@ This function computes the \emph{Bristow score}.
 See the \strong{Details} section below for further information.
 }
 \details{
-The score is computed in 2 steps:
-\enumerate{
-\item compute the median of elements in \code{x}
-\item if element in \code{i} is greater than the median,
-assign a \code{+1} to the score; assign \code{-1} otherwise
+To compute the score, each element in \code{i} is
+evaluated against the median abundance for the same element
+in the cohort (if \code{m} is provided) or against the
+median abundance of \code{x} (when \code{m = NULL}).
+If an element \eqn{x_{j}} is greater than the median, it
+receives a score of \code{+1}; if it is lower than the median,
+it receives a score of \code{-1}. The final score is the sum
+of the scores for each element in \code{i}:
+
+\deqn{bristowScore = \sum_{j=1}^{n}  f(x) =
+\left\{
+\begin{array}{l}
++1, \quad \textrm{if} \quad x_{j} > median_{j} \\
+-1, \quad \textrm{if} \quad x_{j} < median_{j}
+\end{array}
+\right\}
 }
+
+where \eqn{n} is the number of elements in \code{i};
+\eqn{x_{j}} is the \eqn{j}-th element of vector \code{x};
+\eqn{median_{j}} is the \eqn{j}-th element of vector \code{m} if
+provided, or the median of \code{x} when \code{m = NULL}.
+}
+\references{
+Lalonde, E. et al., \emph{Tumour genomic and microenvironmental heterogeneity for integrated prediction of 5-year biochemical recurrence of prostate cancer: a retrospective cohort study},
+The Lancet Oncology (2014), appendix
 }
 \author{
 Alessandro Barberis

@@ -12,7 +12,7 @@ weightedSumScore(x, i, w, na.rm = TRUE, normalisation = "quantile", ...)
 \item{i}{(optional) numerical vector giving the position in \code{x}
 or character vector matching the names in \code{x}.
 If \code{missing} or \code{i = NULL}, the entire \code{x} is
-considered for the computation of the score.}
+considered for the computation of the score}
 
 \item{w}{numerical vector of weights the same length as
 \code{i}}

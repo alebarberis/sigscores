@@ -12,7 +12,7 @@ trimmedMeanScore(x, i, na.rm = TRUE, trim = 0)
 \item{i}{(optional) numerical vector giving the position in \code{x}
 or character vector matching the names in \code{x}.
 If \code{missing} or \code{i = NULL}, the entire \code{x} is
-considered for the computation of the score.}
+considered for the computation of the score}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}

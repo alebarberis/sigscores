@@ -286,7 +286,7 @@ computeStandardCi <- function(
   distribution = match.arg(distribution)
 
   #se
-  se = computeSE(x = rnd)
+  se = computeSE(rnd = rnd)
 
   #critical value
   if(identical(distribution, "normal")){

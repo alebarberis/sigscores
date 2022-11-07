@@ -54,7 +54,7 @@ See the <strong>Details</strong> section below for further information.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reviewedBristowScore</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reviewedBristowScore</span><span class="op">(</span><span class="va">x</span>, <span class="va">i</span>, m <span class="op">=</span> <span class="cn">NULL</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,7 +67,14 @@ See the <strong>Details</strong> section below for further information.</p>
 <dd><p>(optional) numerical vector giving the position in <code>x</code>
 or character vector matching the names in <code>x</code>.
 If <code>missing</code> or <code>i = NULL</code>, the entire <code>x</code> is
-considered for the computation of the score.</p></dd>
+considered for the computation of the score</p></dd>
+
+
+<dt>m</dt>
+<dd><p>numerical vector of length equivalent to <code>i</code>,
+containing the median abundance for each element of
+<code>i</code> in the cohort. If <code>m = NULL</code>, the median
+of <code>x</code> is instead used</p></dd>
 
 
 <dt>na.rm</dt>
@@ -85,11 +92,21 @@ computed, or if <code>i</code> values are not present in <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The score is computed in 3 steps:</p><ol><li><p>compute the median of elements in <code>x</code></p></li>
-<li><p>if element in <code>i</code> is greater than the median,
-assign a <code>+1</code> to the score; assign <code>-1</code> otherwise</p></li>
-<li><p>divide the score by the number of elements in <code>i</code></p></li>
+    <p>To compute the score, each element in <code>i</code> is
+evaluated against the median abundance for the same element
+in the cohort (if <code>m</code> is provided) or against the
+median abundance of <code>x</code> (when <code>m = NULL</code>).
+If an element \(x_{j}\) is greater than the median, it
+receives a score of <code>+1</code>; if it is lower than the median,
+it receives a score of <code>-1</code>. The final score is the sum
+of the scores for each element in <code>i</code>.</p>
+<p>Summarising, the score is computed in 2 steps:</p><ol><li><p>compute the Bristow score</p></li>
+<li><p>divide the score by the number of elements in the signature</p></li>
 </ol></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="bristowScore.html">bristowScore</a></code></p></div>
+    </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Alessandro Barberis</p>

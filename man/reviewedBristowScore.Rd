@@ -4,7 +4,7 @@
 \alias{reviewedBristowScore}
 \title{Reviewd Bristow Score}
 \usage{
-reviewedBristowScore(x, i, na.rm = TRUE)
+reviewedBristowScore(x, i, m = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{x}{(named) numerical vector}
@@ -12,7 +12,12 @@ reviewedBristowScore(x, i, na.rm = TRUE)
 \item{i}{(optional) numerical vector giving the position in \code{x}
 or character vector matching the names in \code{x}.
 If \code{missing} or \code{i = NULL}, the entire \code{x} is
-considered for the computation of the score.}
+considered for the computation of the score}
+
+\item{m}{numerical vector of length equivalent to \code{i},
+containing the median abundance for each element of
+\code{i} in the cohort. If \code{m = NULL}, the median
+of \code{x} is instead used}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
@@ -27,13 +32,23 @@ This function computes the \emph{reviewed Bristow score}.
 See the \strong{Details} section below for further information.
 }
 \details{
-The score is computed in 3 steps:
+To compute the score, each element in \code{i} is
+evaluated against the median abundance for the same element
+in the cohort (if \code{m} is provided) or against the
+median abundance of \code{x} (when \code{m = NULL}).
+If an element \eqn{x_{j}} is greater than the median, it
+receives a score of \code{+1}; if it is lower than the median,
+it receives a score of \code{-1}. The final score is the sum
+of the scores for each element in \code{i}.
+
+Summarising, the score is computed in 2 steps:
 \enumerate{
-\item compute the median of elements in \code{x}
-\item if element in \code{i} is greater than the median,
-assign a \code{+1} to the score; assign \code{-1} otherwise
-\item divide the score by the number of elements in \code{i}
+\item compute the Bristow score
+\item divide the score by the number of elements in the signature
 }
+}
+\seealso{
+\code{\link{bristowScore}}
 }
 \author{
 Alessandro Barberis
