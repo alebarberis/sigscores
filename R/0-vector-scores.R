@@ -29,7 +29,7 @@ computeScore <- function(
     na.rm,
     score = c("mean", "trimmedMean", "weightedMean", "median",
               "mode", "midrange", "midhinge",
-              "trimean", "briskow", "reviewedBriskow",
+              "trimean", "bristow", "reviewedBristow",
               "IQM", "weightedSum",
               "ssGSEA", "gsva", "plage", "zscore"),
     ...
@@ -49,8 +49,8 @@ computeScore <- function(
     "midrange"        =          midrangeScore(x = x, i = i, na.rm = na.rm, ...),
     "midhinge"        =          midhingeScore(x = x, i = i, na.rm = na.rm, ...),
     "trimean"         =           trimeanScore(x = x, i = i, na.rm = na.rm, ...),
-    "briskow"         =           briskowScore(x = x, i = i, na.rm = na.rm, ...),
-    "reviewedBriskow" =   reviewedBriskowScore(x = x, i = i, na.rm = na.rm, ...),
+    "bristow"         =           bristowScore(x = x, i = i, na.rm = na.rm, ...),
+    "reviewedBristow" =   reviewedBristowScore(x = x, i = i, na.rm = na.rm, ...),
     "IQM"             = interquartileMeanScore(x = x, i = i, na.rm = na.rm, ...),
     "weightedSum"     =       weightedSumScore(x = x, i = i, na.rm = na.rm, ...),
     "ssGSEA"          =            ssGseaScore(x = x, i = i, na.rm = na.rm, ...),
@@ -64,7 +64,9 @@ computeScore <- function(
 }
 
 
-#'Arithmetic Mean Scores
+#'Arithmetic Mean Score
+#'
+#'@description This function computes the *arithmetic mean*.
 #'
 #'@inheritParams computeScore
 #'
@@ -72,8 +74,8 @@ computeScore <- function(
 #'
 #'@inherit computeScore author
 #'
-#'@seealso [base::mean()]
-#'
+#'@seealso
+#'\code{\link[base]{mean}}
 #'
 meanScore <- function(
     x,
@@ -100,6 +102,8 @@ meanScore <- function(
 
 #'Trimmed Arithmetic Mean Score
 #'
+#'@description This function computes the *trimmed arithmetic mean*.
+#'
 #'@inheritParams computeScore
 #'@inheritParams base::mean
 #'
@@ -107,7 +111,8 @@ meanScore <- function(
 #'
 #'@inherit computeScore author
 #'
-#'@seealso [base::mean()]
+#'@seealso
+#'\code{\link[base]{mean}}
 #'
 #'
 trimmedMeanScore <- function(
@@ -137,6 +142,8 @@ trimmedMeanScore <- function(
 
 #'Weighted Arithmetic Mean Score
 #'
+#'@description This function computes the *weighted arithmetic mean*.
+#'
 #'@inheritParams computeScore
 #'@param w numerical vector of weights the same length as
 #'\code{i}
@@ -146,7 +153,8 @@ trimmedMeanScore <- function(
 #'
 #'@inherit computeScore author
 #'
-#'@seealso [stats::weighted.mean]
+#'@seealso
+#'\code{\link[stats]{weighted.mean}}
 weightedMeanScore <- function(
     x,
     i,
@@ -164,6 +172,7 @@ weightedMeanScore <- function(
   x = subsetVector(x = x, i = i)
 
   #check input
+  if(isTRUE(is.null(i))){   return(getDefaultNaValue())}
   if(isTRUE(is.null(x))){   return(getDefaultNaValue())}
   if(isTRUE(all(is.na(x)))){return(getDefaultNaValue())}
 
@@ -183,7 +192,7 @@ weightedMeanScore <- function(
 
 #'Median Scores
 #'
-#'@description The median is the value separating the lower half
+#'@description The *median* is the value separating the lower half
 #'of a set of measures from the higher half.
 #'
 #'@inheritParams computeScore
@@ -192,7 +201,8 @@ weightedMeanScore <- function(
 #'
 #'@inherit computeScore author
 #'
-#'@seealso [stats::median()]
+#'@seealso
+#'\code{\link[stats]{median}}
 #'
 #'
 medianScore <- function(
@@ -219,7 +229,7 @@ medianScore <- function(
 
 #'Mode Score
 #'
-#'@description Compute the mode of a vector, i.e. the value
+#'@description Compute the *mode* of a vector, i.e. the value
 #' that has highest number of occurrences. If different values have
 #' the same number of occurrences, the first one is reported.
 #'
@@ -271,7 +281,7 @@ modeScore <- function(
 
 #'Midrange Score
 #'
-#'@description This function computes the midrange score, i.e.
+#'@description This function computes the *midrange* score, i.e.
 #'the average of the lowest and highest values in a set of data.
 #'
 #'@inheritParams computeScore
@@ -287,7 +297,10 @@ modeScore <- function(
 #'
 #'@references https://dictionary.apa.org/midrange
 #'
-#'@seealso [meanScore, medianScore, modeScore]
+#'@seealso
+#'\code{\link{meanScore}},
+#'\code{\link{medianScore}},
+#'\code{\link{modeScore}}
 midrangeScore <- function(
   x,
   i,
@@ -317,7 +330,7 @@ midrangeScore <- function(
 
 #'Midhinge Score
 #'
-#'@description The midhinge of a set of values
+#'@description The *midhinge* of a set of values
 #'is the mean of the first and third quartiles.
 #'
 #'@inheritParams computeScore
@@ -396,34 +409,44 @@ trimeanScore <- function(
 
 
 
-#'Briskow Score
+#'Bristow Score
+#'
+#'@description This function computes the *Bristow score*.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
 #'
+#'@details The score is computed in 2 steps:
+#'\enumerate{
+#'  \item compute the median of elements in \code{x}
+#'  \item if element in \code{i} is greater than the median,
+#'  assign a \code{+1} to the score; assign \code{-1} otherwise
+#'}
+#'
 #'@inherit computeScore author
-briskowScore <- function(
+bristowScore <- function(
     x,
     i,
     na.rm = TRUE
 ){
 
   #subset input
-  x = subsetVector(x = x, i = i)
+  i = subsetVector(x = x, i = i)
 
   #check input
-  if(isTRUE(is.null(x))){   return(getDefaultNaValue())}
-  if(isTRUE(all(is.na(x)))){return(getDefaultNaValue())}
+  if(isTRUE(is.null(i))){   return(getDefaultNaValue())}
+  if(isTRUE(all(is.na(i)))){return(getDefaultNaValue())}
 
   #compute
   ##median
   medianValue = median(x = x, na.rm = na.rm)
   ##out
-  out = vector(mode = "numeric", length = length(x))
+  out = vector(mode = "numeric", length = length(i))
   ##update
-  out[x > medianValue] = 1
-  out[x < medianValue] = -1
+  out[i > medianValue] = 1
+  out[i < medianValue] = -1
   ##score
   out = sum(out, na.rm = na.rm)
 
@@ -432,31 +455,37 @@ briskowScore <- function(
 }
 
 
-#'Reviewd Briskow Score
+#'Reviewd Bristow Score
+#'
+#'@description This function computes the *reviewed Bristow score*.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
 #'
+#'@details The score is computed in 3 steps:
+#'\enumerate{
+#'  \item compute the median of elements in \code{x}
+#'  \item if element in \code{i} is greater than the median,
+#'  assign a \code{+1} to the score; assign \code{-1} otherwise
+#'  \item divide the score by the number of elements in \code{i}
+#'}
+#'
 #'@inherit computeScore author
-reviewedBriskowScore <- function(
+reviewedBristowScore <- function(
     x,
     i,
     na.rm = TRUE
 ){
 
-  #subset input
-  x = subsetVector(x = x, i = i)
-
-  #check input
-  if(isTRUE(is.null(x))){   return(getDefaultNaValue())}
-  if(isTRUE(all(is.na(x)))){return(getDefaultNaValue())}
-
   #compute
-  ##median
-  out = briskowScore(x = x, na.rm = na.rm)
-  ##score
-  out = out / length(x)
+  ##bristowScore
+  out = bristowScore(x = x, i = i, na.rm = na.rm)
+  #subset input
+  i = subsetVector(x = x, i = i)
+  ##reviewed score
+  out = out / length(i)
 
   #return
   return(out)
@@ -467,7 +496,7 @@ reviewedBriskowScore <- function(
 
 #'Interquartile Mean (IQM) Score
 #'
-#'@description The interquartile mean is a statistical measure
+#'@description The *interquartile mean* is a statistical measure
 #'of central tendency based on the truncated mean of the
 #'interquartile range. It is computed as:
 #'
@@ -558,6 +587,15 @@ interquartileMeanScore <- function(
 
 #'Weighted Sum Score
 #'
+#'@description This function computes the weighted sum of
+#'normalised input data \code{x}. It is computed as:
+#'
+#'\deqn{wss(x) = \sum_{i=1}^{n}  xnorm_{i} * w_{i}}
+#'
+#'where \eqn{n} is the number of \code{i} elements in \code{x};
+#'\eqn{xnorm_{i}} is the \eqn{i}-th element of the normalised vector;
+#'\eqn{w_{i}} is the \eqn{i}-th element of the vector of weights.
+#'
 #'@inheritParams computeScore
 #@inheritParams stats::weighted.mean
 #'@param w numerical vector of weights the same length as
@@ -569,11 +607,18 @@ interquartileMeanScore <- function(
 #'
 #'@inherit computeScore return
 #'
+#'@details The input data \code{x} is firstly normalised using
+#'the technique chosen via the \code{normalisation} parameter.
+#'Then, each element of \code{i} in \code{x} is weighted by
+#'the corresponding element in \code{w}. Finally, the sum of
+#'the weighted elements is calculated.
+#'
+#'
+#'
 #'@inherit computeScore author
 #'
 #'@seealso
-#'\code{\link[stats]{weighted.mean}},
-#'\code{\link{quantileNormalization}}
+#'\code{\link{normaliseData}}
 weightedSumScore <- function(
     x,
     i,
@@ -593,6 +638,7 @@ weightedSumScore <- function(
   x = subsetVector(x = x, i = i)
 
   #check input
+  if(isTRUE(is.null(i))){   return(getDefaultNaValue())}
   if(isTRUE(is.null(x))){   return(getDefaultNaValue())}
   if(isTRUE(all(is.na(x)))){return(getDefaultNaValue())}
 
@@ -648,9 +694,13 @@ weightedSumScore <- function(
 
 #'Single Sample Gene Set Enrichment Analysis (ssGSEA) Score
 #'
+#'@description This function computes the *ssGSEA* score.
+#'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
+#'
+#'@details This function always returns NA.
 #'
 #'@inherit computeScore author
 ssGseaScore <- function(
@@ -669,9 +719,13 @@ ssGseaScore <- function(
 
 #'Gene Set Variation Analysis (GSVA) Score
 #'
+#'@description This function computes the *GSVA* score.
+#'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
+#'
+#'@details This function always returns NA.
 #'
 #'@inherit computeScore author
 gsvaScore <- function(
@@ -691,9 +745,13 @@ gsvaScore <- function(
 
 #'Pathway Level Analysis of Gene Expression (PLAGE) Score
 #'
+#'@description This function computes the *PLAGE* score.
+#'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
+#'
+#'@details This function always returns NA.
 #'
 #'@inherit computeScore author
 plageScore <- function(
@@ -712,9 +770,13 @@ plageScore <- function(
 
 #'Z Score
 #'
+#'@description This function computes the *z-score*.
+#'
 #'@inheritParams computeScore
 #'
 #'@inherit computeScore return
+#'
+#'@details This function always returns NA.
 #'
 #'@inherit computeScore author
 zScore <- function(

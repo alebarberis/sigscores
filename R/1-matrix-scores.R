@@ -49,7 +49,7 @@ computeMatrixScores <- function(
     # rm.dupli = TRUE,
     scores = c("mean", "trimmedMean", "weightedMean", "median",
                "mode", "midrange", "midhinge",
-               "trimean", "briskow", "reviewedBriskow",
+               "trimean", "bristow", "reviewedBristow",
                "IQM", "weightedSum",
                "ssGSEA", "gsva", "plage", "zscore"),
     sample.id = FALSE,
@@ -180,7 +180,7 @@ computeMatrixScore <- function(
     # rm.dupli = TRUE,
     score = c("mean", "trimmedMean", "weightedMean", "median",
               "mode", "midrange", "midhinge",
-              "trimean", "briskow", "reviewedBriskow",
+              "trimean", "bristow", "reviewedBristow",
               "IQM", "weightedSum",
               "ssGSEA", "gsva", "plage", "zscore"),
     ...
@@ -200,8 +200,8 @@ computeMatrixScore <- function(
     "midrange"        =          midrangeScores(x = x, i = i, na.rm = na.rm),
     "midhinge"        =          midhingeScores(x = x, i = i, na.rm = na.rm),
     "trimean"         =           trimeanScores(x = x, i = i, na.rm = na.rm),
-    "briskow"         =           briskowScores(x = x, i = i, na.rm = na.rm),
-    "reviewedBriskow" =   reviewedBriskowScores(x = x, i = i, na.rm = na.rm),
+    "bristow"         =           bristowScores(x = x, i = i, na.rm = na.rm),
+    "reviewedBristow" =   reviewedBristowScores(x = x, i = i, na.rm = na.rm),
     "IQM"             = interquartileMeanScores(x = x, i = i, na.rm = na.rm),
     "weightedSum"     =       weightedSumScores(x = x, i = i, na.rm = na.rm, w = w, ...),
     "ssGSEA"          =            ssGseaScores(x = x, i = i, na.rm = na.rm, ...),
@@ -223,7 +223,7 @@ computeMatrixScore <- function(
 #     # rm.dupli = TRUE,
 #     score = c("mean", "trimmedMean", "weightedMean", "median",
 #               "mode", "midrange", "midhinge",
-#               "trimean", "briskow", "reviewedBriskow",
+#               "trimean", "bristow", "reviewedBristow",
 #               "IQM", "weightedSum",
 #               "ssGSEA", "gsva", "plage", "zscore"),
 #     ...
@@ -243,8 +243,8 @@ computeMatrixScore <- function(
 #     "midrange"        =          midrangeScores,
 #     "midhinge"        =          midhingeScores,
 #     "trimean"         =           trimeanScores,
-#     "briskow"         =           briskowScores,
-#     "reviewedBriskow" =   reviewedBriskowScores,
+#     "bristow"         =           bristowScores,
+#     "reviewedBristow" =   reviewedBristowScores,
 #     "IQM"             = interquartileMeanScores,
 #     "weightedSum"     =       weightedSumScores,
 #     "ssGSEA"          =            ssGseaScores,
@@ -272,6 +272,9 @@ computeMatrixScore <- function(
 
 #'Arithmetic Mean Scores
 #'
+#'@description This function computes the arithmetic mean
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #'@param ... further arguments to \code{\link[matrixStats]{colMeans2}}
 #'
@@ -280,7 +283,6 @@ computeMatrixScore <- function(
 #'@inherit computeMatrixScore author
 #'
 #'@seealso
-#'
 #'\code{\link[matrixStats]{colMeans2}}
 meanScores <- function(
     x,
@@ -312,6 +314,9 @@ meanScores <- function(
 
 
 #'Trimmed Arithmetic Mean Scores
+#'
+#'@description This function computes the trimmed arithmetic mean
+#'from each column vector in the input matrix.
 #'
 #'@inheritParams computeMatrixScore
 #'@inheritParams base::mean
@@ -350,6 +355,9 @@ trimmedMeanScores <- function(
 
 #'Weighted Arithmetic Mean Scores
 #'
+#'@description This function computes the weighted arithmetic mean
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #@inheritParams stats::weighted.mean
 #'
@@ -380,6 +388,7 @@ weightedMeanScores <- function(
   x = subsetMatrix(x = x, i = i, rm.dupli = T)
 
   #check input
+  if(isTRUE(is.null(i))){   return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
 
@@ -400,6 +409,9 @@ weightedMeanScores <- function(
 
 
 #'Median Scores
+#'
+#'@description This function computes the sample median
+#'from each column vector in the input matrix.
 #'
 #'@inheritParams computeMatrixScore
 #'
@@ -435,6 +447,9 @@ medianScores <- function(
 }
 
 #'Mode Scores
+#'
+#'@description This function computes the mode
+#'from each column vector in the input matrix.
 #'
 #'@inheritParams computeMatrixScore
 #'
@@ -475,6 +490,9 @@ modeScores <- function(
 
 #'Midrange Scores
 #'
+#'@description This function computes the midrange score
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #'
 #'@inherit computeMatrixScore return
@@ -512,8 +530,8 @@ midrangeScores <- function(
 
 #'Midhinge Scores
 #'
-#'@description Computes the midhinge score for
-#' each column in \code{x}.
+#'@description This function computes the midhinge score
+#' from each column vector in the input matrix.
 #' The midhinge of a set of values is the mean of the first
 #' and third quartiles.
 #'
@@ -553,6 +571,9 @@ midhingeScores <- function(
 
 #'Trimean Scores
 #'
+#'@description This function computes the trimean score
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #'
 #'@inherit computeMatrixScore return
@@ -587,7 +608,11 @@ trimeanScores <- function(
 }
 
 
-#'Briskow Scores
+#'Bristow Scores
+#'
+#'@description This function computes the Bristow score
+#'from each column vector in the input matrix.
+#'See \code{\link{bristowScore}} for further details.
 #'
 #'@inheritParams computeMatrixScore
 #'
@@ -596,8 +621,8 @@ trimeanScores <- function(
 #'@inherit computeMatrixScore author
 #'
 #'@seealso
-#'\code{\link{briskowScore}}
-briskowScores <- function(
+#'\code{\link{bristowScore}}
+bristowScores <- function(
     x,
     i,
     na.rm    = TRUE
@@ -613,7 +638,7 @@ briskowScores <- function(
   if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = briskowScore, na.rm = na.rm, simplify = FALSE)
+  out = apply(X = x, MARGIN = 2, FUN = bristowScore, na.rm = na.rm, simplify = FALSE)
 
   #update
   out = unlist(out)
@@ -623,7 +648,11 @@ briskowScores <- function(
 }
 
 
-#'Reviewed Briskow Scores
+#'Reviewed Bristow Scores
+#'
+#'@description This function computes the reviewed Bristow score
+#'from each column vector in the input matrix.
+#'See \code{\link{reviewedBristowScore}} for further details.
 #'
 #'@inheritParams computeMatrixScore
 #'
@@ -632,8 +661,8 @@ briskowScores <- function(
 #'@inherit computeMatrixScore author
 #'
 #'@seealso
-#'\code{\link{reviewedBriskowScore}}
-reviewedBriskowScores <- function(
+#'\code{\link{reviewedBristowScore}}
+reviewedBristowScores <- function(
     x,
     i,
     na.rm    = TRUE
@@ -649,7 +678,7 @@ reviewedBriskowScores <- function(
   if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = reviewedBriskowScore, na.rm = na.rm, simplify = FALSE)
+  out = apply(X = x, MARGIN = 2, FUN = reviewedBristowScore, na.rm = na.rm, simplify = FALSE)
 
   #update
   out = unlist(out)
@@ -691,6 +720,9 @@ reviewedBriskowScores <- function(
 
 #'Interquartile Mean (IQM) Scores
 #'
+#'@description This function computes the IQM score
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #@param ... further arguments to \code{\link{interquartileMeanScore}}
 #'
@@ -731,6 +763,16 @@ interquartileMeanScores <- function(
 
 #'Weighted Sum Scores
 #'
+#'@description This function computes the weighted sum
+#'from each column vector in the normalised input matrix.
+#'The score for the \eqn{j}-th sample is computed as:
+#'
+#'\deqn{wss_{j} = \sum_{i=1}^{n}  xnorm_{ij} * w_{i}}
+#'
+#'where \eqn{n} is the number of \code{i} elements in \code{x};
+#'\eqn{xnorm_{ij}} is the \eqn{i}-th row for the \eqn{j}-th column
+#'of the normalised matrix;
+#'\eqn{w_{i}} is the \eqn{i}-th element of weights vector.
 #'
 #'@inheritParams computeMatrixScore
 #@inheritParams stats::weighted.mean
@@ -740,6 +782,12 @@ interquartileMeanScores <- function(
 #'
 #'
 #'@inherit computeMatrixScore return
+#'
+#'@details The input data \code{x} is firstly normalised using
+#'the technique chosen via the \code{normalisation} parameter.
+#'Then, for each column of \code{x}, each element of \code{i}
+#'in \code{x} is weighted by the corresponding element in \code{w}.
+#'Finally, the sum of the weighted elements is calculated.
 #'
 #'@inherit computeMatrixScore author
 #'
@@ -783,6 +831,7 @@ weightedSumScores <- function(
   x = subsetMatrix(x = x, i = i, rm.dupli = TRUE)
 
   #check input
+  if(isTRUE(is.null(i))){   return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(is.null(x))){   return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
 
@@ -840,6 +889,9 @@ weightedSumScores <- function(
 
 
 #'Single Sample Gene Set Enrichment Analysis (ssGSEA) Scores
+#'
+#'@description This function computes the ssGSEA score
+#'from each column vector in the input matrix.
 #'
 #'@inheritParams computeMatrixScore
 #'
@@ -909,6 +961,9 @@ ssGseaScores <- function(
 
 
 #'Gene Set Variation Analysis (GSVA) Scores
+#'
+#'@description This function computes the GSVA score
+#'from each column vector in the input matrix.
 #'
 #'@inheritParams computeMatrixScore
 #'@inheritParams GSVA::gsva
@@ -1006,6 +1061,9 @@ gsvaScores <- function(
 
 #'Pathway Level Analysis of Gene Expression (PLAGE) Scores
 #'
+#'@description This function computes the PLAGE score
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #'
 #'@inherit computeMatrixScore return
@@ -1073,6 +1131,10 @@ plageScores <- function(
 
 
 #'Z-Scores
+#'
+#'@description This function computes the z-score
+#'from each column vector in the input matrix.
+#'
 #'@inheritParams computeMatrixScore
 #'
 #'@inherit computeMatrixScore return

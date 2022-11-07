@@ -25,7 +25,10 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Gene Set Variation Analysis (GSVA) Score
+This function computes the \emph{GSVA} score.
+}
+\details{
+This function always returns NA.
 }
 \author{
 Alessandro Barberis

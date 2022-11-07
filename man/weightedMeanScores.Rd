@@ -27,7 +27,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Weighted Arithmetic Mean Scores
+This function computes the weighted arithmetic mean
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{weightedMeanScore}},

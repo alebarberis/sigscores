@@ -25,7 +25,7 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-The midhinge of a set of values
+The \emph{midhinge} of a set of values
 is the mean of the first and third quartiles.
 }
 \author{

@@ -27,7 +27,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Single Sample Gene Set Enrichment Analysis (ssGSEA) Scores
+This function computes the ssGSEA score
+from each column vector in the input matrix.
 }
 \details{
 This function uses internally \code{\link[GSVA]{gsva}}

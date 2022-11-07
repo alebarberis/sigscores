@@ -24,7 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Median Scores
+This function computes the sample median
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{medianScore}}

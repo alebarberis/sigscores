@@ -32,7 +32,23 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Weighted Sum Scores
+This function computes the weighted sum
+from each column vector in the normalised input matrix.
+The score for the \eqn{j}-th sample is computed as:
+
+\deqn{wss_{j} = \sum_{i=1}^{n}  xnorm_{ij} * w_{i}}
+
+where \eqn{n} is the number of \code{i} elements in \code{x};
+\eqn{xnorm_{ij}} is the \eqn{i}-th row for the \eqn{j}-th column
+of the normalised matrix;
+\eqn{w_{i}} is the \eqn{i}-th element of weights vector.
+}
+\details{
+The input data \code{x} is firstly normalised using
+the technique chosen via the \code{normalisation} parameter.
+Then, for each column of \code{x}, each element of \code{i}
+in \code{x} is weighted by the corresponding element in \code{w}.
+Finally, the sum of the weighted elements is calculated.
 }
 \examples{
 \dontrun{

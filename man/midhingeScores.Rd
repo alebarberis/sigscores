@@ -24,8 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Computes the midhinge score for
-each column in \code{x}.
+This function computes the midhinge score
+from each column vector in the input matrix.
 The midhinge of a set of values is the mean of the first
 and third quartiles.
 }

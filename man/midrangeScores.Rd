@@ -24,7 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Midrange Scores
+This function computes the midrange score
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{midrangeScore}}

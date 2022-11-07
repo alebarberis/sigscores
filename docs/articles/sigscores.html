@@ -169,12 +169,12 @@ results of this vignette. We can specify a seed by calling
 <td align="left">Trimean</td>
 </tr>
 <tr class="even">
-<td align="left">briskow</td>
-<td align="left">Briskow Score</td>
+<td align="left">bristow</td>
+<td align="left">Bristow Score</td>
 </tr>
 <tr class="odd">
-<td align="left">reviewedBriskow</td>
-<td align="left">Reviewed Briskow Score</td>
+<td align="left">reviewedBristow</td>
+<td align="left">Reviewed Bristow Score</td>
 </tr>
 <tr class="even">
 <td align="left">weightedSum</td>
@@ -207,7 +207,7 @@ results of this vignette. We can specify a seed by calling
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">summary.scores.ids</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "mean"            "trimmedMean"     "weightedMean"    "IQM"            </span></span>
 <span><span class="co">#&gt;  [5] "median"          "mode"            "midrange"        "midhinge"       </span></span>
-<span><span class="co">#&gt;  [9] "trimean"         "briskow"         "reviewedBriskow" "weightedSum"    </span></span>
+<span><span class="co">#&gt;  [9] "trimean"         "bristow"         "reviewedBristow" "weightedSum"    </span></span>
 <span><span class="co">#&gt; [13] "ssGSEA"          "gsva"            "plage"           "zscore"</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -279,7 +279,7 @@ select some genes from the matrix. Let’s select 20 genes.</p>
 <span><span class="co">#&gt; S4       S4 568.00      568.00       568.00 567.1  562.0   53    521.5  574.500</span></span>
 <span><span class="co">#&gt; S5       S5 429.00      429.00       429.00 384.4  323.0   43    478.0  437.500</span></span>
 <span><span class="co">#&gt; S6       S6 556.85      556.85       556.85 529.9  519.0   77    521.0  547.500</span></span>
-<span><span class="co">#&gt;     trimean briskow reviewedBriskow weightedSum      ssGSEA       gsva</span></span>
+<span><span class="co">#&gt;     trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
 <span><span class="co">#&gt; S1 708.4375       0               0     10597.7  0.89773866  0.3540929</span></span>
 <span><span class="co">#&gt; S2 608.5625       0               0     10597.7  0.87143168  0.3861167</span></span>
 <span><span class="co">#&gt; S3 388.1250       0               0     10597.7 -0.06961626 -0.4555556</span></span>
@@ -322,7 +322,7 @@ function computing the trimmed mean is called
 <span><span class="co">#&gt; S4       S4 568.00    568.0833       568.00 567.1  562.0   53    521.5  574.500</span></span>
 <span><span class="co">#&gt; S5       S5 429.00    395.0000       429.00 384.4  323.0   43    478.0  437.500</span></span>
 <span><span class="co">#&gt; S6       S6 556.85    543.3333       556.85 529.9  519.0   77    521.0  547.500</span></span>
-<span><span class="co">#&gt;     trimean briskow reviewedBriskow weightedSum      ssGSEA       gsva</span></span>
+<span><span class="co">#&gt;     trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
 <span><span class="co">#&gt; S1 708.4375       0               0     10597.7  0.89773866  0.3540929</span></span>
 <span><span class="co">#&gt; S2 608.5625       0               0     10597.7  0.87143168  0.3861167</span></span>
 <span><span class="co">#&gt; S3 388.1250       0               0     10597.7 -0.06961626 -0.4555556</span></span>
@@ -433,7 +433,7 @@ without replacement.</p>
 <span><span class="co">#&gt; 4   1       S4 456.70      456.70       456.70 432.2  399.0   51    520.5</span></span>
 <span><span class="co">#&gt; 5   1       S5 371.35      371.35       371.35 336.9  319.0    8    454.0</span></span>
 <span><span class="co">#&gt; 6   1       S6 570.90      570.90       570.90 574.7  571.0  149    557.0</span></span>
-<span><span class="co">#&gt;   midhinge  trimean briskow reviewedBriskow weightedSum      ssGSEA       gsva</span></span>
+<span><span class="co">#&gt;   midhinge  trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
 <span><span class="co">#&gt; 1  357.750 309.3750       0               0      9419.4 -0.49970900 -0.3371350</span></span>
 <span><span class="co">#&gt; 2  489.250 498.3750       0               0      9419.4  0.19929221  0.1311368</span></span>
 <span><span class="co">#&gt; 3  372.500 378.2500       0               0      9419.4  0.01770463  0.1157828</span></span>
@@ -469,7 +469,7 @@ without replacement.</p>
 <span><span class="co">#&gt; 4   1       S4 366.25      366.25       366.25 383.7  409.5   22    420.0</span></span>
 <span><span class="co">#&gt; 5   1       S5 432.85      432.85       432.85 439.1  400.5    6    472.0</span></span>
 <span><span class="co">#&gt; 6   1       S6 550.45      550.45       550.45 559.7  566.0  566    560.5</span></span>
-<span><span class="co">#&gt;   midhinge  trimean briskow reviewedBriskow weightedSum     ssGSEA        gsva</span></span>
+<span><span class="co">#&gt;   midhinge  trimean bristow reviewedBristow weightedSum     ssGSEA        gsva</span></span>
 <span><span class="co">#&gt; 1  510.500 601.2500       0               0      9484.0  0.2382717  0.10920578</span></span>
 <span><span class="co">#&gt; 2  478.125 419.8125       0               0      9551.3  0.2153395  0.07273132</span></span>
 <span><span class="co">#&gt; 3  510.375 547.4375       0               0      9536.6  0.3853388  0.10535714</span></span>

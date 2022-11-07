@@ -10,7 +10,7 @@ computeMatrixScore(
   w,
   na.rm,
   score = c("mean", "trimmedMean", "weightedMean", "median", "mode", "midrange",
-    "midhinge", "trimean", "briskow", "reviewedBriskow", "IQM", "weightedSum", "ssGSEA",
+    "midhinge", "trimean", "bristow", "reviewedBristow", "IQM", "weightedSum", "ssGSEA",
     "gsva", "plage", "zscore"),
   ...
 )

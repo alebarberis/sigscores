@@ -24,7 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Mode Scores
+This function computes the mode
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{modeScore}}

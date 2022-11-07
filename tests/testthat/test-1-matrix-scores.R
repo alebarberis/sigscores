@@ -815,3 +815,4 @@ test_that("Summary Scores functions works with 6-by-2 matrix containing 3 real n
   expect_equal(            plageScores(x = m6, i = i6, na.rm = FALSE), c(-0.70710678, 0.70710678))
   expect_equal(                zScores(x = m6, i = i6, na.rm = FALSE), c(0, 0))
 })
+

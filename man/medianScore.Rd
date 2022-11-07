@@ -23,11 +23,11 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-The median is the value separating the lower half
+The \emph{median} is the value separating the lower half
 of a set of measures from the higher half.
 }
 \seealso{
-[stats::median()]
+\code{\link[stats]{median}}
 }
 \author{
 Alessandro Barberis

@@ -43,7 +43,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Gene Set Variation Analysis (GSVA) Scores
+This function computes the GSVA score
+from each column vector in the input matrix.
 }
 \details{
 This function uses internally \code{\link[GSVA]{gsva}}

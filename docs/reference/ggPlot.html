@@ -35,7 +35,13 @@ plot."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathj
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/alebarberis/sigscores/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -43,7 +49,7 @@ plot."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathj
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Plot Function</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/4-plot-scores.R" class="external-link"><code>R/4-plot-scores.R</code></a></small>
       <div class="d-none name"><code>ggPlot.Rd</code></div>
     </div>
 
@@ -124,11 +130,11 @@ of the individual summary measures as points in the plot</p></dd>
 
 <dt>point.shape</dt>
 <dd><p>the shape to use to plot the scores. It can take
-five types of values:</p><ul><li><p>An integer in [0, 25]</p></li>
+five types of values:</p><ul><li><p>An integer in 0, 25</p></li>
 <li><p>The name of the shape</p></li>
 <li><p>A single character, used as a plotting symbol</p></li>
 <li><p>A . to draw the smallest rectangle that is visible,
-  usually 1 pixel</p></li>
+usually 1 pixel</p></li>
 <li><p>An <code>NA</code>, to draw nothing</p></li>
 </ul><p>See <code>vignette("ggplot2-specs")</code> for further details</p></dd>
 
@@ -158,7 +164,7 @@ See <code><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html"
 
 <dt>axis.text.x.angle, axis.text.y.angle</dt>
 <dd><p>Specify the x and y
-axis tick labels angles (in [0, 360])
+axis tick labels angles (in 0, 360)
 See <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></code> for further details</p></dd>
 
 

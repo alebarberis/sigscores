@@ -4,10 +4,10 @@
 \alias{computeSE}
 \title{Standard Error Estimate}
 \usage{
-computeSE(x, na.rm = T)
+computeSE(rnd, na.rm = T)
 }
 \arguments{
-\item{x}{sampling replication of the test statistic}
+\item{rnd}{sampling replication of the test statistic}
 
 \item{na.rm}{a logical value indicating whether \code{NA}
     values should be stripped before the computation proceeds.}

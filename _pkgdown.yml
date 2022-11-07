@@ -24,8 +24,8 @@ reference:
   - midrangeScores
   - midhingeScores
   - trimeanScores
-  - briskowScores
-  - reviewedBriskowScores
+  - bristowScores
+  - reviewedBristowScores
   - weightedSumScores
   - ssGseaScores
   - gsvaScores
@@ -43,8 +43,8 @@ reference:
   - midrangeScore
   - midhingeScore
   - trimeanScore
-  - briskowScore
-  - reviewedBriskowScore
+  - bristowScore
+  - reviewedBristowScore
   - weightedSumScore
   - ssGseaScore
   - gsvaScore

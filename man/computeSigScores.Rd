@@ -40,9 +40,9 @@ to sample the data.
 
 Three options are available:
 \describe{
-  \item{\code{none}}{use \code{x} as it is}
-  \item{\code{permutation}}{random sampling without replacement}
-  \item{\code{bootstrap}}{random sampling with replacement}
+\item{\code{none}}{use \code{x} as it is}
+\item{\code{permutation}}{random sampling without replacement}
+\item{\code{bootstrap}}{random sampling with replacement}
 }}
 
 \item{n.repeat}{integer, number of repeated samples
@@ -69,9 +69,9 @@ the data frame contains a column with the run information.
 The two columns containing the run/sample information are:
 
 \describe{
-  \item{sampleID}{the name of the sample}
-  \item{run}{integer indicating in which run -
-      out of the \code{n.repeat} - was computed the score}
+\item{sampleID}{the name of the sample}
+\item{run}{integer indicating in which run -
+out of the \code{n.repeat} - was computed the score}
 }
 }
 \description{

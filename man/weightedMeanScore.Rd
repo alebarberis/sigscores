@@ -26,10 +26,10 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Weighted Arithmetic Mean Score
+This function computes the \emph{weighted arithmetic mean}.
 }
 \seealso{
-[stats::weighted.mean]
+\code{\link[stats]{weighted.mean}}
 }
 \author{
 Alessandro Barberis

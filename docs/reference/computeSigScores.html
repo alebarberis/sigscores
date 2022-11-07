@@ -41,7 +41,13 @@ than 1."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/alebarberis/sigscores/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -49,7 +55,7 @@ than 1."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Compute the Summary Scores</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/2-compute-scores.R" class="external-link"><code>R/2-compute-scores.R</code></a></small>
       <div class="d-none name"><code>computeSigScores.Rd</code></div>
     </div>
 
@@ -113,10 +119,10 @@ to sample the data.</p>
 <p>Three options are available:</p><dl><dt><code>none</code></dt>
 <dd><p>use <code>x</code> as it is</p></dd>
 
-  <dt><code>permutation</code></dt>
+<dt><code>permutation</code></dt>
 <dd><p>random sampling without replacement</p></dd>
 
-  <dt><code>bootstrap</code></dt>
+<dt><code>bootstrap</code></dt>
 <dd><p>random sampling with replacement</p></dd>
 
 
@@ -161,9 +167,9 @@ the data frame contains a column with the run information.</p>
 <dl><dt>sampleID</dt>
 <dd><p>the name of the sample</p></dd>
 
-  <dt>run</dt>
+<dt>run</dt>
 <dd><p>integer indicating in which run -
-      out of the <code>n.repeat</code> - was computed the score</p></dd>
+out of the <code>n.repeat</code> - was computed the score</p></dd>
 
 
 </dl></div>

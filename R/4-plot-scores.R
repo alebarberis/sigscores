@@ -632,7 +632,7 @@ scatterplotSigScores <- function(
 #'@param point.shape the shape to use to plot the scores. It can take
 #'five types of values:
 #' \itemize{
-#'   \item An integer in [0, 25]
+#'   \item An integer in `[0, 25]`
 #'   \item The name of the shape
 #'   \item A single character, used as a plotting symbol
 #'   \item A . to draw the smallest rectangle that is visible,
@@ -653,7 +653,7 @@ scatterplotSigScores <- function(
 #'@param labs.col The title of the legend
 #'
 #'@param axis.text.x.angle,axis.text.y.angle Specify the x and y
-#'axis tick labels angles (in [0, 360])
+#'axis tick labels angles (in \code{[0, 360]})
 #'See \code{\link[ggplot2]{element_text}} for further details
 #'@param axis.text.x.size,axis.text.y.size Specify the x and y
 #'axis tick labels size in pts.

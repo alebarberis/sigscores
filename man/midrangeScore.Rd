@@ -23,7 +23,7 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-This function computes the midrange score, i.e.
+This function computes the \emph{midrange} score, i.e.
 the average of the lowest and highest values in a set of data.
 }
 \details{
@@ -36,7 +36,9 @@ extreme scores, which could potentially be outliers.
 https://dictionary.apa.org/midrange
 }
 \seealso{
-[meanScore, medianScore, modeScore]
+\code{\link{meanScore}},
+\code{\link{medianScore}},
+\code{\link{modeScore}}
 }
 \author{
 Alessandro Barberis

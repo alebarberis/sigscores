@@ -31,11 +31,24 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Weighted Sum Score
+This function computes the weighted sum of
+normalised input data \code{x}. It is computed as:
+
+\deqn{wss(x) = \sum_{i=1}^{n}  xnorm_{i} * w_{i}}
+
+where \eqn{n} is the number of \code{i} elements in \code{x};
+\eqn{xnorm_{i}} is the \eqn{i}-th element of the normalised vector;
+\eqn{w_{i}} is the \eqn{i}-th element of the vector of weights.
+}
+\details{
+The input data \code{x} is firstly normalised using
+the technique chosen via the \code{normalisation} parameter.
+Then, each element of \code{i} in \code{x} is weighted by
+the corresponding element in \code{w}. Finally, the sum of
+the weighted elements is calculated.
 }
 \seealso{
-\code{\link[stats]{weighted.mean}},
-\code{\link{quantileNormalization}}
+\code{\link{normaliseData}}
 }
 \author{
 Alessandro Barberis

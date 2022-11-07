@@ -2,7 +2,7 @@
 % Please edit documentation in R/0-vector-scores.R
 \name{meanScore}
 \alias{meanScore}
-\title{Arithmetic Mean Scores}
+\title{Arithmetic Mean Score}
 \usage{
 meanScore(x, i, na.rm = TRUE)
 }
@@ -23,10 +23,10 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Arithmetic Mean Scores
+This function computes the \emph{arithmetic mean}.
 }
 \seealso{
-[base::mean()]
+\code{\link[base]{mean}}
 }
 \author{
 Alessandro Barberis

@@ -9,7 +9,7 @@ computeMatrixScores(
   i,
   na.rm = TRUE,
   scores = c("mean", "trimmedMean", "weightedMean", "median", "mode", "midrange",
-    "midhinge", "trimean", "briskow", "reviewedBriskow", "IQM", "weightedSum", "ssGSEA",
+    "midhinge", "trimean", "bristow", "reviewedBristow", "IQM", "weightedSum", "ssGSEA",
     "gsva", "plage", "zscore"),
   sample.id = FALSE,
   args,

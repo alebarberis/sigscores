@@ -23,7 +23,7 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-The interquartile mean is a statistical measure
+The \emph{interquartile mean} is a statistical measure
 of central tendency based on the truncated mean of the
 interquartile range. It is computed as:
 

@@ -23,7 +23,7 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-The *trimean* contains information about the
+The \emph{trimean} contains information about the
 center and some of the position of the data.
 }
 \author{

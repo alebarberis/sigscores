@@ -24,7 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Interquartile Mean (IQM) Scores
+This function computes the IQM score
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{interquartileMeanScore}}

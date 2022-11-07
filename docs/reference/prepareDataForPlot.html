@@ -29,7 +29,13 @@ to create a long format version usable by ggplot2."><!-- mathjax --><script src=
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/alebarberis/sigscores/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -37,7 +43,7 @@ to create a long format version usable by ggplot2."><!-- mathjax --><script src=
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Prepare Data For Plot</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/4-plot-scores.R" class="external-link"><code>R/4-plot-scores.R</code></a></small>
       <div class="d-none name"><code>prepareDataForPlot.Rd</code></div>
     </div>
 
@@ -73,16 +79,16 @@ repeats to plot from <code>data</code></p></dd>
 
 <p>A data frame in long format with 4 columns:</p><dl><dt><code>run</code></dt>
 <dd><p>contains an integer run IDs; <code>0</code>
-  corresponds to the signature, IDs greater than <code>0</code>
-  correspond to the random signatures</p></dd>
+corresponds to the signature, IDs greater than <code>0</code>
+correspond to the random signatures</p></dd>
 
-  <dt><code>sampleID</code></dt>
+<dt><code>sampleID</code></dt>
 <dd><p>contains the sample ID</p></dd>
 
-  <dt><code>score</code></dt>
+<dt><code>score</code></dt>
 <dd><p>contains the summary score for each sample</p></dd>
 
-  <dt><code>summaryScore</code></dt>
+<dt><code>summaryScore</code></dt>
 <dd><p>contains summary score name</p></dd>
 
 

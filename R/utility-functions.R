@@ -1,5 +1,8 @@
 #'Quantile Normalization
 #'
+#'@description This function normalises the input
+#'data via quantile normalisation technique.
+#'
 #'@inheritParams normaliseData
 #'@inheritParams base::rank
 #'
@@ -452,8 +455,8 @@ getAvailableScores <- function(){
       "midrange",
       "midhinge",
       "trimean",
-      "briskow",
-      "reviewedBriskow",
+      "bristow",
+      "reviewedBristow",
       "weightedSum",
       "ssGSEA",
       "gsva",
@@ -470,8 +473,8 @@ getAvailableScores <- function(){
       "Midrange",
       "Midhinge",
       "Trimean",
-      "Briskow Score",
-      "Reviewed Briskow Score",
+      "Bristow Score",
+      "Reviewed Bristow Score",
       "Weighted Sum of Quantile Normalised Data",
       "Single Sample Gene Set Enrichment Analysis",
       "Gene Set Variation Analysis",

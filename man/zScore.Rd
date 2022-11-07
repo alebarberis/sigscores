@@ -25,7 +25,10 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Z Score
+This function computes the \emph{z-score}.
+}
+\details{
+This function always returns NA.
 }
 \author{
 Alessandro Barberis

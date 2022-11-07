@@ -23,7 +23,7 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Compute the mode of a vector, i.e. the value
+Compute the \emph{mode} of a vector, i.e. the value
 that has highest number of occurrences. If different values have
 the same number of occurrences, the first one is reported.
 }

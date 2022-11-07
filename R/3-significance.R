@@ -44,7 +44,7 @@ computeSignificance <- function(
     type,
     'asl' = computeASL(obs = obs, rnd = rnd),
     'ci'  = computeCI(obs = obs, rnd = rnd, type = ci, conf.level = conf.level),
-    'se'  = computeSE(obs = obs, rnd = rnd)
+    'se'  = computeSE(rnd = rnd)
   )
 
   #return
@@ -129,7 +129,7 @@ computeASL <- function(
 #'@description This function computes an estimate
 #'of the standard error of the test statistic.
 #'
-#'@param x sampling replication of the test statistic
+#'@param rnd sampling replication of the test statistic
 #'@inheritParams base::mean
 #'
 #'@return A numerical value, the estimate of the
@@ -152,12 +152,12 @@ computeASL <- function(
 #'@author Alessandro Barberis
 #'
 #'@keywords internal
-computeSE <- function(x, na.rm = T){
+computeSE <- function(rnd, na.rm = T){
   #compute mean
-  m = mean(x = x, na.rm = na.rm)
+  m = mean(x = rnd, na.rm = na.rm)
 
   #number of replications
-  n = length(x)
+  n = length(rnd)
 
   #compute se
   se = ((x - m)^2)/(n - 1)
@@ -168,18 +168,46 @@ computeSE <- function(x, na.rm = T){
 }
 
 
+#'Confidence interval of estimate
+#'@description This function computes an approximate confidence interval of
+#'a point estimate (i.e. the test statistic).
+#'
+#'@param obs numerical vector containing the observed value of
+#'the test statistic
+#'@param rnd numerical vector containing the permutation/bootstrap
+#'replication of the statistics
+#'@param conf.level the desired confidence level
+#'@param type character string indicating which formula to use
+#'in the computation of the confidence interval. Available options are:
+#' \describe{
+#'   \item{\code{"standard"}}{the standard confidence interval}
+#'   \item{\code{"percentile"}}{the percentile confidence interval}
+#' }
+#'
+#'
+#'@return A named numeric vector with 2 elements, \code{lower} and \code{upper},
+#'the lower and upper bounds of the confidence interval
+#'for the point estimate.
+#'
+#'@author Alessandro Barberis
+#'
+#'@seealso
+#'\code{\link{computeStandardCi}}
+#'
+#'@keywords internal
 computeCI <- function(
     obs,
     rnd,
     conf.level = 0.95,
-    type = c("standard", "percentile")
+    type = c("standard", "percentile"),
+    ...
   ){
 
   #compute
   out = switch(
     type,
-    'standard'   = computeStandardCi(obs = obs, rnd = rnd, conf.level = conf.level),
-    'percentile' = computePercentileCI(rnd = rnd, conf.level = conf.level)
+    'standard'   = computeStandardCi(obs = obs, rnd = rnd, conf.level = conf.level, ...),
+    'percentile' = computePercentileCI(rnd = rnd, conf.level = conf.level, ...)
   )
 
   #return
@@ -237,9 +265,7 @@ computePercentileCI <- function(rnd, conf.level = 0.95){
 #'\code{t} if population has unknown mean and variance
 #'@param n sample size, used to compute the degrees of freedom if \code{distribution = "t"}
 #'
-#'@return A named numeric vector with 2 elements, \code{lower} and \code{upper},
-#'the lower and upper bounds of the confidence interval
-#'for the point estimate.
+#'@inherit computeCI return
 #'
 #'@references \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5723800/}
 #@family quantifying uncertainty

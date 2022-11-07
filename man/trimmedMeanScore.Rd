@@ -28,10 +28,10 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-Trimmed Arithmetic Mean Score
+This function computes the \emph{trimmed arithmetic mean}.
 }
 \seealso{
-[base::mean()]
+\code{\link[base]{mean}}
 }
 \author{
 Alessandro Barberis

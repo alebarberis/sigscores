@@ -26,7 +26,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Arithmetic Mean Scores
+This function computes the arithmetic mean
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link[matrixStats]{colMeans2}}

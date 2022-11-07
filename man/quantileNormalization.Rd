@@ -24,7 +24,8 @@ A numerical matrix containing the normalized
 values.
 }
 \description{
-Quantile Normalization
+This function normalises the input
+data via quantile normalisation technique.
 }
 \examples{
 \dontrun{

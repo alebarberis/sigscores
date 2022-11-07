@@ -27,7 +27,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Pathway Level Analysis of Gene Expression (PLAGE) Scores
+This function computes the PLAGE score
+from each column vector in the input matrix.
 }
 \details{
 This function uses internally \code{\link[GSVA]{gsva}}

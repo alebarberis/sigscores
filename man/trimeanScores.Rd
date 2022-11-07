@@ -24,7 +24,8 @@ A numerical vector containing the computed
 score for each sample.
 }
 \description{
-Trimean Scores
+This function computes the trimean score
+from each column vector in the input matrix.
 }
 \seealso{
 \code{\link{trimeanScore}}
