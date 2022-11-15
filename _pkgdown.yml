@@ -15,41 +15,73 @@ reference:
 - title: Summary Scores for Matrix
   desc: These functions are used to compute the summary scores
   contents:
-  - meanScores
-  - trimmedMeanScores
-  - weightedMeanScores
-  - interquartileMeanScores
-  - medianScores
-  - modeScores
-  - midrangeScores
-  - midhingeScores
-  - trimeanScores
-  - bristowScores
-  - reviewedBristowScores
-  - weightedSumScores
-  - ssGseaScores
-  - gsvaScores
-  - plageScores
-  - zScores
+  - computeColScores
 - title: Summary Scores for Vector
   desc: These functions are used to compute the summary scores
   contents:
-  - meanScore
-  - trimmedMeanScore
-  - weightedMeanScore
-  - interquartileMeanScore
-  - medianScore
-  - modeScore
-  - midrangeScore
-  - midhingeScore
-  - trimeanScore
-  - bristowScore
-  - reviewedBristowScore
-  - weightedSumScore
-  - ssGseaScore
-  - gsvaScore
-  - plageScore
-  - zScore
+  - computeVectorScore
+
+- title: Statistical Measures for Matrix
+  desc: These are the functions used to compute the statistical measures
+  contents:
+  - colSummations
+  - colWeightedSums
+  - colArithmeticMeans
+  - colTrimmedMeans
+  - colWeightedArithmeticMeans
+  - colMidpoints
+  - colModes
+  - colMidranges
+  - colMidhinges
+  - colTrimeans
+  - colIQRs
+  - colIQMs
+  - colMADs
+  - colAADs
+  - colSsgsea
+  - colGsva
+  - colPlage
+  - colZscore
+
+- title: Statistical Measures for Vector
+  desc: These are the functions used to compute the statistical measures
+  contents:
+  - summation
+  - weightedSum
+  - arithmeticMean
+  - trimmedMean
+  - weightedMean
+  - midpoint
+  - modalValue
+  - midrange
+  - midhinge
+  - trimean
+  - iqr
+  - IQM
+  - MAD
+  - AAD
+  - ssgsea
+  - gsva
+  - plage
+  - zscore
+
+- title: Random Sampling
+  desc: These functions are used to generate random samples of the data
+  contents:
+  - sampleData
+  - randomSignatures
+
+- title: Data Transformation
+  desc: These functions are used to transform the data before computation
+  contents:
+  - transformData
+  - stepFunctionTranformation
+  - quantileNormalization
+
 - title: Utility Functions
-  contents: getAvailableScores
+  contents:
+  - getAvailableScores
+  - getScorer
+  - getScorers
+  - createLogger
 

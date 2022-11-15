@@ -4,3 +4,5 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+2-vector-scores.R
+3-matrix-scores.R

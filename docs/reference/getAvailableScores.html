@@ -43,7 +43,7 @@ summary scores."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Available Summary Scores</h1>
-      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/utility-functions.R" class="external-link"><code>R/utility-functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/0-utility-functions.R" class="external-link"><code>R/0-utility-functions.R</code></a></small>
       <div class="d-none name"><code>getAvailableScores.Rd</code></div>
     </div>
 
@@ -81,23 +81,26 @@ summary scores.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">getAvailableScores</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 id                                       name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             mean                            Arithmetic Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      trimmedMean                               Trimmed Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     weightedMean                              Weighted Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              IQM                         Interquartile Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           median                                     Median</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             mode                                       Mode</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7         midrange                                   Midrange</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8         midhinge                                   Midhinge</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9          trimean                                    Trimean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10         bristow                              Bristow Score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 reviewedBristow                     Reviewed Bristow Score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12     weightedSum   Weighted Sum of Quantile Normalised Data</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13          ssGSEA Single Sample Gene Set Enrichment Analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14            gsva                Gene Set Variation Analysis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15           plage  Pathway Level Analysis of Gene Expression</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16          zscore                                    Z-Score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                        id                                       name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sum                   sum                                        Sum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weightedSum   weightedSum                               Weighted Sum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean                 mean                            Arithmetic Mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> trimmedMean   trimmedMean                               Trimmed Mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weightedMean weightedMean                              Weighted Mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median             median                                     Median</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mode                 mode                                       Mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> midrange         midrange                                   Midrange</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> midhinge         midhinge                                   Midhinge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> trimean           trimean                                    Trimean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iqr                   iqr                        Interquartile Range</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iqm                   iqm                         Interquartile Mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mad                   mad                  Median Absolute Deviation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> aad                   aad                 Average Absolute Deviation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ssgsea             ssgsea Single Sample Gene Set Enrichment Analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gsva                 gsva                Gene Set Variation Analysis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> plage               plage  Pathway Level Analysis of Gene Expression</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> zscore             zscore                                    Z-Score</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

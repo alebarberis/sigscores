@@ -55,7 +55,7 @@ than 1."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Compute the Summary Scores</h1>
-      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/2-compute-scores.R" class="external-link"><code>R/2-compute-scores.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/alebarberis/sigscores/blob/HEAD/R/6-compute-scores.R" class="external-link"><code>R/6-compute-scores.R</code></a></small>
       <div class="d-none name"><code>computeSigScores.Rd</code></div>
     </div>
 
@@ -76,13 +76,14 @@ than <code>1</code>.</p>
 <span>  <span class="va">x</span>,</span>
 <span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"trimmedMean"</span>, <span class="st">"weightedMean"</span>, <span class="st">"median"</span>, <span class="st">"mode"</span>, <span class="st">"midrange"</span>,</span>
-<span>    <span class="st">"midhinge"</span>, <span class="st">"trimean"</span>, <span class="st">"bristow"</span>, <span class="st">"reviewedBristow"</span>, <span class="st">"IQM"</span>, <span class="st">"weightedSum"</span>, <span class="st">"ssGSEA"</span>,</span>
+<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"weightedSum"</span>, <span class="st">"mean"</span>, <span class="st">"trimmedMean"</span>, <span class="st">"weightedMean"</span>, <span class="st">"median"</span>,</span>
+<span>    <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span>, <span class="st">"iqr"</span>, <span class="st">"iqm"</span>, <span class="st">"mad"</span>, <span class="st">"aad"</span>, <span class="st">"ssgsea"</span>,</span>
 <span>    <span class="st">"gsva"</span>, <span class="st">"plage"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
-<span>  sampling <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"permutation"</span>, <span class="st">"bootstrap"</span><span class="op">)</span>,</span>
+<span>  scorers <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sampling <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"permutation"</span>, <span class="st">"bootstrap"</span>, <span class="st">"rndsig"</span>, <span class="st">"rndsigsub"</span><span class="op">)</span>,</span>
 <span>  n.repeat <span class="op">=</span> <span class="fl">10L</span>,</span>
-<span>  cores <span class="op">=</span> <span class="fl">1L</span>,</span>
-<span>  args <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  cores <span class="op">=</span> <span class="fl">1L</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,19 +112,42 @@ values before computation</p></dd>
 summary score(s) to compute</p></dd>
 
 
+<dt>args</dt>
+<dd><p>named list, where the names must match the
+<code>scores</code>. Each element in the list is another list
+containing the arguments to pass to the function used
+for computing the named score. For example,
+<code>args = list(trimmedMean = list(trim = 0.4))</code>
+indicates to use <code>trim = 0.4</code> when computing the
+trimmed mean score</p></dd>
+
+
 <dt>sampling</dt>
 <dd><p>character string, indicating whether
 to compute the scores using the provided data
-(<code>sampling = "none"</code>, default) or whether
-to sample the data.</p>
-<p>Three options are available:</p><dl><dt><code>none</code></dt>
+(<code>sampling = "none"</code>, default), whether
+to sample the data (<code>sampling = "permutation"</code>
+and <code>sampling = "bootstrap"</code>),
+or whether to generate random signatures, i.e.
+vectors the same size of <code>i</code> with values
+randomly assigned from the possible values in
+<code>x</code>.</p>
+<p>Five options are available:</p><dl><dt><code>none</code></dt>
 <dd><p>use <code>x</code> as it is</p></dd>
 
 <dt><code>permutation</code></dt>
-<dd><p>random sampling without replacement</p></dd>
+<dd><p>random sampling without replacement from row elements of <code>x</code></p></dd>
 
 <dt><code>bootstrap</code></dt>
-<dd><p>random sampling with replacement</p></dd>
+<dd><p>random sampling with replacement from row elements of <code>x</code></p></dd>
+
+<dt><code>rndsig</code></dt>
+<dd><p>random signatures of same length of <code>i</code> generated
+from all possible values in <code>x</code></p></dd>
+
+<dt><code>rndsigsub</code></dt>
+<dd><p>random signatures of same length of <code>i</code> generated
+from all possible values in <code>x</code> after removing <code>i</code> values</p></dd>
 
 
 </dl></dd>
@@ -137,16 +161,6 @@ to generate</p></dd>
 <dt>cores</dt>
 <dd><p>number of cores to use for parallel execution.</p></dd>
 
-
-<dt>args</dt>
-<dd><p>named list, where the names must match the
-<code>scores</code>. Each element in the list is another list
-containing the arguments to pass to the function used
-for computing the named score. For example,
-<code>args = list(trimmedMean = list(trim = 0.4))</code>
-indicates to use <code>trim = 0.4</code> when computing the
-trimmed mean score</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -157,7 +171,8 @@ score(s) for each sample. Each row corresponds to
 a different sample.</p>
 
 
-<p>If <code>sampling = "random"</code> or <code>sampling = "bootstrap"</code>,
+<p>If <code>sampling = "random"</code>, <code>sampling = "bootstrap"</code>,
+<code>sampling = "rndsig"</code> or <code>sampling = "rndsigsub"</code>,
 the data frame contains a column with the run information.</p>
 
 
@@ -176,23 +191,31 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="getAvailableScores.html">getAvailableScores</a></code>,
-<code><a href="meanScores.html">meanScores</a></code>,
-<code><a href="trimmedMeanScores.html">trimmedMeanScores</a></code>,
-<code><a href="weightedMeanScores.html">weightedMeanScores</a></code>,
-<code><a href="interquartileMeanScores.html">interquartileMeanScores</a></code>,
-<code><a href="medianScores.html">medianScores</a></code>,
-<code><a href="modeScores.html">modeScores</a></code>,
-<code><a href="midrangeScores.html">midrangeScores</a></code>,
-<code><a href="midhingeScores.html">midhingeScores</a></code>,
-<code><a href="trimeanScores.html">trimeanScores</a></code>,
-<code><a href="bristowScores.html">bristowScores</a></code>,
-<code><a href="reviewedBristowScores.html">reviewedBristowScores</a></code>,
-<code><a href="weightedSumScores.html">weightedSumScores</a></code>,
-<code><a href="ssGseaScores.html">ssGseaScores</a></code>,
-<code><a href="gsvaScores.html">gsvaScores</a></code>,
-<code><a href="plageScores.html">plageScores</a></code>,
-<code><a href="zScores.html">zScores</a></code>,
-<code><a href="sampleData.html">sampleData</a></code></p></div>
+<code><a href="computeScores.html">computeScores</a></code></p>
+<p>The generic scorer:
+<code><a href="computeScore.html">computeScore</a></code></p>
+<p>The built-in functions used to compute the measures:
+<code><a href="colSummations.html">colSummations</a></code>,
+<code><a href="colWeightedSums.html">colWeightedSums</a></code>,
+<code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code>,
+<code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code>,
+<code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code>,
+<code><a href="colMidpoints.html">colMidpoints</a></code>,
+<code><a href="colModes.html">colModes</a></code>,
+<code><a href="colMidranges.html">colMidranges</a></code>,
+<code><a href="colMidhinges.html">colMidhinges</a></code>,
+<code><a href="colTrimeans.html">colTrimeans</a></code>,
+<code><a href="colIQRs.html">colIQRs</a></code>,
+<code><a href="colIQMs.html">colIQMs</a></code>,
+<code><a href="colMADs.html">colMADs</a></code>,
+<code><a href="colAADs.html">colAADs</a></code>,
+<code><a href="colSsgsea.html">colSsgsea</a></code>,
+<code><a href="colGsva.html">colGsva</a></code>,
+<code><a href="colPlage.html">colPlage</a></code>,
+<code><a href="colZscore.html">colZscore</a></code></p>
+<p>The functions used for random sampling:
+<code><a href="sampleData.html">sampleData</a></code>,
+<code><a href="randomSignatures.html">randomSignatures</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -256,6 +279,21 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 <span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"bootstrap"</span>,</span></span>
 <span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Compute scores with random signatures</span></span></span>
+<span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
+<span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"rndsig"</span>,</span></span>
+<span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
+<span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"rndsigsub"</span>,</span></span>
+<span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

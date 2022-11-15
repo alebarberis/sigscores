@@ -32,14 +32,19 @@ Suggests:
 Config/testthat/edition: 3
 RoxygenNote: 7.2.1
 Roxygen: list(markdown=TRUE)
-Collate: 
-    'utility-functions.R'
-    '0-vector-scores.R'
-    '1-matrix-scores.R'
-    '2-compute-scores.R'
-    '3-significance.R'
-    '4-plot-scores.R'
 VignetteBuilder: knitr
 URL: https://github.com/alebarberis/sigscores,
     https://alebarberis.github.io/sigscores/
 BugReports: https://github.com/alebarberis/sigscores/issues
+Collate: 
+    '0-utility-functions.R'
+    '1-log-functions.R'
+    '2-parallel-functions.R'
+    '3-stats-functions.R'
+    '2-vector-scores.R'
+    '3-matrix-scores.R'
+    '4-data-preprocessing.R'
+    '5-scorers.R'
+    '6-compute-scores.R'
+    '7-significance.R'
+    '8-plot-scores.R'

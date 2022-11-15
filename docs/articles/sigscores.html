@@ -88,12 +88,7 @@ be used to compute all the available scores.</p>
 <p>Firstly, we load <code>sigscores</code> and other needed
 packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alebarberis/sigscores" class="external-link">sigscores</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'sigscores'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:methods':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     getPackageName</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alebarberis/sigscores" class="external-link">sigscores</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="seed">Seed<a class="anchor" aria-label="anchor" href="#seed"></a>
@@ -127,72 +122,104 @@ results of this vignette. We can specify a seed by calling
 <span><span class="co">#print in table</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">summary.scores</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="18%">
+<col width="18%">
+<col width="62%">
+</colgroup>
 <thead><tr class="header">
+<th align="left"></th>
 <th align="left">id</th>
 <th align="left">name</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">sum</td>
+<td align="left">sum</td>
+<td align="left">Sum</td>
+</tr>
+<tr class="even">
+<td align="left">weightedSum</td>
+<td align="left">weightedSum</td>
+<td align="left">Weighted Sum</td>
+</tr>
+<tr class="odd">
+<td align="left">mean</td>
 <td align="left">mean</td>
 <td align="left">Arithmetic Mean</td>
 </tr>
 <tr class="even">
 <td align="left">trimmedMean</td>
+<td align="left">trimmedMean</td>
 <td align="left">Trimmed Mean</td>
 </tr>
 <tr class="odd">
 <td align="left">weightedMean</td>
+<td align="left">weightedMean</td>
 <td align="left">Weighted Mean</td>
 </tr>
 <tr class="even">
-<td align="left">IQM</td>
-<td align="left">Interquartile Mean</td>
-</tr>
-<tr class="odd">
+<td align="left">median</td>
 <td align="left">median</td>
 <td align="left">Median</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">mode</td>
 <td align="left">mode</td>
 <td align="left">Mode</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">midrange</td>
 <td align="left">midrange</td>
 <td align="left">Midrange</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">midhinge</td>
 <td align="left">midhinge</td>
 <td align="left">Midhinge</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">trimean</td>
 <td align="left">trimean</td>
 <td align="left">Trimean</td>
 </tr>
-<tr class="even">
-<td align="left">bristow</td>
-<td align="left">Bristow Score</td>
-</tr>
 <tr class="odd">
-<td align="left">reviewedBristow</td>
-<td align="left">Reviewed Bristow Score</td>
+<td align="left">iqr</td>
+<td align="left">iqr</td>
+<td align="left">Interquartile Range</td>
 </tr>
 <tr class="even">
-<td align="left">weightedSum</td>
-<td align="left">Weighted Sum of Quantile Normalised Data</td>
+<td align="left">iqm</td>
+<td align="left">iqm</td>
+<td align="left">Interquartile Mean</td>
 </tr>
 <tr class="odd">
-<td align="left">ssGSEA</td>
+<td align="left">mad</td>
+<td align="left">mad</td>
+<td align="left">Median Absolute Deviation</td>
+</tr>
+<tr class="even">
+<td align="left">aad</td>
+<td align="left">aad</td>
+<td align="left">Average Absolute Deviation</td>
+</tr>
+<tr class="odd">
+<td align="left">ssgsea</td>
+<td align="left">ssgsea</td>
 <td align="left">Single Sample Gene Set Enrichment Analysis</td>
 </tr>
 <tr class="even">
+<td align="left">gsva</td>
 <td align="left">gsva</td>
 <td align="left">Gene Set Variation Analysis</td>
 </tr>
 <tr class="odd">
 <td align="left">plage</td>
+<td align="left">plage</td>
 <td align="left">Pathway Level Analysis of Gene Expression</td>
 </tr>
 <tr class="even">
+<td align="left">zscore</td>
 <td align="left">zscore</td>
 <td align="left">Z-Score</td>
 </tr>
@@ -205,10 +232,10 @@ results of this vignette. We can specify a seed by calling
 <span></span>
 <span><span class="co">#print</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">summary.scores.ids</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "mean"            "trimmedMean"     "weightedMean"    "IQM"            </span></span>
-<span><span class="co">#&gt;  [5] "median"          "mode"            "midrange"        "midhinge"       </span></span>
-<span><span class="co">#&gt;  [9] "trimean"         "bristow"         "reviewedBristow" "weightedSum"    </span></span>
-<span><span class="co">#&gt; [13] "ssGSEA"          "gsva"            "plage"           "zscore"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "sum"          "weightedSum"  "mean"         "trimmedMean"  "weightedMean"</span></span>
+<span><span class="co">#&gt;  [6] "median"       "mode"         "midrange"     "midhinge"     "trimean"     </span></span>
+<span><span class="co">#&gt; [11] "iqr"          "iqm"          "mad"          "aad"          "ssgsea"      </span></span>
+<span><span class="co">#&gt; [16] "gsva"         "plage"        "zscore"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
@@ -272,27 +299,30 @@ select some genes from the matrix. Let’s select 20 genes.</p>
 <span></span>
 <span><span class="co">#print</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    sampleID   mean trimmedMean weightedMean   IQM median mode midrange midhinge</span></span>
-<span><span class="co">#&gt; S1       S1 666.55      666.55       666.55 720.0  736.5  137    557.0  680.375</span></span>
-<span><span class="co">#&gt; S2       S2 614.00      614.00       614.00 619.3  623.0  233    610.0  594.125</span></span>
-<span><span class="co">#&gt; S3       S3 412.10      412.10       412.10 373.1  366.5   13    499.0  409.750</span></span>
-<span><span class="co">#&gt; S4       S4 568.00      568.00       568.00 567.1  562.0   53    521.5  574.500</span></span>
-<span><span class="co">#&gt; S5       S5 429.00      429.00       429.00 384.4  323.0   43    478.0  437.500</span></span>
-<span><span class="co">#&gt; S6       S6 556.85      556.85       556.85 529.9  519.0   77    521.0  547.500</span></span>
-<span><span class="co">#&gt;     trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
-<span><span class="co">#&gt; S1 708.4375       0               0     10597.7  0.89773866  0.3540929</span></span>
-<span><span class="co">#&gt; S2 608.5625       0               0     10597.7  0.87143168  0.3861167</span></span>
-<span><span class="co">#&gt; S3 388.1250       0               0     10597.7 -0.06961626 -0.4555556</span></span>
-<span><span class="co">#&gt; S4 568.2500       0               0     10597.7  0.71651992  0.1970318</span></span>
-<span><span class="co">#&gt; S5 380.2500       0               0     10597.7  0.11853850 -0.1037908</span></span>
-<span><span class="co">#&gt; S6 533.2500       0               0     10597.7  0.44551534  0.1068011</span></span>
-<span><span class="co">#&gt;         plage     zscore</span></span>
-<span><span class="co">#&gt; S1 -0.3210647  2.1673343</span></span>
-<span><span class="co">#&gt; S2  0.2938191  1.1924762</span></span>
-<span><span class="co">#&gt; S3  0.5088480 -1.9536056</span></span>
-<span><span class="co">#&gt; S4 -0.1577183  0.4199618</span></span>
-<span><span class="co">#&gt; S5  0.1773275 -1.2097106</span></span>
-<span><span class="co">#&gt; S6 -0.3916968  0.5601269</span></span></code></pre></div>
+<span><span class="co">#&gt;    sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; S1       S1 13331       13331 666.55      666.55       666.55  736.5  137</span></span>
+<span><span class="co">#&gt; S2       S2 12280       12280 614.00      614.00       614.00  623.0  233</span></span>
+<span><span class="co">#&gt; S3       S3  8242        8242 412.10      412.10       412.10  366.5   13</span></span>
+<span><span class="co">#&gt; S4       S4 11360       11360 568.00      568.00       568.00  562.0   53</span></span>
+<span><span class="co">#&gt; S5       S5  8580        8580 429.00      429.00       429.00  323.0   43</span></span>
+<span><span class="co">#&gt; S6       S6 11137       11137 556.85      556.85       556.85  519.0   77</span></span>
+<span><span class="co">#&gt;    midrange midhinge  trimean    iqr   iqm      mad    aad      ssgsea</span></span>
+<span><span class="co">#&gt; S1    557.0  680.375 708.4375 303.25 720.0 180.8772 178.65  0.89773866</span></span>
+<span><span class="co">#&gt; S2    610.0  594.125 608.5625 389.25 619.3 322.4655 202.80  0.87143168</span></span>
+<span><span class="co">#&gt; S3    499.0  409.750 388.1250 438.50 373.1 376.5804 242.20 -0.06961626</span></span>
+<span><span class="co">#&gt; S4    521.5  574.500 568.2500 532.50 567.1 401.7846 271.30  0.71651992</span></span>
+<span><span class="co">#&gt; S5    478.0  437.500 380.2500 503.50 384.4 297.2613 243.30  0.11853850</span></span>
+<span><span class="co">#&gt; S6    521.0  547.500 533.2500 387.00 529.9 263.1615 216.75  0.44551534</span></span>
+<span><span class="co">#&gt;          gsva      plage     zscore</span></span>
+<span><span class="co">#&gt; S1  0.3540929 -0.3210647  2.1673343</span></span>
+<span><span class="co">#&gt; S2  0.3861167  0.2938191  1.1924762</span></span>
+<span><span class="co">#&gt; S3 -0.4555556  0.5088480 -1.9536056</span></span>
+<span><span class="co">#&gt; S4  0.1970318 -0.1577183  0.4199618</span></span>
+<span><span class="co">#&gt; S5 -0.1037908  0.1773275 -1.2097106</span></span>
+<span><span class="co">#&gt; S6  0.1068011 -0.3916968  0.5601269</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="change-default-arguments">Change Default Arguments<a class="anchor" aria-label="anchor" href="#change-default-arguments"></a>
+</h3>
 <p>To change the default arguments of a specific score function, we can
 use <code>args</code>: the argument accept a named list, where the name
 of the element must match the id of the score we want to compute. For
@@ -300,7 +330,7 @@ example, we may want to compute a trimmed mean considering a specific
 fraction of elements to be trimmed from each end. Looking at the
 documentation of <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> we see the internal
 function computing the trimmed mean is called
-<code><a href="../reference/trimmedMeanScores.html">?trimmedMeanScores</a></code>, which accepts an argument
+<code><a href="../reference/colTrimmedMeans.html">?colTrimmedMeans</a></code>, which accepts an argument
 <code>trim</code>. We can then pass the argument from
 <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> via <code>args</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -315,27 +345,28 @@ function computing the trimmed mean is called
 <span></span>
 <span><span class="co">#print</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    sampleID   mean trimmedMean weightedMean   IQM median mode midrange midhinge</span></span>
-<span><span class="co">#&gt; S1       S1 666.55    712.5833       666.55 720.0  736.5  137    557.0  680.375</span></span>
-<span><span class="co">#&gt; S2       S2 614.00    615.1667       614.00 619.3  623.0  233    610.0  594.125</span></span>
-<span><span class="co">#&gt; S3       S3 412.10    376.5833       412.10 373.1  366.5   13    499.0  409.750</span></span>
-<span><span class="co">#&gt; S4       S4 568.00    568.0833       568.00 567.1  562.0   53    521.5  574.500</span></span>
-<span><span class="co">#&gt; S5       S5 429.00    395.0000       429.00 384.4  323.0   43    478.0  437.500</span></span>
-<span><span class="co">#&gt; S6       S6 556.85    543.3333       556.85 529.9  519.0   77    521.0  547.500</span></span>
-<span><span class="co">#&gt;     trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
-<span><span class="co">#&gt; S1 708.4375       0               0     10597.7  0.89773866  0.3540929</span></span>
-<span><span class="co">#&gt; S2 608.5625       0               0     10597.7  0.87143168  0.3861167</span></span>
-<span><span class="co">#&gt; S3 388.1250       0               0     10597.7 -0.06961626 -0.4555556</span></span>
-<span><span class="co">#&gt; S4 568.2500       0               0     10597.7  0.71651992  0.1970318</span></span>
-<span><span class="co">#&gt; S5 380.2500       0               0     10597.7  0.11853850 -0.1037908</span></span>
-<span><span class="co">#&gt; S6 533.2500       0               0     10597.7  0.44551534  0.1068011</span></span>
-<span><span class="co">#&gt;         plage     zscore</span></span>
-<span><span class="co">#&gt; S1 -0.3210647  2.1673343</span></span>
-<span><span class="co">#&gt; S2  0.2938191  1.1924762</span></span>
-<span><span class="co">#&gt; S3  0.5088480 -1.9536056</span></span>
-<span><span class="co">#&gt; S4 -0.1577183  0.4199618</span></span>
-<span><span class="co">#&gt; S5  0.1773275 -1.2097106</span></span>
-<span><span class="co">#&gt; S6 -0.3916968  0.5601269</span></span></code></pre></div>
+<span><span class="co">#&gt;    sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; S1       S1 13331       13331 666.55    712.5833       666.55  736.5  137</span></span>
+<span><span class="co">#&gt; S2       S2 12280       12280 614.00    615.1667       614.00  623.0  233</span></span>
+<span><span class="co">#&gt; S3       S3  8242        8242 412.10    376.5833       412.10  366.5   13</span></span>
+<span><span class="co">#&gt; S4       S4 11360       11360 568.00    568.0833       568.00  562.0   53</span></span>
+<span><span class="co">#&gt; S5       S5  8580        8580 429.00    395.0000       429.00  323.0   43</span></span>
+<span><span class="co">#&gt; S6       S6 11137       11137 556.85    543.3333       556.85  519.0   77</span></span>
+<span><span class="co">#&gt;    midrange midhinge  trimean    iqr   iqm      mad    aad      ssgsea</span></span>
+<span><span class="co">#&gt; S1    557.0  680.375 708.4375 303.25 720.0 180.8772 178.65  0.89773866</span></span>
+<span><span class="co">#&gt; S2    610.0  594.125 608.5625 389.25 619.3 322.4655 202.80  0.87143168</span></span>
+<span><span class="co">#&gt; S3    499.0  409.750 388.1250 438.50 373.1 376.5804 242.20 -0.06961626</span></span>
+<span><span class="co">#&gt; S4    521.5  574.500 568.2500 532.50 567.1 401.7846 271.30  0.71651992</span></span>
+<span><span class="co">#&gt; S5    478.0  437.500 380.2500 503.50 384.4 297.2613 243.30  0.11853850</span></span>
+<span><span class="co">#&gt; S6    521.0  547.500 533.2500 387.00 529.9 263.1615 216.75  0.44551534</span></span>
+<span><span class="co">#&gt;          gsva      plage     zscore</span></span>
+<span><span class="co">#&gt; S1  0.3540929 -0.3210647  2.1673343</span></span>
+<span><span class="co">#&gt; S2  0.3861167  0.2938191  1.1924762</span></span>
+<span><span class="co">#&gt; S3 -0.4555556  0.5088480 -1.9536056</span></span>
+<span><span class="co">#&gt; S4  0.1970318 -0.1577183  0.4199618</span></span>
+<span><span class="co">#&gt; S5 -0.1037908  0.1773275 -1.2097106</span></span>
+<span><span class="co">#&gt; S6  0.1068011 -0.3916968  0.5601269</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="visualisation">Visualisation<a class="anchor" aria-label="anchor" href="#visualisation"></a>
@@ -366,7 +397,6 @@ internally computes the correlation by using the default settings of
 <span>  data <span class="op">=</span> <span class="va">scores</span>,</span>
 <span>  cor  <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in cor(x, use = use, method = method): the standard deviation is zero</span></span>
 <span></span>
 <span><span class="co">#visualise</span></span>
 <span><span class="va">p</span></span></code></pre></div>
@@ -379,7 +409,7 @@ want to plot by using the <code>scores</code> parameter.</p>
 <code class="sourceCode R"><span><span class="co">#create plot</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/boxplotSigScores.html">boxplotSigScores</a></span><span class="op">(</span></span>
 <span>  data   <span class="op">=</span> <span class="va">scores</span>,</span>
-<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"median"</span>, <span class="st">"IQM"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span><span class="op">)</span></span>
+<span>  scores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"median"</span>, <span class="st">"iqm"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#visualise</span></span>
@@ -389,6 +419,9 @@ want to plot by using the <code>scores</code> parameter.</p>
 <div class="section level2">
 <h2 id="significance-of-the-scores">Significance of the Scores<a class="anchor" aria-label="anchor" href="#significance-of-the-scores"></a>
 </h2>
+<div class="section level3">
+<h3 id="sampling-the-data">Sampling the Data<a class="anchor" aria-label="anchor" href="#sampling-the-data"></a>
+</h3>
 <p>We may want to understand if the computed scores are due to the
 selected genes in our signature, or if we might have ended up with
 similar scores also with different lists of genes. To associate
@@ -426,27 +459,27 @@ without replacement.</p>
 <span></span>
 <span><span class="co">#print</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">scores</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   run sampleID   mean trimmedMean weightedMean   IQM median mode midrange</span></span>
-<span><span class="co">#&gt; 1   1       S1 363.85      363.85       363.85 305.3  261.0    2    449.0</span></span>
-<span><span class="co">#&gt; 2   1       S2 496.50      496.50       496.50 489.6  507.5    3    489.0</span></span>
-<span><span class="co">#&gt; 3   1       S3 437.50      437.50       437.50 357.4  384.0   81    539.0</span></span>
-<span><span class="co">#&gt; 4   1       S4 456.70      456.70       456.70 432.2  399.0   51    520.5</span></span>
-<span><span class="co">#&gt; 5   1       S5 371.35      371.35       371.35 336.9  319.0    8    454.0</span></span>
-<span><span class="co">#&gt; 6   1       S6 570.90      570.90       570.90 574.7  571.0  149    557.0</span></span>
-<span><span class="co">#&gt;   midhinge  trimean bristow reviewedBristow weightedSum      ssGSEA       gsva</span></span>
-<span><span class="co">#&gt; 1  357.750 309.3750       0               0      9419.4 -0.49970900 -0.3371350</span></span>
-<span><span class="co">#&gt; 2  489.250 498.3750       0               0      9419.4  0.19929221  0.1311368</span></span>
-<span><span class="co">#&gt; 3  372.500 378.2500       0               0      9419.4  0.01770463  0.1157828</span></span>
-<span><span class="co">#&gt; 4  479.875 439.4375       0               0      9419.4  0.11019309  0.1502551</span></span>
-<span><span class="co">#&gt; 5  379.750 349.3750       0               0      9419.4 -0.21291592 -0.1771978</span></span>
-<span><span class="co">#&gt; 6  552.125 561.5625       0               0      9419.4  0.49461406  0.4529517</span></span>
-<span><span class="co">#&gt;          plage     zscore</span></span>
-<span><span class="co">#&gt; 1 -0.430876879 -1.3739329</span></span>
-<span><span class="co">#&gt; 2 -0.002122875  0.3751179</span></span>
-<span><span class="co">#&gt; 3 -0.385513783 -0.8065714</span></span>
-<span><span class="co">#&gt; 4 -0.088276998 -0.1428458</span></span>
-<span><span class="co">#&gt; 5 -0.209271662 -1.3765625</span></span>
-<span><span class="co">#&gt; 6  0.453742266  1.6396185</span></span></code></pre></div>
+<span><span class="co">#&gt;   run sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; 1   1       S1  7277        7277 363.85      363.85       363.85  261.0    2</span></span>
+<span><span class="co">#&gt; 2   1       S2  9930        9930 496.50      496.50       496.50  507.5    3</span></span>
+<span><span class="co">#&gt; 3   1       S3  8750        8750 437.50      437.50       437.50  384.0   81</span></span>
+<span><span class="co">#&gt; 4   1       S4  9134        9134 456.70      456.70       456.70  399.0   51</span></span>
+<span><span class="co">#&gt; 5   1       S5  7427        7427 371.35      371.35       371.35  319.0    8</span></span>
+<span><span class="co">#&gt; 6   1       S6 11418       11418 570.90      570.90       570.90  571.0  149</span></span>
+<span><span class="co">#&gt;   midrange midhinge  trimean    iqr   iqm      mad    aad      ssgsea</span></span>
+<span><span class="co">#&gt; 1    449.0  357.750 309.3750 641.50 305.3 352.1175 285.95 -0.49970900</span></span>
+<span><span class="co">#&gt; 2    489.0  489.250 498.3750 356.50 489.6 283.9179 215.40  0.19929221</span></span>
+<span><span class="co">#&gt; 3    539.0  372.500 378.2500 408.00 357.4 346.9284 259.30  0.01770463</span></span>
+<span><span class="co">#&gt; 4    520.5  479.875 439.4375 343.25 432.2 293.5548 214.10  0.11019309</span></span>
+<span><span class="co">#&gt; 5    454.0  379.750 349.3750 432.00 336.9 302.4504 223.85 -0.21291592</span></span>
+<span><span class="co">#&gt; 6    557.0  552.125 561.5625 430.25 574.7 349.8936 225.40  0.49461406</span></span>
+<span><span class="co">#&gt;         gsva        plage     zscore</span></span>
+<span><span class="co">#&gt; 1 -0.3371350 -0.430876879 -1.3739329</span></span>
+<span><span class="co">#&gt; 2  0.1311368 -0.002122875  0.3751179</span></span>
+<span><span class="co">#&gt; 3  0.1157828 -0.385513783 -0.8065714</span></span>
+<span><span class="co">#&gt; 4  0.1502551 -0.088276998 -0.1428458</span></span>
+<span><span class="co">#&gt; 5 -0.1771978 -0.209271662 -1.3765625</span></span>
+<span><span class="co">#&gt; 6  0.4529517  0.453742266  1.6396185</span></span></code></pre></div>
 <p>To use bootstrap instead, we just need change the
 <code>sampling</code> argument.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -462,27 +495,107 @@ without replacement.</p>
 <span></span>
 <span><span class="co">#print</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   run sampleID   mean trimmedMean weightedMean   IQM median mode midrange</span></span>
-<span><span class="co">#&gt; 1   1       S1 531.40      531.40       531.40 601.4  692.0  692    440.5</span></span>
-<span><span class="co">#&gt; 2   1       S2 458.15      458.15       458.15 416.0  361.5   32    503.5</span></span>
-<span><span class="co">#&gt; 3   1       S3 533.25      533.25       533.25 545.3  584.5  563    539.0</span></span>
-<span><span class="co">#&gt; 4   1       S4 366.25      366.25       366.25 383.7  409.5   22    420.0</span></span>
-<span><span class="co">#&gt; 5   1       S5 432.85      432.85       432.85 439.1  400.5    6    472.0</span></span>
-<span><span class="co">#&gt; 6   1       S6 550.45      550.45       550.45 559.7  566.0  566    560.5</span></span>
-<span><span class="co">#&gt;   midhinge  trimean bristow reviewedBristow weightedSum     ssGSEA        gsva</span></span>
-<span><span class="co">#&gt; 1  510.500 601.2500       1            0.01      9484.0  0.2382717  0.10920578</span></span>
-<span><span class="co">#&gt; 2  478.125 419.8125       1            0.01      9551.3  0.2153395  0.07273132</span></span>
-<span><span class="co">#&gt; 3  510.375 547.4375       0            0.00      9536.6  0.3853388  0.10535714</span></span>
-<span><span class="co">#&gt; 4  339.500 374.5000       0            0.00      9592.1 -0.2816480 -0.19861111</span></span>
-<span><span class="co">#&gt; 5  437.625 419.0625       0            0.00      9549.3  0.1844530 -0.16397300</span></span>
-<span><span class="co">#&gt; 6  564.500 565.2500      -1           -0.01      9499.2  0.4535682  0.17213115</span></span>
-<span><span class="co">#&gt;         plage     zscore</span></span>
-<span><span class="co">#&gt; 1 -0.15801753  0.8728117</span></span>
-<span><span class="co">#&gt; 2  0.42059271 -0.5968935</span></span>
-<span><span class="co">#&gt; 3 -0.26930515  0.4721479</span></span>
-<span><span class="co">#&gt; 4  0.05836157 -1.3292259</span></span>
-<span><span class="co">#&gt; 5 -0.53494029 -0.4985339</span></span>
-<span><span class="co">#&gt; 6  0.00608184  0.7195745</span></span></code></pre></div>
+<span><span class="co">#&gt;   run sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; 1   1       S1 10628       10628 531.40      531.40       531.40  692.0  692</span></span>
+<span><span class="co">#&gt; 2   1       S2  9163        9163 458.15      458.15       458.15  361.5   32</span></span>
+<span><span class="co">#&gt; 3   1       S3 10665       10665 533.25      533.25       533.25  584.5  563</span></span>
+<span><span class="co">#&gt; 4   1       S4  7325        7325 366.25      366.25       366.25  409.5   22</span></span>
+<span><span class="co">#&gt; 5   1       S5  8657        8657 432.85      432.85       432.85  400.5    6</span></span>
+<span><span class="co">#&gt; 6   1       S6 11009       11009 550.45      550.45       550.45  566.0  566</span></span>
+<span><span class="co">#&gt;   midrange midhinge  trimean    iqr   iqm      mad    aad     ssgsea</span></span>
+<span><span class="co">#&gt; 1    440.5  510.500 601.2500 524.50 601.4 262.4202 246.90  0.2382717</span></span>
+<span><span class="co">#&gt; 2    503.5  478.125 419.8125 536.25 416.0 325.4307 258.95  0.2153395</span></span>
+<span><span class="co">#&gt; 3    539.0  510.375 547.4375 590.75 545.3 404.0085 259.25  0.3853388</span></span>
+<span><span class="co">#&gt; 4    420.0  339.500 374.5000 321.00 383.7 186.0663 181.45 -0.2816480</span></span>
+<span><span class="co">#&gt; 5    472.0  437.625 419.0625 637.25 439.1 524.0991 305.45  0.1844530</span></span>
+<span><span class="co">#&gt; 6    560.5  564.500 565.2500 479.00 559.7 352.8588 229.95  0.4535682</span></span>
+<span><span class="co">#&gt;          gsva       plage     zscore</span></span>
+<span><span class="co">#&gt; 1  0.10920578 -0.15801753  0.8728117</span></span>
+<span><span class="co">#&gt; 2  0.07273132  0.42059271 -0.5968935</span></span>
+<span><span class="co">#&gt; 3  0.10535714 -0.26930515  0.4721479</span></span>
+<span><span class="co">#&gt; 4 -0.19861111  0.05836157 -1.3292259</span></span>
+<span><span class="co">#&gt; 5 -0.16397300 -0.53494029 -0.4985339</span></span>
+<span><span class="co">#&gt; 6  0.17213115  0.00608184  0.7195745</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="random-signatures">Random Signatures<a class="anchor" aria-label="anchor" href="#random-signatures"></a>
+</h3>
+<p>To generate random signatures, i.e. randomly generated vectors of the
+same size as <code>i</code>, we just need to change the
+<code>sampling = 'rndsig'</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
+<span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
+<span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
+<span>  sampling <span class="op">=</span> <span class="st">"rndsig"</span>,</span>
+<span>  n.repeat <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   run sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; 1   1       S1 10642       10642 532.10      532.10       532.10  625.5    2</span></span>
+<span><span class="co">#&gt; 2   1       S2  9849        9849 492.45      492.45       492.45  549.5    3</span></span>
+<span><span class="co">#&gt; 3   1       S3 10235       10235 511.75      511.75       511.75  458.5   25</span></span>
+<span><span class="co">#&gt; 4   1       S4  7217        7217 360.85      360.85       360.85  365.0   12</span></span>
+<span><span class="co">#&gt; 5   1       S5  7658        7658 382.90      382.90       382.90  320.5    6</span></span>
+<span><span class="co">#&gt; 6   1       S6 10667       10667 533.35      533.35       533.35  508.5  159</span></span>
+<span><span class="co">#&gt;   midrange midhinge  trimean    iqr   iqm      mad    aad     ssgsea</span></span>
+<span><span class="co">#&gt; 1    497.5  452.000 538.7500 556.50 578.0 282.4353 250.40  0.2919138</span></span>
+<span><span class="co">#&gt; 2    435.0  489.250 519.3750 432.50 544.7 243.1464 217.45  0.3374312</span></span>
+<span><span class="co">#&gt; 3    511.0  504.625 481.5625 343.75 515.0 347.6697 249.55  0.4744933</span></span>
+<span><span class="co">#&gt; 4    433.0  318.250 341.6250 504.50 329.8 347.6697 230.15 -0.4304196</span></span>
+<span><span class="co">#&gt; 5    459.5  356.000 338.2500 511.50 349.9 395.8542 265.40 -0.0516426</span></span>
+<span><span class="co">#&gt; 6    579.5  509.875 509.1875 330.75 510.7 268.3506 197.45  0.2885531</span></span>
+<span><span class="co">#&gt;          gsva       plage      zscore</span></span>
+<span><span class="co">#&gt; 1 -0.04816398 -0.43202354  0.67191640</span></span>
+<span><span class="co">#&gt; 2 -0.02836022  0.29436181  0.06091783</span></span>
+<span><span class="co">#&gt; 3  0.13897059  0.19256993  0.05269303</span></span>
+<span><span class="co">#&gt; 4 -0.43261278  0.01629289 -1.81167058</span></span>
+<span><span class="co">#&gt; 5 -0.21453831 -0.27036762 -1.47974905</span></span>
+<span><span class="co">#&gt; 6  0.13154206  0.02685464  0.59379833</span></span></code></pre></div>
+<p>A final available option is to generate random signatures by using
+all possible elements of <code>x</code> after removing the value from
+<code>i</code>. For this scenario, we just need to change the
+<code>sampling = 'rndsigsub'</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
+<span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
+<span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
+<span>  sampling <span class="op">=</span> <span class="st">"rndsigsub"</span>,</span>
+<span>  n.repeat <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   run sampleID   sum weightedSum   mean trimmedMean weightedMean median mode</span></span>
+<span><span class="co">#&gt; 1   1       S1 10228       10228 511.40      511.40       511.40  540.5   23</span></span>
+<span><span class="co">#&gt; 2   1       S2  8830        8830 441.50      441.50       441.50  410.0  139</span></span>
+<span><span class="co">#&gt; 3   1       S3  7995        7995 399.75      399.75       399.75  312.0   81</span></span>
+<span><span class="co">#&gt; 4   1       S4 10317       10317 515.85      515.85       515.85  441.5   12</span></span>
+<span><span class="co">#&gt; 5   1       S5  8570        8570 428.50      428.50       428.50  391.5   46</span></span>
+<span><span class="co">#&gt; 6   1       S6 12061       12061 603.05      603.05       603.05  648.5  159</span></span>
+<span><span class="co">#&gt;   midrange midhinge  trimean    iqr   iqm      mad    aad      ssgsea</span></span>
+<span><span class="co">#&gt; 1    470.5  537.750 539.1250 321.00 516.0 243.1464 209.10  0.03927932</span></span>
+<span><span class="co">#&gt; 2    505.5  425.000 417.5000 330.00 426.8 269.8332 189.60 -0.24184922</span></span>
+<span><span class="co">#&gt; 3    493.0  428.250 370.1250 445.00 340.8 237.9573 217.55 -0.28906294</span></span>
+<span><span class="co">#&gt; 4    501.0  524.125 482.8125 361.25 495.0 295.7787 233.35  0.45904479</span></span>
+<span><span class="co">#&gt; 5    502.5  420.000 405.7500 532.50 406.6 413.6454 283.70  0.15920415</span></span>
+<span><span class="co">#&gt; 6    574.0  607.500 628.0000 289.50 614.3 254.2659 193.15  0.71093706</span></span>
+<span><span class="co">#&gt;          gsva       plage     zscore</span></span>
+<span><span class="co">#&gt; 1 -0.06704545  0.16191884  0.2105943</span></span>
+<span><span class="co">#&gt; 2 -0.32649083  0.04897823 -0.8893993</span></span>
+<span><span class="co">#&gt; 3 -0.27180353 -0.17507515 -1.6517839</span></span>
+<span><span class="co">#&gt; 4  0.21018271  0.24197781  0.4720690</span></span>
+<span><span class="co">#&gt; 5 -0.06120304  0.48313859 -0.5202871</span></span>
+<span><span class="co">#&gt; 6  0.37782977 -0.41419008  1.6535733</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="parallel-execution">Parallel Execution<a class="anchor" aria-label="anchor" href="#parallel-execution"></a>
@@ -495,7 +608,7 @@ packages.</p>
 <p>To enable parallel execution we just need to set the argument
 <code>cores</code> in the <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> function with
 an integer greater than 1. For example, let’s try to use 2 cores.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores with parallel execution</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -519,7 +632,7 @@ an higher number of repeats. To time the execution of the function calls
 we can use the <code><a href="https://rdrr.io/r/base/system.time.html" class="external-link">?system.time</a></code> R function.</p>
 <p>Let’s consider 500 permutations of the original data and compute the
 scores in a serial fashion first.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_serial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -538,7 +651,7 @@ and selecting 5 cores. Considering that we don’t need the results of the
 parallel execution to be in order, we can set the argument
 <code>.inorder</code> as <code>FALSE</code> since this can improve the
 performance.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_parallel</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -564,7 +677,7 @@ Logical Processor(s)</li>
 </ul>
 <p>the execution times for the serial and parallel computations
 were:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create a matrix</span></span>
 <span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  serial   <span class="op">=</span> <span class="va">time_serial</span>,</span>

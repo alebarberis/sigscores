@@ -137,7 +137,9 @@ head(scores)
 ```
 
 
-To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we see the internal function computing the trimmed mean is called `?trimmedMeanScores`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
+### Change Default Arguments
+
+To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we see the internal function computing the trimmed mean is called `?colTrimmedMeans`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
 
 ```{r summary_scores_w_args}
 #compute summary scores
@@ -191,7 +193,7 @@ It is also possible to represent the summary scores via box plots thanks to anot
 #create plot
 p = sigscores::boxplotSigScores(
   data   = scores,
-  scores = c("mean", "mode", "median", "IQM", "midrange", "midhinge", "trimean")
+  scores = c("mean", "mode", "median", "iqm", "midrange", "midhinge", "trimean")
 )
 
 #visualise
@@ -200,6 +202,9 @@ p
 
 
 ## Significance of the Scores
+
+### Sampling the Data
+
 We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
 
 1. Draw random samples from the original data
@@ -212,7 +217,7 @@ To facilitate this computation, `?computeSigScores` can also calculate the summa
 Let's create summary scores for 10 data sets generated using sampling without replacement.
 
 
-```{r summary_scores_random_signatures}
+```{r summary_scores_data_permutation}
 #compute summary scores
 scores = sigscores::computeSigScores(
   x        = x,
@@ -230,7 +235,7 @@ head(scores)
 
 To use bootstrap instead, we just need change the `sampling` argument.
 
-```{r summary_scores_random_signatures_serial}
+```{r summary_scores_data_bootstrap_serial}
 #compute summary scores
 scores = sigscores::computeSigScores(
   x        = x,
@@ -245,6 +250,42 @@ scores = sigscores::computeSigScores(
 head(x = scores, n = 6L)
 ```
 
+
+### Random Signatures
+To generate random signatures, i.e. randomly generated vectors of the same size as `i`, we just need to change the `sampling = 'rndsig'`.
+
+```{r summary_scores_random_signatures_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "rndsig",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
+
+
+A final available option is to generate random signatures by using all possible elements of `x` after removing the value from `i`. For this scenario, we just need to change the `sampling = 'rndsigsub'`.
+
+```{r summary_scores_random_signatures_sub_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "rndsigsub",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
 
 ## Parallel Execution
 **sigscores** provides a simple approach to speed up computation on a multi-core computer via the usage of [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/html/00Index.html), [doParallel](https://cran.r-project.org/package=doParallel), and [foreach](https://cran.r-project.org/package=foreach) R packages. 
