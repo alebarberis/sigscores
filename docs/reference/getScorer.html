@@ -71,7 +71,54 @@ function selected in input.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A function.</p>
+<p>A scoring function.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The scoring functions are created via the generic scorer
+<code><a href="computeScore.html">computeScore</a></code> which handles vector or matrix
+input by calling <code><a href="computeVectorMeasure.html">computeVectorMeasure</a></code> or
+<code><a href="computeColMeasures.html">computeColMeasures</a></code>, respectively.</p>
+<p>Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
+functions to compute the measures:
+<code><a href="colSummations.html">colSummations</a></code>,
+<code><a href="colWeightedSums.html">colWeightedSums</a></code>,
+<code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code>,
+<code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code>,
+<code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code>,
+<code><a href="colMidpoints.html">colMidpoints</a></code>,
+<code><a href="colModes.html">colModes</a></code>,
+<code><a href="colMidranges.html">colMidranges</a></code>,
+<code><a href="colMidhinges.html">colMidhinges</a></code>,
+<code><a href="colTrimeans.html">colTrimeans</a></code>,
+<code><a href="colIQRs.html">colIQRs</a></code>,
+<code><a href="colIQMs.html">colIQMs</a></code>,
+<code><a href="colMADs.html">colMADs</a></code>,
+<code><a href="colAADs.html">colAADs</a></code>,
+<code><a href="colSsgsea.html">colSsgsea</a></code>,
+<code><a href="colGsva.html">colGsva</a></code>,
+<code><a href="colPlage.html">colPlage</a></code>,
+<code><a href="colZscore.html">colZscore</a></code></p>
+<p><code><a href="computeVectorMeasure.html">computeVectorMeasure</a></code> uses instead these
+functions:
+<code><a href="summation.html">summation</a></code>,
+<code><a href="weightedSum.html">weightedSum</a></code>,
+<code><a href="arithmeticMean.html">arithmeticMean</a></code>,
+<code><a href="trimmedMean.html">trimmedMean</a></code>,
+<code><a href="weightedMean.html">weightedMean</a></code>,
+<code><a href="midpoint.html">midpoint</a></code>,
+<code><a href="modalValue.html">modalValue</a></code>,
+<code><a href="midrange.html">midrange</a></code>,
+<code><a href="midhinge.html">midhinge</a></code>,
+<code><a href="trimean.html">trimean</a></code>,
+<code><a href="iqr.html">iqr</a></code>,
+<code><a href="IQM.html">IQM</a></code>,
+<code><a href="MAD.html">MAD</a></code>,
+<code><a href="AAD.html">AAD</a></code>,
+<code><a href="ssgsea.html">ssgsea</a></code>,
+<code><a href="gsva.html">gsva</a></code>,
+<code><a href="plage.html">plage</a></code>,
+<code><a href="zscore.html">zscore</a></code></p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

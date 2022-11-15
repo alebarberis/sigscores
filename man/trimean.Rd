@@ -36,6 +36,7 @@ the distribution's median and its two quartiles:
 \examples{
 x = c(0,1,1,2,3,3,3,100,NA)
 trimean(x = x, na.rm = TRUE)
+
 }
 \references{
 https://en.wikipedia.org/wiki/Trimean

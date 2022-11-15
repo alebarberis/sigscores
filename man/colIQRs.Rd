@@ -34,6 +34,7 @@ x = c(7,7,31,31,47,75,87,115,116,119,119,155,177,NA)
 x = cbind(x,x)
 colnames(x) = c("S1", "S2")
 colIQRs(x = x)#88 88
+
 }
 \author{
 Alessandro Barberis

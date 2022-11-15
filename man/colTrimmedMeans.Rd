@@ -38,6 +38,7 @@ for each column in an input matrix.
 x = matrix(data = sample(seq_len(10)), ncol = 2)
 colTrimmedMeans(x = x, trim = 0)
 colTrimmedMeans(x = x, trim = 0.2)
+
 }
 \author{
 Alessandro Barberis

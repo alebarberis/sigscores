@@ -22,6 +22,7 @@ This function always returns NA.
 }
 \examples{
 ssgsea()
+
 }
 \author{
 Alessandro Barberis

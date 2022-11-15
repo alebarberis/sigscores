@@ -32,10 +32,48 @@ size \code{nrow(x)} from the elements of \code{x}.
 Two types of sampling are available: sampling with
 or without replacement.
 }
+\examples{
+#set seed for reproducibility
+set.seed(seed = 5381L)
+
+#Define row/col size
+nr = 20
+nc = 10
+
+#Create input matrix
+x = matrix(
+ data = stats::runif(n = nr*nc, min = 0, max = 1000),
+ nrow = nr,
+ ncol = nc,
+ dimnames = list(
+   paste0("g",seq(nr)),
+   paste0("S",seq(nc))
+ )
+)
+
+#Set signature
+i = rownames(x)[1:5]
+
+#Take one sample via permutation
+#(duplicated elements are not possible)
+sampleData(
+ x = x,
+ method = 'permutation',
+ n = 1
+)
+
+#Take one sample via bootstrap
+#(duplicated elements are possible)
+sampleData(
+ x = x,
+ method = 'bootstrap',
+ n = 1
+)
+
+}
 \seealso{
 \code{\link[base]{sample}}
 }
 \author{
 Alessandro Barberis
 }
-\keyword{internal}

@@ -14,11 +14,59 @@ getScorer(
 \item{score}{character string, one of the supported measures}
 }
 \value{
-A function.
+A scoring function.
 }
 \description{
 This function is a dispatcher for the score
 function selected in input.
+}
+\details{
+The scoring functions are created via the generic scorer
+\code{\link{computeScore}} which handles vector or matrix
+input by calling \code{\link{computeVectorMeasure}} or
+\code{\link{computeColMeasures}}, respectively.
+
+Internally, \code{\link{computeColMeasures}} uses these
+functions to compute the measures:
+\code{\link{colSummations}},
+\code{\link{colWeightedSums}},
+\code{\link{colArithmeticMeans}},
+\code{\link{colTrimmedMeans}},
+\code{\link{colWeightedArithmeticMeans}},
+\code{\link{colMidpoints}},
+\code{\link{colModes}},
+\code{\link{colMidranges}},
+\code{\link{colMidhinges}},
+\code{\link{colTrimeans}},
+\code{\link{colIQRs}},
+\code{\link{colIQMs}},
+\code{\link{colMADs}},
+\code{\link{colAADs}},
+\code{\link{colSsgsea}},
+\code{\link{colGsva}},
+\code{\link{colPlage}},
+\code{\link{colZscore}}
+
+\code{\link{computeVectorMeasure}} uses instead these
+functions:
+\code{\link{summation}},
+\code{\link{weightedSum}},
+\code{\link{arithmeticMean}},
+\code{\link{trimmedMean}},
+\code{\link{weightedMean}},
+\code{\link{midpoint}},
+\code{\link{modalValue}},
+\code{\link{midrange}},
+\code{\link{midhinge}},
+\code{\link{trimean}},
+\code{\link{iqr}},
+\code{\link{IQM}},
+\code{\link{MAD}},
+\code{\link{AAD}},
+\code{\link{ssgsea}},
+\code{\link{gsva}},
+\code{\link{plage}},
+\code{\link{zscore}}
 }
 \author{
 Alessandro Barberis

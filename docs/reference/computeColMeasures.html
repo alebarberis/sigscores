@@ -108,25 +108,67 @@ values from <code>x</code> before computation</p></dd>
 score for each column in <code>x</code>.</p>
     </div>
     <div class="section level2">
-    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="colSummations.html">colSummations</a></code>,
-<code><a href="colWeightedSums.html">colWeightedSums</a></code>,
-<code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code>,
-<code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code>,
-<code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code>,
-<code><a href="colMidpoints.html">colMidpoints</a></code>,
-<code><a href="colModes.html">colModes</a></code>,
-<code><a href="colMidranges.html">colMidranges</a></code>,
-<code><a href="colMidhinges.html">colMidhinges</a></code>,
-<code><a href="colTrimeans.html">colTrimeans</a></code>,
-<code><a href="colIQRs.html">colIQRs</a></code>,
-<code><a href="colIQMs.html">colIQMs</a></code>,
-<code><a href="colMADs.html">colMADs</a></code>,
-<code><a href="colAADs.html">colAADs</a></code>,
-<code><a href="colSsgsea.html">colSsgsea</a></code>,
-<code><a href="colGsva.html">colGsva</a></code>,
-<code><a href="colPlage.html">colPlage</a></code>,
-<code><a href="colZscore.html">colZscore</a></code></p></div>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Internally, <code>computeColMeasures</code> uses these
+functions to compute the measures:</p>
+<dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
+
+
+</dl><p>Look at the different functions to know which specific
+arguments they accept (arguments can be passed via the
+<code>...</code> parameter).</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

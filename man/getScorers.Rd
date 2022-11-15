@@ -20,11 +20,14 @@ A list containing the scoring functions.
 This function is a dispatcher for the score
 functions selected in input.
 }
-\seealso{
-The generic scorer:
-\code{\link{computeScore}}
+\details{
+The scoring functions are created via the generic scorer
+\code{\link{computeScore}} which handles vector or matrix
+input by calling \code{\link{computeVectorMeasure}} or
+\code{\link{computeColMeasures}}, respectively.
 
-And the built-in functions used to compute the measures:
+Internally, \code{\link{computeColMeasures}} uses these
+functions to compute the measures:
 \code{\link{colSummations}},
 \code{\link{colWeightedSums}},
 \code{\link{colArithmeticMeans}},
@@ -43,6 +46,27 @@ And the built-in functions used to compute the measures:
 \code{\link{colGsva}},
 \code{\link{colPlage}},
 \code{\link{colZscore}}
+
+\code{\link{computeVectorMeasure}} uses instead these
+functions:
+\code{\link{summation}},
+\code{\link{weightedSum}},
+\code{\link{arithmeticMean}},
+\code{\link{trimmedMean}},
+\code{\link{weightedMean}},
+\code{\link{midpoint}},
+\code{\link{modalValue}},
+\code{\link{midrange}},
+\code{\link{midhinge}},
+\code{\link{trimean}},
+\code{\link{iqr}},
+\code{\link{IQM}},
+\code{\link{MAD}},
+\code{\link{AAD}},
+\code{\link{ssgsea}},
+\code{\link{gsva}},
+\code{\link{plage}},
+\code{\link{zscore}}
 }
 \author{
 Alessandro Barberis

@@ -2,6 +2,24 @@
 % Please edit documentation in R/5-scorers.R
 \name{computeScore}
 \alias{computeScore}
+\alias{sumScore}
+\alias{weightedSumScore}
+\alias{meanScore}
+\alias{trimmedMeanScore}
+\alias{weightedMeanScore}
+\alias{medianScore}
+\alias{modeScore}
+\alias{midrangeScore}
+\alias{midhingeScore}
+\alias{trimeanScore}
+\alias{iqrScore}
+\alias{iqmScore}
+\alias{madScore}
+\alias{aadScore}
+\alias{ssgseaScore}
+\alias{gsvaScore}
+\alias{plageScore}
+\alias{zscoreScore}
 \title{Generic Scorer Function}
 \usage{
 computeScore(
@@ -12,9 +30,207 @@ computeScore(
   score = c("sum", "weightedSum", "mean", "trimmedMean", "weightedMean", "median",
     "mode", "midrange", "midhinge", "trimean", "iqr", "iqm", "mad", "aad", "ssgsea",
     "gsva", "plage", "zscore"),
-  transform = c("none", "stepFunction", "quantile"),
+  transform.fun = NULL,
   transform.args = list(),
   transform.sub = FALSE,
+  ...
+)
+
+sumScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+weightedSumScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+meanScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+trimmedMeanScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+weightedMeanScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+medianScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+modeScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+midrangeScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+midhingeScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+trimeanScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+iqrScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+iqmScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+madScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+aadScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+ssgseaScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+gsvaScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+plageScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
+  ...
+)
+
+zscoreScore(
+  x,
+  i = NULL,
+  w = NULL,
+  na.rm = TRUE,
+  transform.fun = NULL,
+  transform.args = list(),
+  transform.sub = F,
   ...
 )
 }
@@ -34,14 +250,12 @@ values from \code{x} before computation}
 
 \item{score}{character string indicating the summary score to compute}
 
-\item{transform}{string, the transformation method.
-Available options are:
-\describe{
-\item{\code{'none'}}{\code{x} is returned}
-\item{\code{'stepFunction'}}{step function}
-\item{\code{'quantile'}}{quantile normalisation}
-}
-See \code{\link{transformData}} for further details}
+\item{transform.fun}{function to transform the data.
+If provided, \code{x} is transformed
+(\code{x = transform.fun(x, transform.args)})
+before the computation of the scores.
+See \code{\link{getDataTransformer}} for further details
+about built-in options}
 
 \item{transform.args}{list of parameters to the
 data transformation function}
@@ -64,9 +278,100 @@ This function computes a summary score
 from an input vector or from each column vector
 of an input matrix.
 }
+\details{
+The function handles vector or matrix
+input by calling \code{\link{computeVectorMeasure}} or
+\code{\link{computeColMeasures}}, respectively.
+
+Internally, \code{\link{computeColMeasures}} uses these
+functions to compute the measures:
+\describe{
+\item{\code{"sum"         }}{\code{\link{colSummations}}}
+\item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
+\item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
+\item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
+\item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
+\item{\code{"median"      }}{\code{\link{colMidpoints}}}
+\item{\code{"mode"        }}{\code{\link{colModes}}}
+\item{\code{"midrange"    }}{\code{\link{colMidranges}}}
+\item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
+\item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
+\item{\code{"iqr"         }}{\code{\link{colIQRs}}}
+\item{\code{"iqm"         }}{\code{\link{colIQMs}}}
+\item{\code{"mad"         }}{\code{\link{colMADs}}}
+\item{\code{"aad"         }}{\code{\link{colAADs}}}
+\item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
+\item{\code{"gsva"        }}{\code{\link{colGsva}}}
+\item{\code{"plage"       }}{\code{\link{colPlage}}}
+\item{\code{"zscore"      }}{\code{\link{colZscore}}}
+}
+
+\code{\link{computeVectorMeasure}} uses instead these
+functions:
+\describe{
+\item{\code{"sum"         }}{\code{\link{summation}}}
+\item{\code{"weightedSum" }}{\code{\link{weightedSum}}}
+\item{\code{"mean"        }}{\code{\link{arithmeticMean}}}
+\item{\code{"trimmedMean" }}{\code{\link{trimmedMean}}}
+\item{\code{"weightedMean"}}{\code{\link{weightedMean}}}
+\item{\code{"median"      }}{\code{\link{midpoint}}}
+\item{\code{"mode"        }}{\code{\link{modalValue}}}
+\item{\code{"midrange"    }}{\code{\link{midrange}}}
+\item{\code{"midhinge"    }}{\code{\link{midhinge}}}
+\item{\code{"trimean"     }}{\code{\link{trimean}}}
+\item{\code{"iqr"         }}{\code{\link{iqr}}}
+\item{\code{"iqm"         }}{\code{\link{IQM}}}
+\item{\code{"mad"         }}{\code{\link{MAD}}}
+\item{\code{"aad"         }}{\code{\link{AAD}}}
+\item{\code{"ssgsea"      }}{\code{\link{ssgsea}}}
+\item{\code{"gsva"        }}{\code{\link{gsva}}}
+\item{\code{"plage"       }}{\code{\link{plage}}}
+\item{\code{"zscore"      }}{\code{\link{zscore}}}
+}
+}
+\section{Functions}{
+\itemize{
+\item \code{sumScore()}: returns the \emph{sum} score(s).
+
+\item \code{weightedSumScore()}: returns the \emph{weighted sum} score(s).
+
+\item \code{meanScore()}: returns the \emph{arithmentic mean} score(s).
+
+\item \code{trimmedMeanScore()}: returns the \emph{trimmed mean} score(s).
+
+\item \code{weightedMeanScore()}: returns the \emph{weighted mean} score(s).
+
+\item \code{medianScore()}: returns the \emph{median} score(s).
+
+\item \code{modeScore()}: returns the \emph{mode} score(s).
+
+\item \code{midrangeScore()}: returns the \emph{midrange} score(s).
+
+\item \code{midhingeScore()}: returns the \emph{midhinge} score(s).
+
+\item \code{trimeanScore()}: returns the \emph{trimean} score(s).
+
+\item \code{iqrScore()}: returns the \emph{interquartile range} score(s).
+
+\item \code{iqmScore()}: returns the \emph{interquartile mean} score(s).
+
+\item \code{madScore()}: returns the \emph{median absolute deviation} score(s).
+
+\item \code{aadScore()}: returns the \emph{average absolute deviation} score(s).
+
+\item \code{ssgseaScore()}: returns the \emph{single sample gene set enrichment analysis (ssGSEA)} score(s).
+
+\item \code{gsvaScore()}: returns the \emph{gene set variation analysis (GSVA)} score(s).
+
+\item \code{plageScore()}: returns the \emph{pathway level analysis of gene expression (PLAGE)} score(s).
+
+\item \code{zscoreScore()}: returns the \emph{z-score}(s).
+
+}}
 \seealso{
 \code{\link{computeVectorScore}},
-\code{\link{computeColScores}}
+\code{\link{computeColScores}},
+\code{\link{getDataTransformer}}
 }
 \author{
 Alessandro Barberis

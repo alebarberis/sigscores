@@ -53,7 +53,7 @@ A list of currently supported scores is available through the `?getAvailableScor
 
 
 ```{r list_summary_scores}
-#list methods
+#list summary scores
 summary.scores = getAvailableScores()
 
 #print in table
@@ -65,7 +65,7 @@ knitr::kable(x = summary.scores)
 We can extract the ids by selecting the `id` column.
 
 ```{r summary_scores_ids}
-#learning method ids
+#summary score ids
 summary.scores.ids = summary.scores$id
 
 #print
@@ -119,9 +119,63 @@ signature
 ```
 
 
+## Data Transformation
+We may want to compute some of the scores on transformed data. Users can obviously directly provide the data to work on as `x`. 
+
+However, to facilitate this task, `sigscores` provides `r length(getAvailableDataTransformers()$id)` built-in data transformation functions. A list of currently supported data transformers is available through the `?getAvailableDataTransformers` function call.
+
+```{r list_data_transformers}
+#list transformers
+data.transformers = getAvailableDataTransformers()
+
+#print in table
+knitr::kable(x = data.transformers)
+```
+
+
+We can extract the ids by selecting the `id` column.
+
+
+```{r data_transformers_ids}
+#transformer ids
+data.transformers.ids = data.transformers$id
+
+#print
+print(data.transformers.ids)
+```
+
+The data transformation function can be obtained through the `?getDataTransformer` function call. For example, let's select a step function as data transformer.
+
+```{r data_transformer}
+#transformer
+data.transformer = getDataTransformer(f = 'stepFunction')
+
+#function
+data.transformer
+```
+
+Looking at the documentation of `?getDataTransformer` we can see the function for computing the step function is called `?stepFunctionTranformation`, which accepts different arguments. In particular, `method` indicates the score to be used as
+threshold in the step function, and `by` indicates whether to compute the threshold by applying `method` to rows or columns of `x`.
+
+We can then use the transformer to create a new data set to be used for the computation of the scores.
+
+```{r transform_data}
+#transform data
+newx = do.call(
+  what = data.transformer, 
+  args = list(x = x, method = 'median', by = 'rows')
+)
+
+#print
+head(x = newx, n = 6L)
+```
+
 
 ## Compute the Scores
-Finally, we can compute our summary scores.
+Finally, we can compute our summary scores. 
+
+### Using `scores`
+The easiest way for doing so is by passing the score ids to the function via the `scores` argument. Internally, a scoring function is retrieved for each provided score id by calling `?getScorers`.
 
 ```{r summary_scores}
 #compute summary scores
@@ -136,10 +190,34 @@ scores = sigscores::computeSigScores(
 head(scores)
 ```
 
+### Using `scorers`
+Alternatively, we can define our own list by providing scoring functions. In `sigscores`, the scoring functions are created via the generic scorer `?computeScore`, which provides a common interface for all the scorers.
 
-### Change Default Arguments
+We can retrieve a scorer by providing a score id to the function `?getScorer`.
 
-To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we see the internal function computing the trimmed mean is called `?colTrimmedMeans`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
+```{r summary_scores_by_scorers}
+#create scorers list
+scorers = list(
+  'mean'     = getScorer("mean"),
+  'midpoint' = getScorer("median")#we name this score 'midpoint'
+)
+
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scorers = scorers
+)
+
+#print
+head(scores)
+```
+
+
+### Changing Default Arguments
+
+To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we can see the internal function computing the trimmed mean is called `?colTrimmedMeans`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
 
 ```{r summary_scores_w_args}
 #compute summary scores
@@ -155,6 +233,71 @@ scores = sigscores::computeSigScores(
 head(scores)
 ```
 
+### `scorers` and `args`
+By using `scorers` and `args` we can define our list of scorers having specific names and parameters.
+
+
+```{r summary_scores_by_scorers_and_args}
+#create scorers list
+scorers = list(
+  'trimmedMean03' = getScorer("trimmedMean"),
+  'trimmedMean04' = getScorer("trimmedMean")
+)
+
+#compute summary scores
+scores2 = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scorers = scorers,
+  args   = list(
+    trimmedMean03 = list(trim = 0.3),
+    trimmedMean04 = list(trim = 0.4)
+  )
+)
+
+#print
+head(scores2)
+```
+
+### Transforming the Data
+To facilitate the application of specific transformation functions to selected scores via an automated process, it is possible to provide a data transformer in input to the scorers. In fact, the generic scorer `?computeScore` accepts three arguments that are used for this:
+
+* `transform.fun`: it is used to provide a transformation function
+* `transform.args`: a list containing the parameters for `transform.fun`
+* `transform.sub`: a logical value indicating whether to transform `x` after it is subset for the signature `i` (used to speedup computation, as transformation function should take less time on a reduced data set)
+
+`?computeScore` internally uses the provided transformer to transform the data before the computation of the scores.
+
+To pass the parameters to the scorer from `?computeSigScores` we can again use `args`.
+
+```{r summary_scores_and_transformers, fig.height = 5, fig.width = 6}
+#Transform data and compute the scores
+scoresTD = computeSigScores(
+  x = x,
+  i = signature,
+  scorers = list(
+   'score1' = getScorer('weightedSum'),
+   'score2' = getScorer('trimmedMean')
+  ),
+  args = list(
+   'score1' = list(
+      transform.fun = getDataTransformer('quantile')
+    ),
+   'score2' = list(
+      trim = 0.2,
+      transform.fun = getDataTransformer('stepFunction'),
+      transform.args = list(
+        method = 'median',
+        by = 'rows'
+      )
+    )
+  )
+)
+
+#print
+head(scoresTD)
+```
 
 ## Visualisation
 `sigscores` provides some basic functions for plotting. For example, we can plot our computed results via an heat map by using the `?heatmapSigScores` function, which requires the output of `?computeSigScores` as the `data` parameter.
@@ -162,7 +305,7 @@ head(scores)
 ```{r summary_scores_w_args_plot_heatmap, fig.height = 5, fig.width = 6}
 #create plot
 p = sigscores::heatmapSigScores(
-  data = scores
+  data   = scores
 )
 
 #visualise
@@ -202,10 +345,11 @@ p
 
 
 ## Significance of the Scores
+We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. 
+
 
 ### Sampling the Data
-
-We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
+To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
 
 1. Draw random samples from the original data
 2. Compute the summary scores on the simulated data
@@ -252,7 +396,12 @@ head(x = scores, n = 6L)
 
 
 ### Random Signatures
-To generate random signatures, i.e. randomly generated vectors of the same size as `i`, we just need to change the `sampling = 'rndsig'`.
+Instead of creating new data sets via resampling, we can also generate random signatures, i.e. randomly generated vectors of the same size as `i`. 
+
+To facilitate this computation, `?computeSigScores`allows two options: **rndsig** (where all elements - row indices - of `x` can be randomly selected) and **rndsigsub** (where only the elements - row indices - of `x` that are not in `i` can be randomly selected). We can still use the `sampling` parameter to indicate the technique we want to use, and `n.repeat`, to tell the function how many random signatures we want to generate.
+
+
+Let's create summary scores for 10 random signatures. For doing so, we just need to write `sampling = 'rndsig'`.
 
 ```{r summary_scores_random_signatures_serial}
 #compute summary scores
@@ -270,7 +419,7 @@ head(x = scores, n = 6L)
 ```
 
 
-A final available option is to generate random signatures by using all possible elements of `x` after removing the value from `i`. For this scenario, we just need to change the `sampling = 'rndsigsub'`.
+A final available option is to generate random signatures by using all possible elements of `x` after removing the value from `i`. For this scenario, we just need to use `sampling = 'rndsigsub'`.
 
 ```{r summary_scores_random_signatures_sub_serial}
 #compute summary scores
@@ -345,8 +494,7 @@ time_parallel = system.time(
       scores   = summary.scores.ids,
       sampling = "permutation",
       n.repeat = 500,
-      cores    = 5,
-      .inorder = FALSE
+      cores    = 5
     )
   }
 )
@@ -357,8 +505,8 @@ time_parallel = system.time(
 #We decided to use fixed numbers to avoid re-running 
 #the computation in case of changes of this vignette
 
-time_serial   = c(176.97, 0.30, 180.19, NA, NA)
-time_parallel = c(1.41,   2.47,  82.31, NA, NA)
+time_serial   = c(170.17, 0.06, 170.50, NA, NA)
+time_parallel = c(1.20,   2.08,  84.03, NA, NA)
 
 names(time_serial)   = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")
 names(time_parallel) = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")

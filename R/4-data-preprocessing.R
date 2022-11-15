@@ -109,8 +109,8 @@ transformData <- function(
 #'\code{\link{stepFunctionTranformation}},
 #'\code{\link{quantileNormalization}}
 #'
-#'@keywords internal
-getDataTransformationFunction <- function(
+#'@export
+getDataTransformer <- function(
     f = c('stepFunction', 'quantile')
   ){
   #match arg
@@ -126,8 +126,6 @@ getDataTransformationFunction <- function(
   #return
   return(x)
 }
-
-
 
 
 #'Quantile Normalization

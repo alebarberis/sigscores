@@ -36,7 +36,7 @@ i.e. \code{x}, \code{i}, \code{na.rm}, \code{...}
 and is expected to compute a score for each column
 in \code{x}}
 
-\item{scores}{character vector, indicating the
+\item{scores}{(optional) character vector, indicating the
 summary score(s) to compute}
 
 \item{args}{named list, where the names must match the
@@ -46,7 +46,8 @@ containing the arguments to pass to the function used
 for computing the named score. For example,
 \code{args = list(trimmedMean = list(trim = 0.4))}
 indicates to use \code{trim = 0.4} when computing the
-trimmed mean scores}
+trimmed mean scores (\code{scores = "trimmedMean"} or
+\code{scorers = list(trimmedMean = getScorer("trimmedMean"))})}
 
 \item{sample.id}{logical, whether to report the
 sample ID as a column in the output data frame}
@@ -64,6 +65,55 @@ This function computes summary
 score(s) of the signature \code{i} in input
 considering each column vector in the input matrix
 \code{x}.
+}
+\details{
+\code{\link{computeScores}} uses the provided scorers
+to calculate the measures.
+
+If \code{scorers = NULL} and \code{scores} are provided,
+the scorers are retrieved by using the function
+\code{\link{getScorers}}.
+
+The scoring functions are created via the generic scorer
+\code{\link{computeScore}} which handles a matrix
+input by calling \code{\link{computeColMeasures}}.
+
+Internally, \code{\link{computeColMeasures}} uses these
+functions to compute the measures:
+
+\describe{
+\item{\code{"sum"         }}{\code{\link{colSummations}}}
+\item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
+\item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
+\item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
+\item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
+\item{\code{"median"      }}{\code{\link{colMidpoints}}}
+\item{\code{"mode"        }}{\code{\link{colModes}}}
+\item{\code{"midrange"    }}{\code{\link{colMidranges}}}
+\item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
+\item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
+\item{\code{"iqr"         }}{\code{\link{colIQRs}}}
+\item{\code{"iqm"         }}{\code{\link{colIQMs}}}
+\item{\code{"mad"         }}{\code{\link{colMADs}}}
+\item{\code{"aad"         }}{\code{\link{colAADs}}}
+\item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
+\item{\code{"gsva"        }}{\code{\link{colGsva}}}
+\item{\code{"plage"       }}{\code{\link{colPlage}}}
+\item{\code{"zscore"      }}{\code{\link{colZscore}}}
+}
+
+Look at the different functions to know which specific
+arguments they accept (arguments can be passed via the
+\code{args} parameter).
+
+\code{\link{computeColMeasures}} also accepts a
+transformation function via the \code{transform.fun}
+argument, which is used to transform the data
+before the computation of the scores so that:
+\code{x = transform.fun(x = x, transform.args)},
+where \code{transform.args} is a list of parameters passed
+to the transformation function.
+See \code{\link{computeColMeasures}} for further details.
 }
 \examples{
 \dontrun{
@@ -124,15 +174,18 @@ computeScores(
   'score2' = getScorer('mean')
  ),
  args = list(
-  'score1' = list(transform = 'quantile'),
+  'score1' = list(transform.fun = getDataTransformer('quantile')),
   'score2' = list(
-     transform = 'stepFunction',
-     method = 'median',
-     by = 'rows'
+     transform.fun = getDataTransformer('stepFunction'),
+     transform.args = list(
+       method = 'median',
+       by = 'rows'
+     )
    )
  )
 )
 }
+
 }
 \author{
 Alessandro Barberis

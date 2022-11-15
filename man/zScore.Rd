@@ -22,6 +22,7 @@ This function always returns NA.
 }
 \examples{
 zscore()
+
 }
 \author{
 Alessandro Barberis

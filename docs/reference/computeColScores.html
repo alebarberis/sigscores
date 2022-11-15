@@ -62,7 +62,7 @@ each column in an input matrix.</p>
 <span>  score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"weightedSum"</span>, <span class="st">"mean"</span>, <span class="st">"trimmedMean"</span>, <span class="st">"weightedMean"</span>, <span class="st">"median"</span>,</span>
 <span>    <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span>, <span class="st">"iqr"</span>, <span class="st">"iqm"</span>, <span class="st">"mad"</span>, <span class="st">"aad"</span>, <span class="st">"ssgsea"</span>,</span>
 <span>    <span class="st">"gsva"</span>, <span class="st">"plage"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
-<span>  transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"stepFunction"</span>, <span class="st">"quantile"</span><span class="op">)</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  transform.sub <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -96,19 +96,13 @@ values from <code>x</code> before computation</p></dd>
 <dd><p>character string indicating the summary score to compute</p></dd>
 
 
-<dt>transform</dt>
-<dd><p>string, the transformation method.
-Available options are:</p><dl><dt><code>'none'</code></dt>
-<dd><p><code>x</code> is returned</p></dd>
-
-<dt><code>'stepFunction'</code></dt>
-<dd><p>step function</p></dd>
-
-<dt><code>'quantile'</code></dt>
-<dd><p>quantile normalisation</p></dd>
-
-
-</dl><p>See <code><a href="transformData.html">transformData</a></code> for further details</p></dd>
+<dt>transform.fun</dt>
+<dd><p>function to transform the data.
+If provided, <code>x</code> is transformed
+(<code>x = transform.fun(x, transform.args)</code>)
+before the computation of the scores.
+See <code><a href="getDataTransformer.html">getDataTransformer</a></code> for further details
+about built-in options</p></dd>
 
 
 <dt>transform.args</dt>

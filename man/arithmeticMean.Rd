@@ -34,6 +34,7 @@ function.
 \examples{
 x = c(1,1,2,3,3,NA)
 arithmeticMean(x = x, na.rm = TRUE)
+
 }
 \author{
 Alessandro Barberis

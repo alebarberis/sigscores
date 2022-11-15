@@ -28,6 +28,7 @@ the same number of occurrences, the first one is reported.
 \examples{
 x = c(1,1,2,3,3,3,NA)
 modalValue(x = x, na.rm = TRUE)
+
 }
 \author{
 Alessandro Barberis

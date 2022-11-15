@@ -42,25 +42,33 @@ for each column in an input matrix.
 It is an internal function, and it is not intended to be
 called by users.
 }
-\seealso{
-\code{\link{colSummations}},
-\code{\link{colWeightedSums}},
-\code{\link{colArithmeticMeans}},
-\code{\link{colTrimmedMeans}},
-\code{\link{colWeightedArithmeticMeans}},
-\code{\link{colMidpoints}},
-\code{\link{colModes}},
-\code{\link{colMidranges}},
-\code{\link{colMidhinges}},
-\code{\link{colTrimeans}},
-\code{\link{colIQRs}},
-\code{\link{colIQMs}},
-\code{\link{colMADs}},
-\code{\link{colAADs}},
-\code{\link{colSsgsea}},
-\code{\link{colGsva}},
-\code{\link{colPlage}},
-\code{\link{colZscore}}
+\details{
+Internally, \code{\link{computeColMeasures}} uses these
+functions to compute the measures:
+
+\describe{
+\item{\code{"sum"         }}{\code{\link{colSummations}}}
+\item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
+\item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
+\item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
+\item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
+\item{\code{"median"      }}{\code{\link{colMidpoints}}}
+\item{\code{"mode"        }}{\code{\link{colModes}}}
+\item{\code{"midrange"    }}{\code{\link{colMidranges}}}
+\item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
+\item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
+\item{\code{"iqr"         }}{\code{\link{colIQRs}}}
+\item{\code{"iqm"         }}{\code{\link{colIQMs}}}
+\item{\code{"mad"         }}{\code{\link{colMADs}}}
+\item{\code{"aad"         }}{\code{\link{colAADs}}}
+\item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
+\item{\code{"gsva"        }}{\code{\link{colGsva}}}
+\item{\code{"plage"       }}{\code{\link{colPlage}}}
+\item{\code{"zscore"      }}{\code{\link{colZscore}}}
+}
+Look at the different functions to know which specific
+arguments they accept (arguments can be passed via the
+\code{...} parameter).
 }
 \author{
 Alessandro Barberis

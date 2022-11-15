@@ -25,9 +25,51 @@ is a vector of indices representing the sampled data.
 }
 \description{
 This function takes \code{n} samples of
-size \code{nrow(x)} from the elements of \code{x}.
-Two types of sampling are available: sampling with
-or without replacement.
+size \code{length(i)} from the elements of \code{x}.
+Two types of sampling are available: using all
+elements of \code{x} or using the elements of \code{x}
+that are not part of \code{i}.
+}
+\examples{
+#set seed for reproducibility
+set.seed(seed = 5381L)
+
+#Define row/col size
+nr = 20
+nc = 10
+
+#Create input matrix
+x = matrix(
+ data = stats::runif(n = nr*nc, min = 0, max = 1000),
+ nrow = nr,
+ ncol = nc,
+ dimnames = list(
+   paste0("g",seq(nr)),
+   paste0("S",seq(nc))
+ )
+)
+
+#Set signature
+i = rownames(x)[1:10]
+
+#Generate 1 random signatures
+#(elements of i are possible)
+randomSignatures(
+ x = x,
+ i = i,
+ n = 1,
+ exclude = F
+)
+
+#Generate 1 random signatures
+#(elements of i are excluded)
+randomSignatures(
+ x = x,
+ i = i,
+ n = 1,
+ exclude = T
+)
+
 }
 \seealso{
 \code{\link[base]{sample}}
@@ -35,4 +77,3 @@ or without replacement.
 \author{
 Alessandro Barberis
 }
-\keyword{internal}

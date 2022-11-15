@@ -32,6 +32,7 @@ for each column vector in the input matrix \code{x}.
 \examples{
 x = cbind(c(2,2,3,4,14), c(2,2,3,4,14))
 colAADs(x)#2.8 2.8
+
 }
 \author{
 Alessandro Barberis

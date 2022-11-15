@@ -22,6 +22,7 @@ This function always returns NA.
 }
 \examples{
 gsva()
+
 }
 \author{
 Alessandro Barberis

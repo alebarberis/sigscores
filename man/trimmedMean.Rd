@@ -43,6 +43,7 @@ function.
 \examples{
 x = c(seq_len(length.out = 10), NA)
 trimmedMean(x = x, na.rm = TRUE, trim = 0.1)
+
 }
 \seealso{
 \code{\link[base]{mean}}

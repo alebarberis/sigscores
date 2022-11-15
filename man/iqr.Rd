@@ -43,6 +43,7 @@ then \code{NA} is returned.
 \examples{
 x = c(7,7,31,31,47,75,87,115,116,119,119,155,177,NA)
 iqr(x = x)#88
+
 }
 \references{
 https://en.wikipedia.org/wiki/Interquartile_range

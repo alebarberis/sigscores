@@ -36,6 +36,7 @@ extreme scores, which could potentially be outliers.
 \examples{
 x = c(0,1,1,2,3,3,3,100,NA)
 midrange(x = x, na.rm = TRUE)
+
 }
 \references{
 https://dictionary.apa.org/midrange

@@ -32,6 +32,7 @@ for each column vector in the input matrix \code{x}.
 \examples{
 x = matrix(data = c(1,2,2,1,1,3), ncol = 2)
 colMidranges(x = x)
+
 }
 \author{
 Alessandro Barberis

@@ -103,11 +103,12 @@ computed.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">14</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">AAD</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="co">#2.8</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in AAD(x = x, center = median(x)):</span> could not find function "AAD"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.8</span>
 <span class="r-in"><span><span class="fu">AAD</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="co">#3.6</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in AAD(x = x, center = mean(x)):</span> could not find function "AAD"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.6</span>
 <span class="r-in"><span><span class="fu">AAD</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, center <span class="op">=</span> <span class="fu"><a href="modalValue.html">modalValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="co">#3.0</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in AAD(x = x, center = modalValue(x)):</span> could not find function "AAD"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -84,7 +84,7 @@ calls to \code{ggplot2} functions in order to create a
 pre-defined plot.
 }
 \examples{
-#Set seed
+#Set seed for reproducibility
 set.seed(seed = 5381L)
 
 #Define row/col size

@@ -20,7 +20,7 @@ NULL
 #'\code{\link{heatmapCorSigScores}}
 #'
 #'@examples
-#'#Set seed
+#'#Set seed for reproducibility
 #'set.seed(seed = 5381L)
 #'
 #'#Define row/col size
@@ -69,7 +69,8 @@ heatmapSigScores <- function(
       "Please, check the provided input.\n"))
     }
   } else {
-    scores = getAvailableScores()$id
+    # scores = getAvailableScores()$id
+    scores = setdiff(x = colnames(data), c("sampleID", "run"))
   }
 
   #prepare data   ------------------------------------------------
@@ -115,7 +116,7 @@ heatmapSigScores <- function(
 #'\code{\link{heatmapSigScores}}
 #'
 #'@examples
-#'#Set seed
+#'#Set seed for reproducibility
 #'set.seed(seed = 5381L)
 #'
 #'#Define row/col size
@@ -220,7 +221,8 @@ heatmapCorSigScores <- function(
                  "Please, check the provided input.\n"))
     }
   } else {
-    scores = getAvailableScores()$id
+    # scores = getAvailableScores()$id
+    scores = colnames(cor)
   }
 
   #prepare data   ------------------------------------------------
@@ -354,7 +356,7 @@ heatMap <- function(
 #'\code{\link{ggPlot}}
 #'
 #'@examples
-#'#Set seed
+#'#Set seed for reproducibility
 #'set.seed(seed = 5381L)
 #'
 #'#Define row/col size
@@ -490,7 +492,7 @@ boxplotSigScores <- function(
 #'\code{\link{ggPlot}}
 #'
 #'@examples
-#'#Set seed
+#'#Set seed for reproducibility
 #'set.seed(seed = 5381L)
 #'
 #'#Define row/col size
@@ -867,14 +869,14 @@ prepareDataForPlot <- function(
 
   ##data
   if(isTRUE(missing(data) | is.null(data))){stop("Error: 'data' not valid. Please, check your input.\n")}
-  if(isFALSE(length(intersect(x = colnames(data), y = getAvailableScores()$id))>0)){
-    stop(
-      paste(
-        "Error: 'data' not valid.",
-        "It should be the output data frame obtained from 'computeSigScores'.",
-        "Please, check your input.\n")
-    )
-  }
+  # if(isFALSE(length(intersect(x = colnames(data), y = getAvailableScores()$id))>0)){
+  #   stop(
+  #     paste(
+  #       "Error: 'data' not valid.",
+  #       "It should be the output data frame obtained from 'computeSigScores'.",
+  #       "Please, check your input.\n")
+  #   )
+  # }
   if(isFALSE("sampleID" %in% colnames(data))){data$sampleID = rownames(data)}
 
   ##scores
@@ -888,7 +890,8 @@ prepareDataForPlot <- function(
                  "Please, check the provided input.\n"))
     }
   } else {
-    scores = getAvailableScores()$id
+    # scores = getAvailableScores()$id
+    scores = setdiff(x = colnames(data), c("sampleID", "run"))
   }
 
   ##run

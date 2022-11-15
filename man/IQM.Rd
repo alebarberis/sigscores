@@ -51,6 +51,7 @@ IQM(x = x)#3
 
 x = c(1,3,5,7,9,11,13,15,17)
 IQM(x)#9
+
 }
 \references{
 https://en.wikipedia.org/wiki/Interquartile_mean

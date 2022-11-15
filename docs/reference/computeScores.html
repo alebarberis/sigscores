@@ -103,7 +103,7 @@ in <code>x</code></p></dd>
 
 
 <dt>scores</dt>
-<dd><p>character vector, indicating the
+<dd><p>(optional) character vector, indicating the
 summary score(s) to compute</p></dd>
 
 
@@ -115,7 +115,8 @@ containing the arguments to pass to the function used
 for computing the named score. For example,
 <code>args = list(trimmedMean = list(trim = 0.4))</code>
 indicates to use <code>trim = 0.4</code> when computing the
-trimmed mean scores</p></dd>
+trimmed mean scores (<code>scores = "trimmedMean"</code> or
+<code>scorers = list(trimmedMean = getScorer("trimmedMean"))</code>)</p></dd>
 
 
 <dt>sample.id</dt>
@@ -137,6 +138,85 @@ sample ID as a column in the output data frame</p></dd>
 
 <p>A numerical vector containing the computed
 score for each sample.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>computeScores</code> uses the provided scorers
+to calculate the measures.</p>
+<p>If <code>scorers = NULL</code> and <code>scores</code> are provided,
+the scorers are retrieved by using the function
+<code><a href="getScorers.html">getScorers</a></code>.</p>
+<p>The scoring functions are created via the generic scorer
+<code><a href="computeScore.html">computeScore</a></code> which handles a matrix
+input by calling <code><a href="computeColMeasures.html">computeColMeasures</a></code>.</p>
+<p>Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
+functions to compute the measures:</p>
+<dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
+
+
+</dl><p>Look at the different functions to know which specific
+arguments they accept (arguments can be passed via the
+<code>args</code> parameter).</p>
+<p><code><a href="computeColMeasures.html">computeColMeasures</a></code> also accepts a
+transformation function via the <code>transform.fun</code>
+argument, which is used to transform the data
+before the computation of the scores so that:
+<code>x = transform.fun(x = x, transform.args)</code>,
+where <code>transform.args</code> is a list of parameters passed
+to the transformation function.
+See <code><a href="computeColMeasures.html">computeColMeasures</a></code> for further details.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -203,15 +283,18 @@ score for each sample.</p>
 <span class="r-in"><span>  <span class="st">'score2'</span> <span class="op">=</span> <span class="fu"><a href="getScorer.html">getScorer</a></span><span class="op">(</span><span class="st">'mean'</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">)</span>,</span></span>
 <span class="r-in"><span> args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="st">'score1'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>transform <span class="op">=</span> <span class="st">'quantile'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">'score1'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>transform.fun <span class="op">=</span> <span class="fu"><a href="getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span><span class="st">'quantile'</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="st">'score2'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>     transform <span class="op">=</span> <span class="st">'stepFunction'</span>,</span></span>
-<span class="r-in"><span>     method <span class="op">=</span> <span class="st">'median'</span>,</span></span>
-<span class="r-in"><span>     by <span class="op">=</span> <span class="st">'rows'</span></span></span>
+<span class="r-in"><span>     transform.fun <span class="op">=</span> <span class="fu"><a href="getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span><span class="st">'stepFunction'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>     transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>       method <span class="op">=</span> <span class="st">'median'</span>,</span></span>
+<span class="r-in"><span>       by <span class="op">=</span> <span class="st">'rows'</span></span></span>
+<span class="r-in"><span>     <span class="op">)</span></span></span>
 <span class="r-in"><span>   <span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

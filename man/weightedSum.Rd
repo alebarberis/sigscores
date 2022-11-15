@@ -29,6 +29,7 @@ of another vector (\code{w}).
 x = c(1,1,2,3,3,3,NA)
 w = c(1,1,8,1,1,1,1)
 weightedSum(x = x, w = w, na.rm = TRUE)
+
 }
 \author{
 Alessandro Barberis

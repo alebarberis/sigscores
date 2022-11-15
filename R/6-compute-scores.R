@@ -13,18 +13,7 @@ NULL
 #'the argument \code{cores} with a number greater
 #'than \code{1}.
 #'
-#'@param x numerical matrix, features-by-samples
-#'@param i (optional) numerical vector giving the rows
-#'in \code{x} or character vector matching the row
-#'names in \code{x}
-#'If \code{missing} or \code{i = NULL}, all the rows
-#'in \code{x} are considered for the computation of
-#'the score
-#'@param na.rm logical, whether to remove \code{NA}
-#'values before computation
-#'@param scores character vector, indicating the
-#'summary score(s) to compute
-#'@inheritParams forLoop
+#'@inheritParams computeScores
 #'@param sampling character string, indicating whether
 #'to compute the scores using the provided data
 #'(\code{sampling = "none"}, default), whether
@@ -45,17 +34,11 @@ NULL
 #'   \item{\code{rndsigsub}}{random signatures of same length of \code{i} generated
 #'   from all possible values in \code{x} after removing \code{i} values}
 #' }
+#'
+#'See \code{\link{sampleData}} and \code{\link{randomSignatures}}
+#'for further details
 #'@param n.repeat integer, number of repeated samples
 #'to generate
-#@param ... further arguments to the function used
-#for computing the scores
-#'@param args named list, where the names must match the
-#'\code{scores}. Each element in the list is another list
-#'containing the arguments to pass to the function used
-#'for computing the named score. For example,
-#'\code{args = list(trimmedMean = list(trim = 0.4))}
-#'indicates to use \code{trim = 0.4} when computing the
-#'trimmed mean score
 #'
 #'@return A data frame containing the computed
 #'score(s) for each sample. Each row corresponds to
@@ -74,6 +57,90 @@ NULL
 #'}
 #'
 #'@author Alessandro Barberis
+#'
+#'@details
+#'\code{\link{computeSigScores}} uses internally
+#'\code{\link{computeScores}} to handle the computation of
+#'the scores.
+#'
+#'The scoring functions are created via the generic scorer
+#'\code{\link{computeScore}}:
+#'\describe{
+#' \item{\code{"sum"         }}{\code{\link{sumScore}         }}
+#' \item{\code{"weightedSum" }}{\code{\link{weightedSumScore} }}
+#' \item{\code{"mean"        }}{\code{\link{meanScore}        }}
+#' \item{\code{"trimmedMean" }}{\code{\link{trimmedMeanScore} }}
+#' \item{\code{"weightedMean"}}{\code{\link{weightedMeanScore}}}
+#' \item{\code{"median"      }}{\code{\link{medianScore}      }}
+#' \item{\code{"mode"        }}{\code{\link{modeScore}        }}
+#' \item{\code{"midrange"    }}{\code{\link{midrangeScore}    }}
+#' \item{\code{"midhinge"    }}{\code{\link{midhingeScore}    }}
+#' \item{\code{"trimean"     }}{\code{\link{trimeanScore}     }}
+#' \item{\code{"iqr"         }}{\code{\link{iqrScore}         }}
+#' \item{\code{"iqm"         }}{\code{\link{iqmScore}         }}
+#' \item{\code{"mad"         }}{\code{\link{madScore}         }}
+#' \item{\code{"aad"         }}{\code{\link{aadScore}         }}
+#' \item{\code{"ssgsea"      }}{\code{\link{ssgseaScore}      }}
+#' \item{\code{"gsva"        }}{\code{\link{gsvaScore}        }}
+#' \item{\code{"plage"       }}{\code{\link{plageScore}       }}
+#' \item{\code{"zscore"      }}{\code{\link{zscoreScore}      }}
+#'}
+#'
+#'\code{\link{computeScore}} handles an input matrix
+#'by calling \code{\link{computeColMeasures}}.
+#'Internally, \code{\link{computeColMeasures}} uses these
+#'functions to compute the measures:
+#'
+#'\describe{
+#' \item{\code{"sum"         }}{\code{\link{colSummations}}}
+#' \item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
+#' \item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
+#' \item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
+#' \item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
+#' \item{\code{"median"      }}{\code{\link{colMidpoints}}}
+#' \item{\code{"mode"        }}{\code{\link{colModes}}}
+#' \item{\code{"midrange"    }}{\code{\link{colMidranges}}}
+#' \item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
+#' \item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
+#' \item{\code{"iqr"         }}{\code{\link{colIQRs}}}
+#' \item{\code{"iqm"         }}{\code{\link{colIQMs}}}
+#' \item{\code{"mad"         }}{\code{\link{colMADs}}}
+#' \item{\code{"aad"         }}{\code{\link{colAADs}}}
+#' \item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
+#' \item{\code{"gsva"        }}{\code{\link{colGsva}}}
+#' \item{\code{"plage"       }}{\code{\link{colPlage}}}
+#' \item{\code{"zscore"      }}{\code{\link{colZscore}}}
+#'}
+#'Look at the different functions to know which specific
+#'arguments they accept (arguments can be passed via the
+#'\code{args} parameter).
+#'
+#'\code{\link{computeColMeasures}} also accepts a
+#'transformation function via the \code{transform.fun}
+#'argument, which is used to transform the data
+#'before the computation of the scores so that:
+#'\code{x = transform.fun(x = x, transform.args)},
+#'where \code{transform.args} is a list of parameters passed
+#'to the transformation function.
+#'See \code{\link{computeColMeasures}} for further details.
+#'A transformation function and related arguments can be
+#'passed via the \code{args} parameter (see **Examples**).
+#'
+#'
+#'The functions used for random sampling are:
+#'\describe{
+#' \item{\code{"permutation"}}{\code{\link{sampleData}}}
+#' \item{\code{"bootstrap"  }}{\code{\link{sampleData}}}
+#' \item{\code{"rndsig"     }}{\code{\link{randomSignatures}}}
+#' \item{\code{"rndsigsub"  }}{\code{\link{randomSignatures}}}
+#' }
+#'
+#'@seealso
+#'Use \code{\link{getAvailableScores}} to list the available
+#'built-in scores.
+#'
+#'Use \code{\link{getAvailableDataTransformers}} to list the available
+#'built-in data transformers
 #'
 #'
 #'@examples
@@ -117,6 +184,27 @@ NULL
 #'  args = list(trimmedMean = list(trim = 0.2))
 #')
 #'
+#'#Transform data and compute the scores
+#'computeSigScores(
+#'  x = x,
+#'  i = rownames(x)[1:10],
+#'  scorers = list(
+#'   'score1' = getScorer('weightedSum'),
+#'   'score2' = getScorer('trimmedMean')
+#'  ),
+#'  args = list(
+#'   'score1' = list(transform.fun = getDataTransformer('quantile')),
+#'   'score2' = list(
+#'      trim = 0.2,
+#'      transform.fun = getDataTransformer('stepFunction'),
+#'      transform.args = list(
+#'        method = 'median',
+#'        by = 'rows'
+#'      )
+#'    )
+#'  )
+#')
+#'
 #'#Compute scores with permutation
 #'computeSigScores(
 #'  x        = x,
@@ -134,12 +222,16 @@ NULL
 #')
 #'
 #'#Compute scores with random signatures
+#'#(elements of i are possible)
 #'computeSigScores(
 #'  x        = x,
 #'  i        = rownames(x)[1:10],
 #'  sampling = "rndsig",
 #'  n.repeat = 10
 #')
+#'
+#'#Compute scores with random signatures
+#'#(elements of i are excluded)
 #'computeSigScores(
 #'  x        = x,
 #'  i        = rownames(x)[1:10],
@@ -149,36 +241,6 @@ NULL
 #'
 #'}
 #'
-#' @seealso
-#'\code{\link{getAvailableScores}},
-#'\code{\link{computeScores}}
-#'
-#'The generic scorer:
-#'\code{\link{computeScore}}
-#'
-#'The built-in functions used to compute the measures:
-#'\code{\link{colSummations}},
-#'\code{\link{colWeightedSums}},
-#'\code{\link{colArithmeticMeans}},
-#'\code{\link{colTrimmedMeans}},
-#'\code{\link{colWeightedArithmeticMeans}},
-#'\code{\link{colMidpoints}},
-#'\code{\link{colModes}},
-#'\code{\link{colMidranges}},
-#'\code{\link{colMidhinges}},
-#'\code{\link{colTrimeans}},
-#'\code{\link{colIQRs}},
-#'\code{\link{colIQMs}},
-#'\code{\link{colMADs}},
-#'\code{\link{colAADs}},
-#'\code{\link{colSsgsea}},
-#'\code{\link{colGsva}},
-#'\code{\link{colPlage}},
-#'\code{\link{colZscore}}
-#'
-#'The functions used for random sampling:
-#'\code{\link{sampleData}},
-#'\code{\link{randomSignatures}}
 #'
 #'@export
 computeSigScores <- function(
@@ -209,7 +271,7 @@ computeSigScores <- function(
       i         = i,
       na.rm     = na.rm,
       scores    = scores,
-      scorers   = NULL,
+      scorers   = scorers,
       sample.id = T,
       cores     = cores,
       args      = args

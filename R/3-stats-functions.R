@@ -163,6 +163,8 @@ computeVectorMeasure <- function(
 #'
 #'@examples
 #'summation(x = c(1,2))
+#'
+#'@export
 summation <- function(
     x,
     i     = NULL,
@@ -200,6 +202,8 @@ summation <- function(
 #'x = c(1,1,2,3,3,3,NA)
 #'w = c(1,1,8,1,1,1,1)
 #'weightedSum(x = x, w = w, na.rm = TRUE)
+#'
+#'@export
 weightedSum <- function(
     x,
     w,
@@ -239,6 +243,8 @@ weightedSum <- function(
 #'@examples
 #'x = c(1,1,2,3,3,NA)
 #'arithmeticMean(x = x, na.rm = TRUE)
+#'
+#'@export
 arithmeticMean <- function(
     x,
     i     = NULL,
@@ -270,6 +276,8 @@ arithmeticMean <- function(
 #'x = c(1,1,2,3,3,3,NA)
 #'w = c(1,1,8,1,1,1,1)
 #'weightedMean(x = x, w = w, na.rm = TRUE)
+#'
+#'@export
 weightedMean <- function(
   x,
   w,
@@ -309,6 +317,8 @@ weightedMean <- function(
 #'@examples
 #'x = c(seq_len(length.out = 10), NA)
 #'trimmedMean(x = x, na.rm = TRUE, trim = 0.1)
+#'
+#'@export
 trimmedMean <- function(
   x,
   trim  = 0,
@@ -341,6 +351,8 @@ trimmedMean <- function(
 #'@examples
 #'x = c(seq_len(length.out = 10), NA)
 #'midpoint(x = x, na.rm = TRUE)
+#'
+#'@export
 midpoint <- function(
   x,
   i     = NULL,
@@ -368,6 +380,8 @@ midpoint <- function(
 #'@examples
 #'x = c(1,1,2,3,3,3,NA)
 #'modalValue(x = x, na.rm = TRUE)
+#'
+#'@export
 modalValue <- function(
     x,
     i     = NULL,
@@ -421,6 +435,8 @@ modalValue <- function(
 #'@examples
 #'x = c(0,1,1,2,3,3,3,100,NA)
 #'midrange(x = x, na.rm = TRUE)
+#'
+#'@export
 midrange <- function(
     x,
     i     = NULL,
@@ -473,6 +489,8 @@ midrange <- function(
 #'@examples
 #'x = c(0,1,1,2,3,3,3,100,NA)
 #'midhinge(x = x, na.rm = TRUE)
+#'
+#'@export
 midhinge <- function(
     x,
     i     = NULL,
@@ -520,6 +538,8 @@ midhinge <- function(
 #'@examples
 #'x = c(0,1,1,2,3,3,3,100,NA)
 #'trimean(x = x, na.rm = TRUE)
+#'
+#'@export
 trimean <- function(
   x,
   i     = NULL,
@@ -569,6 +589,8 @@ trimean <- function(
 #'@examples
 #'x = c(7,7,31,31,47,75,87,115,116,119,119,155,177,NA)
 #'iqr(x = x)#88
+#'
+#'@export
 iqr <- function(
   x,
   i     = NULL,
@@ -631,6 +653,8 @@ iqr <- function(
 #'
 #'x = c(1,3,5,7,9,11,13,15,17)
 #'IQM(x)#9
+#'
+#'@export
 IQM <- function(
     x,
     i     = NULL,
@@ -708,6 +732,8 @@ IQM <- function(
 #'@examples
 #'x = c(1,1,2,2,4,6,9)
 #'MAD(x)#1.4826
+#'
+#'@export
 MAD <- function(
   x,
   i     = NULL,
@@ -740,6 +766,8 @@ MAD <- function(
 #'AAD(x = x, center = median(x))#2.8
 #'AAD(x = x, center = mean(x))#3.6
 #'AAD(x = x, center = modalValue(x))#3.0
+#'
+#'@export
 AAD <- function(
   x,
   i     = NULL,
@@ -795,6 +823,8 @@ enrichment <- function(
 #'
 #'@examples
 #'ssgsea()
+#'
+#'@export
 ssgsea <- function(...){return(enrichment(method = "ssgsea", ...))}
 
 #'Enrichment Score
@@ -811,6 +841,8 @@ ssgsea <- function(...){return(enrichment(method = "ssgsea", ...))}
 #'
 #'@examples
 #'gsva()
+#'
+#'@export
 gsva   <- function(...){return(enrichment(method = "gsva", ...))}
 
 #'Pathway Level Analysis of Gene Expression (PLAGE) Score
@@ -827,6 +859,8 @@ gsva   <- function(...){return(enrichment(method = "gsva", ...))}
 #'
 #'@examples
 #'plage()
+#'
+#'@export
 plage  <- function(...){return(enrichment(method = "plage", ...))}
 
 #'Enrichment Score
@@ -843,6 +877,8 @@ plage  <- function(...){return(enrichment(method = "plage", ...))}
 #'
 #'@examples
 #'zscore()
+#'
+#'@export
 zscore <- function(...){return(enrichment(method = "zscore", ...))}
 
 # Statistical measures for matrix ----------------------------------------
@@ -960,6 +996,8 @@ computeColMeasures <- function(
 #'@examples
 #'x = matrix(data = c(1,3,1,4), ncol = 2)
 #'colSummations(x)
+#'
+#'@export
 colSummations <- function(
   x,
   rows  = NULL,
@@ -996,6 +1034,8 @@ colSummations <- function(
 #'x = matrix(data = c(1,3,1,4), ncol = 2)
 #'w = c(5, 1)
 #'colWeightedSums(x = x, w = w)
+#'
+#'@export
 colWeightedSums <- function(
   x,
   w,
@@ -1035,6 +1075,8 @@ colWeightedSums <- function(
 #'@examples
 #'x = matrix(data = c(1,3,1,4), ncol = 2)
 #'colArithmeticMeans(x = x)
+#'
+#'@export
 colArithmeticMeans <- function(
     x,
     na.rm = TRUE,
@@ -1069,6 +1111,8 @@ colArithmeticMeans <- function(
 #'x = matrix(data = c(1,3,1,4), ncol = 2)
 #'w = c(1,1)
 #'colWeightedArithmeticMeans(x = x, w = w)
+#'
+#'@export
 colWeightedArithmeticMeans <- function(
     x,
     w,
@@ -1103,6 +1147,8 @@ colWeightedArithmeticMeans <- function(
 #'x = matrix(data = sample(seq_len(10)), ncol = 2)
 #'colTrimmedMeans(x = x, trim = 0)
 #'colTrimmedMeans(x = x, trim = 0.2)
+#'
+#'@export
 colTrimmedMeans <- function(
   x,
   trim  = 0,
@@ -1142,6 +1188,8 @@ colTrimmedMeans <- function(
 #'@examples
 #'x = matrix(data = c(1,2,3,1,2,3), ncol = 2)
 #'colMidpoints(x = x)
+#'
+#'@export
 colMidpoints <- function(
     x,
     rows  = NULL,
@@ -1176,6 +1224,8 @@ colMidpoints <- function(
 #'@examples
 #'x = matrix(data = c(1,2,2,1,1,3), ncol = 2)
 #'colModes(x = x)
+#'
+#'@export
 colModes <- function(
     x,
     rows  = NULL,
@@ -1212,6 +1262,8 @@ colModes <- function(
 #'@examples
 #'x = matrix(data = c(1,2,2,1,1,3), ncol = 2)
 #'colMidranges(x = x)
+#'
+#'@export
 colMidranges <- function(
     x,
     rows  = NULL,
@@ -1246,6 +1298,8 @@ colMidranges <- function(
 #'@examples
 #'x = matrix(data = c(1,2,2,1,1,3), ncol = 2)
 #'colTrimeans(x = x)
+#'
+#'@export
 colTrimeans <- function(
     x,
     rows  = NULL,
@@ -1281,6 +1335,8 @@ colTrimeans <- function(
 #'@examples
 #'x = matrix(data = c(1,2,2,1,1,3), ncol = 2)
 #'colMidhinges(x = x)
+#'
+#'@export
 colMidhinges <- function(
     x,
     rows  = NULL,
@@ -1318,6 +1374,8 @@ colMidhinges <- function(
 #'x = cbind(x,x)
 #'colnames(x) = c("S1", "S2")
 #'colIQRs(x = x)#88 88
+#'
+#'@export
 colIQRs <- function(
     x,
     rows  = NULL,
@@ -1354,6 +1412,8 @@ colIQRs <- function(
 #'x = cbind(x,x)
 #'colnames(x) = c("S1", "S2")
 #'colIQMs(x = x)#3 3
+#'
+#'@export
 colIQMs <- function(
   x,
   rows  = NULL,
@@ -1393,6 +1453,8 @@ colIQMs <- function(
 #'x = c(1,1,2,2,4,6,9)
 #'x = cbind(S1 = x, S2 = x)
 #'colMADs(x)#1.4826 1.4826
+#'
+#'@export
 colMADs <- function(
     x,
     rows  = NULL,
@@ -1426,6 +1488,8 @@ colMADs <- function(
 #'@examples
 #'x = cbind(c(2,2,3,4,14), c(2,2,3,4,14))
 #'colAADs(x)#2.8 2.8
+#'
+#'@export
 colAADs <- function(
     x,
     center,
@@ -1562,6 +1626,8 @@ colEnrichment <- function(
 #'@inherit colEnrichment return
 #'@inherit colEnrichment details
 #'@inherit colEnrichment author
+#'
+#'@export
 colSsgsea <- function(
     x,
     rows   = NULL,
@@ -1578,6 +1644,8 @@ colSsgsea <- function(
 #'@inherit colEnrichment return
 #'@inherit colEnrichment details
 #'@inherit colEnrichment author
+#'
+#'@export
 colGsva   <- function(
     x,
     rows   = NULL,
@@ -1594,6 +1662,8 @@ colGsva   <- function(
 #'@inherit colEnrichment return
 #'@inherit colEnrichment details
 #'@inherit colEnrichment author
+#'
+#'@export
 colPlage  <- function(
     x,
     rows   = NULL,
@@ -1610,6 +1680,8 @@ colPlage  <- function(
 #'@inherit colEnrichment return
 #'@inherit colEnrichment details
 #'@inherit colEnrichment author
+#'
+#'@export
 colZscore <- function(
     x,
     rows   = NULL,

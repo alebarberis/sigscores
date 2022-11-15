@@ -37,6 +37,7 @@ function.
 x = matrix(data = c(1,3,1,4), ncol = 2)
 w = c(1,1)
 colWeightedArithmeticMeans(x = x, w = w)
+
 }
 \author{
 Alessandro Barberis

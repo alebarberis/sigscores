@@ -36,6 +36,7 @@ function.
 \examples{
 x = matrix(data = c(1,3,1,4), ncol = 2)
 colArithmeticMeans(x = x)
+
 }
 \author{
 Alessandro Barberis

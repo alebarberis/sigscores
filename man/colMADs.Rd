@@ -37,6 +37,7 @@ function.
 x = c(1,1,2,2,4,6,9)
 x = cbind(S1 = x, S2 = x)
 colMADs(x)#1.4826 1.4826
+
 }
 \author{
 Alessandro Barberis

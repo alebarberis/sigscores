@@ -12,7 +12,7 @@ computeColScores(
   score = c("sum", "weightedSum", "mean", "trimmedMean", "weightedMean", "median",
     "mode", "midrange", "midhinge", "trimean", "iqr", "iqm", "mad", "aad", "ssgsea",
     "gsva", "plage", "zscore"),
-  transform = c("none", "stepFunction", "quantile"),
+  transform.fun = NULL,
   transform.args = list(),
   transform.sub = FALSE,
   ...
@@ -34,14 +34,12 @@ values from \code{x} before computation}
 
 \item{score}{character string indicating the summary score to compute}
 
-\item{transform}{string, the transformation method.
-Available options are:
-\describe{
-\item{\code{'none'}}{\code{x} is returned}
-\item{\code{'stepFunction'}}{step function}
-\item{\code{'quantile'}}{quantile normalisation}
-}
-See \code{\link{transformData}} for further details}
+\item{transform.fun}{function to transform the data.
+If provided, \code{x} is transformed
+(\code{x = transform.fun(x, transform.args)})
+before the computation of the scores.
+See \code{\link{getDataTransformer}} for further details
+about built-in options}
 
 \item{transform.args}{list of parameters to the
 data transformation function}

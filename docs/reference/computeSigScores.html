@@ -90,7 +90,7 @@ than <code>1</code>.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>numerical matrix, features-by-samples</p></dd>
+<dd><p>features-by-samples matrix</p></dd>
 
 
 <dt>i</dt>
@@ -99,7 +99,7 @@ in <code>x</code> or character vector matching the row
 names in <code>x</code>
 If <code>missing</code> or <code>i = NULL</code>, all the rows
 in <code>x</code> are considered for the computation of
-the score</p></dd>
+the scores</p></dd>
 
 
 <dt>na.rm</dt>
@@ -108,18 +108,29 @@ values before computation</p></dd>
 
 
 <dt>scores</dt>
-<dd><p>character vector, indicating the
+<dd><p>(optional) character vector, indicating the
 summary score(s) to compute</p></dd>
+
+
+<dt>scorers</dt>
+<dd><p>named list of scoring functions.
+If provided, <code>scores</code> is not considered.
+Each function must accept some specific arguments,
+i.e. <code>x</code>, <code>i</code>, <code>na.rm</code>, <code>...</code>
+and is expected to compute a score for each column
+in <code>x</code></p></dd>
 
 
 <dt>args</dt>
 <dd><p>named list, where the names must match the
-<code>scores</code>. Each element in the list is another list
+<code>scores</code> or the names of <code>scorers</code>.
+Each element in the list is another list
 containing the arguments to pass to the function used
 for computing the named score. For example,
 <code>args = list(trimmedMean = list(trim = 0.4))</code>
 indicates to use <code>trim = 0.4</code> when computing the
-trimmed mean score</p></dd>
+trimmed mean scores (<code>scores = "trimmedMean"</code> or
+<code>scorers = list(trimmedMean = getScorer("trimmedMean"))</code>)</p></dd>
 
 
 <dt>sampling</dt>
@@ -150,7 +161,8 @@ from all possible values in <code>x</code></p></dd>
 from all possible values in <code>x</code> after removing <code>i</code> values</p></dd>
 
 
-</dl></dd>
+</dl><p>See <code><a href="sampleData.html">sampleData</a></code> and <code><a href="randomSignatures.html">randomSignatures</a></code>
+for further details</p></dd>
 
 
 <dt>n.repeat</dt>
@@ -189,33 +201,158 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>computeSigScores</code> uses internally
+<code><a href="computeScores.html">computeScores</a></code> to handle the computation of
+the scores.</p>
+<p>The scoring functions are created via the generic scorer
+<code><a href="computeScore.html">computeScore</a></code>:</p><dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="computeScore.html">sumScore</a>         </code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="computeScore.html">weightedSumScore</a> </code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="computeScore.html">meanScore</a>        </code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="computeScore.html">trimmedMeanScore</a> </code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="computeScore.html">weightedMeanScore</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="computeScore.html">medianScore</a>      </code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="computeScore.html">modeScore</a>        </code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="computeScore.html">midrangeScore</a>    </code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="computeScore.html">midhingeScore</a>    </code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="computeScore.html">trimeanScore</a>     </code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="computeScore.html">iqrScore</a>         </code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="computeScore.html">iqmScore</a>         </code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="computeScore.html">madScore</a>         </code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="computeScore.html">aadScore</a>         </code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="computeScore.html">ssgseaScore</a>      </code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="computeScore.html">gsvaScore</a>        </code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="computeScore.html">plageScore</a>       </code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="computeScore.html">zscoreScore</a>      </code></p></dd>
+
+
+</dl><p><code><a href="computeScore.html">computeScore</a></code> handles an input matrix
+by calling <code><a href="computeColMeasures.html">computeColMeasures</a></code>.
+Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
+functions to compute the measures:</p>
+<dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
+
+
+</dl><p>Look at the different functions to know which specific
+arguments they accept (arguments can be passed via the
+<code>args</code> parameter).</p>
+<p><code><a href="computeColMeasures.html">computeColMeasures</a></code> also accepts a
+transformation function via the <code>transform.fun</code>
+argument, which is used to transform the data
+before the computation of the scores so that:
+<code>x = transform.fun(x = x, transform.args)</code>,
+where <code>transform.args</code> is a list of parameters passed
+to the transformation function.
+See <code><a href="computeColMeasures.html">computeColMeasures</a></code> for further details.
+A transformation function and related arguments can be
+passed via the <code>args</code> parameter (see <strong>Examples</strong>).</p>
+<p>The functions used for random sampling are:</p><dl><dt><code>"permutation"</code></dt>
+<dd><p><code><a href="sampleData.html">sampleData</a></code></p></dd>
+
+<dt><code>"bootstrap"  </code></dt>
+<dd><p><code><a href="sampleData.html">sampleData</a></code></p></dd>
+
+<dt><code>"rndsig"     </code></dt>
+<dd><p><code><a href="randomSignatures.html">randomSignatures</a></code></p></dd>
+
+<dt><code>"rndsigsub"  </code></dt>
+<dd><p><code><a href="randomSignatures.html">randomSignatures</a></code></p></dd>
+
+
+</dl></div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="getAvailableScores.html">getAvailableScores</a></code>,
-<code><a href="computeScores.html">computeScores</a></code></p>
-<p>The generic scorer:
-<code><a href="computeScore.html">computeScore</a></code></p>
-<p>The built-in functions used to compute the measures:
-<code><a href="colSummations.html">colSummations</a></code>,
-<code><a href="colWeightedSums.html">colWeightedSums</a></code>,
-<code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code>,
-<code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code>,
-<code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code>,
-<code><a href="colMidpoints.html">colMidpoints</a></code>,
-<code><a href="colModes.html">colModes</a></code>,
-<code><a href="colMidranges.html">colMidranges</a></code>,
-<code><a href="colMidhinges.html">colMidhinges</a></code>,
-<code><a href="colTrimeans.html">colTrimeans</a></code>,
-<code><a href="colIQRs.html">colIQRs</a></code>,
-<code><a href="colIQMs.html">colIQMs</a></code>,
-<code><a href="colMADs.html">colMADs</a></code>,
-<code><a href="colAADs.html">colAADs</a></code>,
-<code><a href="colSsgsea.html">colSsgsea</a></code>,
-<code><a href="colGsva.html">colGsva</a></code>,
-<code><a href="colPlage.html">colPlage</a></code>,
-<code><a href="colZscore.html">colZscore</a></code></p>
-<p>The functions used for random sampling:
-<code><a href="sampleData.html">sampleData</a></code>,
-<code><a href="randomSignatures.html">randomSignatures</a></code></p></div>
+    <div class="dont-index"><p>Use <code><a href="getAvailableScores.html">getAvailableScores</a></code> to list the available
+built-in scores.</p>
+<p>Use <code><a href="getAvailableDataTransformers.html">getAvailableDataTransformers</a></code> to list the available
+built-in data transformers</p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -264,6 +401,27 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 <span class="r-in"><span> args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trimmedMean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Transform data and compute the scores</span></span></span>
+<span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
+<span class="r-in"><span> x <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span> i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> scorers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">'score1'</span> <span class="op">=</span> <span class="fu"><a href="getScorer.html">getScorer</a></span><span class="op">(</span><span class="st">'weightedSum'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">'score2'</span> <span class="op">=</span> <span class="fu"><a href="getScorer.html">getScorer</a></span><span class="op">(</span><span class="st">'trimmedMean'</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">)</span>,</span></span>
+<span class="r-in"><span> args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">'score1'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>transform.fun <span class="op">=</span> <span class="fu"><a href="getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span><span class="st">'quantile'</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">'score2'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>     trim <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>     transform.fun <span class="op">=</span> <span class="fu"><a href="getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span><span class="st">'stepFunction'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>     transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>       method <span class="op">=</span> <span class="st">'median'</span>,</span></span>
+<span class="r-in"><span>       by <span class="op">=</span> <span class="st">'rows'</span></span></span>
+<span class="r-in"><span>     <span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Compute scores with permutation</span></span></span>
 <span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
 <span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
@@ -281,12 +439,16 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Compute scores with random signatures</span></span></span>
+<span class="r-in"><span><span class="co">#(elements of i are possible)</span></span></span>
 <span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
 <span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
 <span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"rndsig"</span>,</span></span>
 <span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Compute scores with random signatures</span></span></span>
+<span class="r-in"><span><span class="co">#(elements of i are excluded)</span></span></span>
 <span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
 <span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
 <span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
@@ -295,6 +457,7 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

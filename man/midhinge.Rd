@@ -43,6 +43,7 @@ then \code{NA} is returned.
 \examples{
 x = c(0,1,1,2,3,3,3,100,NA)
 midhinge(x = x, na.rm = TRUE)
+
 }
 \references{
 https://en.wikipedia.org/wiki/Midhinge

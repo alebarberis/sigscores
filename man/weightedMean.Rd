@@ -35,6 +35,7 @@ function.
 x = c(1,1,2,3,3,3,NA)
 w = c(1,1,8,1,1,1,1)
 weightedMean(x = x, w = w, na.rm = TRUE)
+
 }
 \author{
 Alessandro Barberis

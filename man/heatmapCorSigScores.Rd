@@ -37,7 +37,7 @@ This function generates a
 \code{ComplexHeatmap} object.
 }
 \examples{
-#Set seed
+#Set seed for reproducibility
 set.seed(seed = 5381L)
 
 #Define row/col size

@@ -34,6 +34,7 @@ function.
 \examples{
 x = c(1,1,2,2,4,6,9)
 MAD(x)#1.4826
+
 }
 \references{
 https://en.wikipedia.org/wiki/Median_absolute_deviation

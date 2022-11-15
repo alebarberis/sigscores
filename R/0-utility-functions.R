@@ -66,7 +66,78 @@ getAvailableScores <- function(){
 }
 
 
+#'Available Data Transformation Methods
+#'
+#'@description This function returns the currently available
+#'data transformation methods.
+#'
+#'@return A data frame with two columns:
+#'
+#'\describe{
+#'\item{id}{the id of the data transformer, to be used in the function calls}
+#'\item{name}{the name of the data transformation method}
+#'}
+#'
+#'@author Alessandro Barberis
+#'
+#'@examples
+#'
+#'getAvailableDataTransformers()
+#'
+#'@export
+getAvailableDataTransformers <- function(){
 
+  out = c(
+    "stepFunction" = "Step Function",
+    "quantile"     = "Quantile Normalization"
+  )
+
+  out = data.frame(
+    id = names(out),
+    name = out,
+    stringsAsFactors = F
+  )
+
+  return(out)
+}
+
+
+#'Available Random Sampling Methods
+#'
+#'@description This function returns the currently available
+#'random sampling methods.
+#'
+#'@return A data frame with two columns:
+#'
+#'\describe{
+#'\item{id}{the id of the random sampling method, to be used in the function calls}
+#'\item{name}{the name of the random sampling method}
+#'}
+#'
+#'@author Alessandro Barberis
+#'
+#'@examples
+#'
+#'getAvailableRandomSamplers()
+#'
+#'@export
+getAvailableRandomSamplers <- function(){
+
+  out = c(
+    "permutation" = "Permutation (Sampling without Replacement)",
+    "bootstrap"   = "Sampling with Replacement",
+    "rndsig"      = "Random Signatures",
+    "rndsigsub"   = "Quasi-Random Signatures"
+  )
+
+  out = data.frame(
+    id = names(out),
+    name = out,
+    stringsAsFactors = F
+  )
+
+  return(out)
+}
 
 #'Package Name
 #'
@@ -530,10 +601,12 @@ getSigScoresAsMatrix <- function(
   ){
 
   #get scores id
-  scores = getAvailableScores()$id
+  # scores = getAvailableScores()$id
+  scores = setdiff(x = colnames(data), c("sampleID", "run"))
 
   #match columns
   scores = colnames(data) %in% scores
+
 
   #check
   if(isTRUE(sum(scores)>0)){
@@ -580,7 +653,45 @@ getSigScoresAsMatrix <- function(
 #'@seealso
 #'\code{\link[base]{sample}}
 #'
-#'@keywords internal
+#'@examples
+#'#set seed for reproducibility
+#'set.seed(seed = 5381L)
+#'
+#'#Define row/col size
+#'nr = 20
+#'nc = 10
+#'
+#'#Create input matrix
+#'x = matrix(
+#'  data = stats::runif(n = nr*nc, min = 0, max = 1000),
+#'  nrow = nr,
+#'  ncol = nc,
+#'  dimnames = list(
+#'    paste0("g",seq(nr)),
+#'    paste0("S",seq(nc))
+#'  )
+#')
+#'
+#'#Set signature
+#'i = rownames(x)[1:5]
+#'
+#'#Take one sample via permutation
+#'#(duplicated elements are not possible)
+#'sampleData(
+#'  x = x,
+#'  method = 'permutation',
+#'  n = 1
+#')
+#'
+#'#Take one sample via bootstrap
+#'#(duplicated elements are possible)
+#'sampleData(
+#'  x = x,
+#'  method = 'bootstrap',
+#'  n = 1
+#')
+#'
+#'@export
 sampleData <- function(
     x,
     method = c('none', 'permutation', 'bootstrap'),
@@ -629,9 +740,10 @@ sampleData <- function(
 #'Random Sampling
 #'
 #'@description This function takes \code{n} samples of
-#'size \code{nrow(x)} from the elements of \code{x}.
-#'Two types of sampling are available: sampling with
-#'or without replacement.
+#'size \code{length(i)} from the elements of \code{x}.
+#'Two types of sampling are available: using all
+#'elements of \code{x} or using the elements of \code{x}
+#'that are not part of \code{i}.
 #'
 #'@param x a numerical vector or matrix
 #'@param i (optional) numerical vector giving the (row)
@@ -647,10 +759,50 @@ sampleData <- function(
 #'
 #'@author Alessandro Barberis
 #'
+#'@examples
+#'#set seed for reproducibility
+#'set.seed(seed = 5381L)
+#'
+#'#Define row/col size
+#'nr = 20
+#'nc = 10
+#'
+#'#Create input matrix
+#'x = matrix(
+#'  data = stats::runif(n = nr*nc, min = 0, max = 1000),
+#'  nrow = nr,
+#'  ncol = nc,
+#'  dimnames = list(
+#'    paste0("g",seq(nr)),
+#'    paste0("S",seq(nc))
+#'  )
+#')
+#'
+#'#Set signature
+#'i = rownames(x)[1:10]
+#'
+#'#Generate 1 random signatures
+#'#(elements of i are possible)
+#'randomSignatures(
+#'  x = x,
+#'  i = i,
+#'  n = 1,
+#'  exclude = F
+#')
+#'
+#'#Generate 1 random signatures
+#'#(elements of i are excluded)
+#'randomSignatures(
+#'  x = x,
+#'  i = i,
+#'  n = 1,
+#'  exclude = T
+#')
+#'
 #'@seealso
 #'\code{\link[base]{sample}}
 #'
-#'@keywords internal
+#'@export
 randomSignatures <- function(
   x,
   i,

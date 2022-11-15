@@ -33,6 +33,7 @@ for each column in an input matrix.
 x = matrix(data = c(1,3,1,4), ncol = 2)
 w = c(5, 1)
 colWeightedSums(x = x, w = w)
+
 }
 \author{
 Alessandro Barberis

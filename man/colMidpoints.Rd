@@ -36,6 +36,7 @@ function.
 \examples{
 x = matrix(data = c(1,2,3,1,2,3), ncol = 2)
 colMidpoints(x = x)
+
 }
 \author{
 Alessandro Barberis

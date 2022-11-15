@@ -34,6 +34,7 @@ x = c(2,2,3,4,14)
 AAD(x = x, center = median(x))#2.8
 AAD(x = x, center = mean(x))#3.6
 AAD(x = x, center = modalValue(x))#3.0
+
 }
 \references{
 https://en.wikipedia.org/wiki/Average_absolute_deviation

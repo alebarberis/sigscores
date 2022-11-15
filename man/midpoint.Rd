@@ -34,6 +34,7 @@ function.
 \examples{
 x = c(seq_len(length.out = 10), NA)
 midpoint(x = x, na.rm = TRUE)
+
 }
 \author{
 Alessandro Barberis

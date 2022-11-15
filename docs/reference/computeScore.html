@@ -65,9 +65,207 @@ of an input matrix.</p>
 <span>  score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"weightedSum"</span>, <span class="st">"mean"</span>, <span class="st">"trimmedMean"</span>, <span class="st">"weightedMean"</span>, <span class="st">"median"</span>,</span>
 <span>    <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span>, <span class="st">"iqr"</span>, <span class="st">"iqm"</span>, <span class="st">"mad"</span>, <span class="st">"aad"</span>, <span class="st">"ssgsea"</span>,</span>
 <span>    <span class="st">"gsva"</span>, <span class="st">"plage"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
-<span>  transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"stepFunction"</span>, <span class="st">"quantile"</span><span class="op">)</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  transform.sub <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sumScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">weightedSumScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meanScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">trimmedMeanScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">weightedMeanScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">medianScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">modeScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">midrangeScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">midhingeScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">trimeanScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">iqrScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">iqmScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">madScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">aadScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ssgseaScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gsvaScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plageScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">zscoreScore</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -99,19 +297,13 @@ values from <code>x</code> before computation</p></dd>
 <dd><p>character string indicating the summary score to compute</p></dd>
 
 
-<dt>transform</dt>
-<dd><p>string, the transformation method.
-Available options are:</p><dl><dt><code>'none'</code></dt>
-<dd><p><code>x</code> is returned</p></dd>
-
-<dt><code>'stepFunction'</code></dt>
-<dd><p>step function</p></dd>
-
-<dt><code>'quantile'</code></dt>
-<dd><p>quantile normalisation</p></dd>
-
-
-</dl><p>See <code><a href="transformData.html">transformData</a></code> for further details</p></dd>
+<dt>transform.fun</dt>
+<dd><p>function to transform the data.
+If provided, <code>x</code> is transformed
+(<code>x = transform.fun(x, transform.args)</code>)
+before the computation of the scores.
+See <code><a href="getDataTransformer.html">getDataTransformer</a></code> for further details
+about built-in options</p></dd>
 
 
 <dt>transform.args</dt>
@@ -140,9 +332,150 @@ A default <code>NA</code> value is returned if the score can't be
 computed, or if <code>i</code> values are not present in <code>x</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function handles vector or matrix
+input by calling <code><a href="computeVectorMeasure.html">computeVectorMeasure</a></code> or
+<code><a href="computeColMeasures.html">computeColMeasures</a></code>, respectively.</p>
+<p>Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
+functions to compute the measures:</p><dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
+
+
+</dl><p><code><a href="computeVectorMeasure.html">computeVectorMeasure</a></code> uses instead these
+functions:</p><dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="summation.html">summation</a></code></p></dd>
+
+<dt><code>"weightedSum" </code></dt>
+<dd><p><code><a href="weightedSum.html">weightedSum</a></code></p></dd>
+
+<dt><code>"mean"        </code></dt>
+<dd><p><code><a href="arithmeticMean.html">arithmeticMean</a></code></p></dd>
+
+<dt><code>"trimmedMean" </code></dt>
+<dd><p><code><a href="trimmedMean.html">trimmedMean</a></code></p></dd>
+
+<dt><code>"weightedMean"</code></dt>
+<dd><p><code><a href="weightedMean.html">weightedMean</a></code></p></dd>
+
+<dt><code>"median"      </code></dt>
+<dd><p><code><a href="midpoint.html">midpoint</a></code></p></dd>
+
+<dt><code>"mode"        </code></dt>
+<dd><p><code><a href="modalValue.html">modalValue</a></code></p></dd>
+
+<dt><code>"midrange"    </code></dt>
+<dd><p><code><a href="midrange.html">midrange</a></code></p></dd>
+
+<dt><code>"midhinge"    </code></dt>
+<dd><p><code><a href="midhinge.html">midhinge</a></code></p></dd>
+
+<dt><code>"trimean"     </code></dt>
+<dd><p><code><a href="trimean.html">trimean</a></code></p></dd>
+
+<dt><code>"iqr"         </code></dt>
+<dd><p><code><a href="iqr.html">iqr</a></code></p></dd>
+
+<dt><code>"iqm"         </code></dt>
+<dd><p><code><a href="IQM.html">IQM</a></code></p></dd>
+
+<dt><code>"mad"         </code></dt>
+<dd><p><code><a href="MAD.html">MAD</a></code></p></dd>
+
+<dt><code>"aad"         </code></dt>
+<dd><p><code><a href="AAD.html">AAD</a></code></p></dd>
+
+<dt><code>"ssgsea"      </code></dt>
+<dd><p><code><a href="ssgsea.html">ssgsea</a></code></p></dd>
+
+<dt><code>"gsva"        </code></dt>
+<dd><p><code><a href="gsva.html">gsva</a></code></p></dd>
+
+<dt><code>"plage"       </code></dt>
+<dd><p><code><a href="plage.html">plage</a></code></p></dd>
+
+<dt><code>"zscore"      </code></dt>
+<dd><p><code><a href="zscore.html">zscore</a></code></p></dd>
+
+
+</dl></div>
+    <div class="section level2">
+    <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
+    
+<ul><li><p><code>sumScore()</code>: returns the <em>sum</em> score(s).</p></li>
+<li><p><code>weightedSumScore()</code>: returns the <em>weighted sum</em> score(s).</p></li>
+<li><p><code>meanScore()</code>: returns the <em>arithmentic mean</em> score(s).</p></li>
+<li><p><code>trimmedMeanScore()</code>: returns the <em>trimmed mean</em> score(s).</p></li>
+<li><p><code>weightedMeanScore()</code>: returns the <em>weighted mean</em> score(s).</p></li>
+<li><p><code>medianScore()</code>: returns the <em>median</em> score(s).</p></li>
+<li><p><code>modeScore()</code>: returns the <em>mode</em> score(s).</p></li>
+<li><p><code>midrangeScore()</code>: returns the <em>midrange</em> score(s).</p></li>
+<li><p><code>midhingeScore()</code>: returns the <em>midhinge</em> score(s).</p></li>
+<li><p><code>trimeanScore()</code>: returns the <em>trimean</em> score(s).</p></li>
+<li><p><code>iqrScore()</code>: returns the <em>interquartile range</em> score(s).</p></li>
+<li><p><code>iqmScore()</code>: returns the <em>interquartile mean</em> score(s).</p></li>
+<li><p><code>madScore()</code>: returns the <em>median absolute deviation</em> score(s).</p></li>
+<li><p><code>aadScore()</code>: returns the <em>average absolute deviation</em> score(s).</p></li>
+<li><p><code>ssgseaScore()</code>: returns the <em>single sample gene set enrichment analysis (ssGSEA)</em> score(s).</p></li>
+<li><p><code>gsvaScore()</code>: returns the <em>gene set variation analysis (GSVA)</em> score(s).</p></li>
+<li><p><code>plageScore()</code>: returns the <em>pathway level analysis of gene expression (PLAGE)</em> score(s).</p></li>
+<li><p><code>zscoreScore()</code>: returns the <em>z-score</em>(s).</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="computeVectorScore.html">computeVectorScore</a></code>,
-<code><a href="computeColScores.html">computeColScores</a></code></p></div>
+<code><a href="computeColScores.html">computeColScores</a></code>,
+<code><a href="getDataTransformer.html">getDataTransformer</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

@@ -34,6 +34,7 @@ function.
 }
 \examples{
 summation(x = c(1,2))
+
 }
 \author{
 Alessandro Barberis

@@ -81,7 +81,10 @@ reference:
 - title: Utility Functions
   contents:
   - getAvailableScores
+  - getAvailableDataTransformers
+  - getAvailableRandomSamplers
   - getScorer
   - getScorers
+  - getDataTransformer
   - createLogger
 
