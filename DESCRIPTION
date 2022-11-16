@@ -41,8 +41,6 @@ Collate:
     '1-log-functions.R'
     '2-parallel-functions.R'
     '3-stats-functions.R'
-    '2-vector-scores.R'
-    '3-matrix-scores.R'
     '4-data-preprocessing.R'
     '5-scorers.R'
     '6-compute-scores.R'
