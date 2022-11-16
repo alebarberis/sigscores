@@ -7,6 +7,16 @@
 enrichment(method = c("ssgsea", "gsva", "plage", "zscore"), ...)
 }
 \arguments{
+\item{method}{character string, the name of the method
+to be used for computing the enrichment scores.
+Current available options are:
+\describe{
+\item{\code{'ssgsea'}}{Single Sample Gene Set Enrichment Analysis}
+\item{\code{'gsva'}}{Gene Set Variation Analysis}
+\item{\code{'plage'}}{Pathway Level Analysis of Gene Expression}
+\item{\code{'zscore'}}{Z-Score}
+}}
+
 \item{...}{further arguments to \code{score}}
 }
 \value{

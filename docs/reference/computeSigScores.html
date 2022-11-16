@@ -206,131 +206,72 @@ out of the <code>n.repeat</code> - was computed the score</p></dd>
 <code><a href="computeScores.html">computeScores</a></code> to handle the computation of
 the scores.</p>
 <p>The scoring functions are created via the generic scorer
-<code><a href="computeScore.html">computeScore</a></code>:</p><dl><dt><code>"sum"         </code></dt>
-<dd><p><code><a href="computeScore.html">sumScore</a>         </code></p></dd>
+<code><a href="genericScorer.html">genericScorer</a></code>:</p><dl><dt><code>"sum"         </code></dt>
+<dd><p><code><a href="sumScorer.html">sumScorer</a></code></p></dd>
 
 <dt><code>"weightedSum" </code></dt>
-<dd><p><code><a href="computeScore.html">weightedSumScore</a> </code></p></dd>
+<dd><p><code><a href="weightedSumScorer.html">weightedSumScorer</a></code></p></dd>
 
 <dt><code>"mean"        </code></dt>
-<dd><p><code><a href="computeScore.html">meanScore</a>        </code></p></dd>
+<dd><p><code><a href="meanScorer.html">meanScorer</a></code></p></dd>
 
 <dt><code>"trimmedMean" </code></dt>
-<dd><p><code><a href="computeScore.html">trimmedMeanScore</a> </code></p></dd>
+<dd><p><code><a href="trimmedMeanScorer.html">trimmedMeanScorer</a></code></p></dd>
 
 <dt><code>"weightedMean"</code></dt>
-<dd><p><code><a href="computeScore.html">weightedMeanScore</a></code></p></dd>
+<dd><p><code><a href="weightedMeanScorer.html">weightedMeanScorer</a></code></p></dd>
 
 <dt><code>"median"      </code></dt>
-<dd><p><code><a href="computeScore.html">medianScore</a>      </code></p></dd>
+<dd><p><code><a href="medianScorer.html">medianScorer</a></code></p></dd>
 
 <dt><code>"mode"        </code></dt>
-<dd><p><code><a href="computeScore.html">modeScore</a>        </code></p></dd>
+<dd><p><code><a href="modeScorer.html">modeScorer</a></code></p></dd>
 
 <dt><code>"midrange"    </code></dt>
-<dd><p><code><a href="computeScore.html">midrangeScore</a>    </code></p></dd>
+<dd><p><code><a href="midrangeScorer.html">midrangeScorer</a></code></p></dd>
 
 <dt><code>"midhinge"    </code></dt>
-<dd><p><code><a href="computeScore.html">midhingeScore</a>    </code></p></dd>
+<dd><p><code><a href="midhingeScorer.html">midhingeScorer</a></code></p></dd>
 
 <dt><code>"trimean"     </code></dt>
-<dd><p><code><a href="computeScore.html">trimeanScore</a>     </code></p></dd>
+<dd><p><code><a href="trimeanScorer.html">trimeanScorer</a></code></p></dd>
 
 <dt><code>"iqr"         </code></dt>
-<dd><p><code><a href="computeScore.html">iqrScore</a>         </code></p></dd>
+<dd><p><code><a href="iqrScorer.html">iqrScorer</a></code></p></dd>
 
 <dt><code>"iqm"         </code></dt>
-<dd><p><code><a href="computeScore.html">iqmScore</a>         </code></p></dd>
+<dd><p><code><a href="iqmScorer.html">iqmScorer</a></code></p></dd>
 
 <dt><code>"mad"         </code></dt>
-<dd><p><code><a href="computeScore.html">madScore</a>         </code></p></dd>
+<dd><p><code><a href="madScorer.html">madScorer</a></code></p></dd>
 
 <dt><code>"aad"         </code></dt>
-<dd><p><code><a href="computeScore.html">aadScore</a>         </code></p></dd>
+<dd><p><code><a href="aadScorer.html">aadScorer</a></code></p></dd>
 
 <dt><code>"ssgsea"      </code></dt>
-<dd><p><code><a href="computeScore.html">ssgseaScore</a>      </code></p></dd>
+<dd><p><code><a href="ssgseaScorer.html">ssgseaScorer</a></code></p></dd>
 
 <dt><code>"gsva"        </code></dt>
-<dd><p><code><a href="computeScore.html">gsvaScore</a>        </code></p></dd>
+<dd><p><code><a href="gsvaScorer.html">gsvaScorer</a></code></p></dd>
 
 <dt><code>"plage"       </code></dt>
-<dd><p><code><a href="computeScore.html">plageScore</a>       </code></p></dd>
+<dd><p><code><a href="plageScorer.html">plageScorer</a></code></p></dd>
 
 <dt><code>"zscore"      </code></dt>
-<dd><p><code><a href="computeScore.html">zscoreScore</a>      </code></p></dd>
-
-
-</dl><p><code><a href="computeScore.html">computeScore</a></code> handles an input matrix
-by calling <code><a href="computeColMeasures.html">computeColMeasures</a></code>.
-Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
-functions to compute the measures:</p>
-<dl><dt><code>"sum"         </code></dt>
-<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
-
-<dt><code>"weightedSum" </code></dt>
-<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
-
-<dt><code>"mean"        </code></dt>
-<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
-
-<dt><code>"trimmedMean" </code></dt>
-<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
-
-<dt><code>"weightedMean"</code></dt>
-<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
-
-<dt><code>"median"      </code></dt>
-<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
-
-<dt><code>"mode"        </code></dt>
-<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
-
-<dt><code>"midrange"    </code></dt>
-<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
-
-<dt><code>"midhinge"    </code></dt>
-<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
-
-<dt><code>"trimean"     </code></dt>
-<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
-
-<dt><code>"iqr"         </code></dt>
-<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
-
-<dt><code>"iqm"         </code></dt>
-<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
-
-<dt><code>"mad"         </code></dt>
-<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
-
-<dt><code>"aad"         </code></dt>
-<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
-
-<dt><code>"ssgsea"      </code></dt>
-<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
-
-<dt><code>"gsva"        </code></dt>
-<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
-
-<dt><code>"plage"       </code></dt>
-<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
-
-<dt><code>"zscore"      </code></dt>
-<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
+<dd><p><code><a href="zscoreScorer.html">zscoreScorer</a></code></p></dd>
 
 
 </dl><p>Look at the different functions to know which specific
 arguments they accept (arguments can be passed via the
 <code>args</code> parameter).</p>
-<p><code><a href="computeColMeasures.html">computeColMeasures</a></code> also accepts a
-transformation function via the <code>transform.fun</code>
-argument, which is used to transform the data
-before the computation of the scores so that:
+<p>Scorers also accepts a transformation function
+via the <code>transform.fun</code> argument, which
+is used to transform the data before the computation
+of the scores so that:
 <code>x = transform.fun(x = x, transform.args)</code>,
 where <code>transform.args</code> is a list of parameters passed
 to the transformation function.
-See <code><a href="computeColMeasures.html">computeColMeasures</a></code> for further details.
+Look at a scorer for further details.
 A transformation function and related arguments can be
 passed via the <code>args</code> parameter (see <strong>Examples</strong>).</p>
 <p>The functions used for random sampling are:</p><dl><dt><code>"permutation"</code></dt>

@@ -28,6 +28,11 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{midrange}
 for each column vector in the input matrix \code{x}.
+See the \strong{Details} section below for further information.
+}
+\details{
+This function applies \code{\link{midrange}}
+to each column of the input matrix.
 }
 \examples{
 x = matrix(data = c(1,2,2,1,1,3), ncol = 2)

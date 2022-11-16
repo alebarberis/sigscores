@@ -789,7 +789,16 @@ AAD <- function(
 #'
 #'@description This function computes an enrichment score.
 #'
-#'@inheritParams computeScore
+#'@param method character string, the name of the method
+#'to be used for computing the enrichment scores.
+#'Current available options are:
+#'\describe{
+#' \item{\code{'ssgsea'}}{Single Sample Gene Set Enrichment Analysis}
+#' \item{\code{'gsva'}}{Gene Set Variation Analysis}
+#' \item{\code{'plage'}}{Pathway Level Analysis of Gene Expression}
+#' \item{\code{'zscore'}}{Z-Score}
+#'}
+#'@inheritParams computeVectorMeasure
 #'
 #'@inherit computeVectorMeasure return
 #'
@@ -813,7 +822,7 @@ enrichment <- function(
 #'
 #'@description This function computes an enrichment score.
 #'
-#'@inheritParams computeScore
+#'@inheritParams computeVectorMeasure
 #'
 #'@inherit computeVectorMeasure return
 #'
@@ -831,7 +840,7 @@ ssgsea <- function(...){return(enrichment(method = "ssgsea", ...))}
 #'
 #'@description This function computes an enrichment score.
 #'
-#'@inheritParams computeScore
+#'@inheritParams computeVectorMeasure
 #'
 #'@inherit computeVectorMeasure return
 #'
@@ -849,7 +858,7 @@ gsva   <- function(...){return(enrichment(method = "gsva", ...))}
 #'
 #'@description This function computes an enrichment score.
 #'
-#'@inheritParams computeScore
+#'@inheritParams computeVectorMeasure
 #'
 #'@inherit computeVectorMeasure return
 #'
@@ -867,7 +876,7 @@ plage  <- function(...){return(enrichment(method = "plage", ...))}
 #'
 #'@description This function computes an enrichment score.
 #'
-#'@inheritParams computeScore
+#'@inheritParams computeVectorMeasure
 #'
 #'@inherit computeVectorMeasure return
 #'
@@ -1030,11 +1039,15 @@ colSummations <- function(
 #'
 #'@description This function computes the *weighted sum*
 #'for each column in an input matrix.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{weightedSum}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{weightedSum}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1069,6 +1082,7 @@ colWeightedSums <- function(
 #'
 #'@description This function computes the *mean*
 #'for each column in an input matrix.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link[matrixStats]{colMeans2}}
@@ -1104,6 +1118,7 @@ colArithmeticMeans <- function(
 #'
 #'@description This function computes the *weighted mean*
 #'for each column in an input matrix.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link[matrixStats]{colWeightedMeans}}
@@ -1142,12 +1157,16 @@ colWeightedArithmeticMeans <- function(
 #'
 #'@description This function computes the *trimmed mean*
 #'for each column in an input matrix.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@inheritParams trimmedMean
 #'@param ... further arguments to \code{\link{trimmedMean}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{trimmedMean}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1182,6 +1201,7 @@ colTrimmedMeans <- function(
 #'
 #'@description This function computes the *median*
 #'for each column in an input matrix.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link[matrixStats]{colMedians}}
@@ -1221,11 +1241,15 @@ colMidpoints <- function(
 #'
 #'@description This function computes the *mode*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{modalValue}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{modalValue}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1259,11 +1283,15 @@ colModes <- function(
 #'
 #'@description This function computes the *midrange*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{midrange}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{midrange}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1295,11 +1323,15 @@ colMidranges <- function(
 #'
 #'@description This function computes the *trimean*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{trimean}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{trimean}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1332,11 +1364,15 @@ colTrimeans <- function(
 #'
 #'@description This function computes the *midhinge*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{midhinge}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{midhinge}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1369,11 +1405,15 @@ colMidhinges <- function(
 #'
 #'@description This function computes the *interquartile range*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{iqr}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{iqr}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1407,11 +1447,15 @@ colIQRs <- function(
 #'
 #'@description This function computes the *interquartile mean*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link{IQM}}
 #'
 #'@inherit computeColMeasures return
+#'
+#'@details This function applies \code{\link{IQM}}
+#'to each column of the input matrix.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1446,6 +1490,7 @@ colIQMs <- function(
 #'
 #'@description This function computes the *median absolute deviation*
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param ... further arguments to \code{\link[matrixStats]{colMads}}
@@ -1536,6 +1581,7 @@ colAADs <- function(
 #'
 #'@description This function computes an enrichment score
 #'for each column vector in the input matrix \code{x}.
+#'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
 #'@param method character string, the name of the method

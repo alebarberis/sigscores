@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 ## Introduction
 **sigscores** is an helpful package providing an easy way to compute summary scores for gene signatures.
 
-There is one main function `?computeSigScores`, that can be used to compute all the available scores.
+There is one main function `?computeSigScores`, that can be used to compute all the available scores. The scores can be selected via summary score ids (`scores` argument) or scorers (`scorers` argument).
 
 ## Setup
 Firstly, we load `sigscores` and other needed packages:
@@ -46,32 +46,6 @@ set.seed(
   normal.kind = "Inversion"       #we make explicit the current R default value
 )
 ```
-
-
-## Summary Scores
-A list of currently supported scores is available through the `?getAvailableScores` function call.
-
-
-```{r list_summary_scores}
-#list summary scores
-summary.scores = getAvailableScores()
-
-#print in table
-knitr::kable(x = summary.scores)
-```
-
-
-
-We can extract the ids by selecting the `id` column.
-
-```{r summary_scores_ids}
-#summary score ids
-summary.scores.ids = summary.scores$id
-
-#print
-print(summary.scores.ids)
-```
-
 
 
 ## Data
@@ -171,6 +145,61 @@ head(x = newx, n = 6L)
 ```
 
 
+## Summary Scores
+A list of currently supported scores is available through the `?getAvailableScores` function call, which returns a table with two columns:
+
+* `id`: the id of the summary score, to be used in the function calls
+* `name`: the name of the summary score
+
+
+```{r list_summary_scores}
+#list summary scores
+summary.scores = getAvailableScores()
+
+#print in table
+knitr::kable(x = summary.scores)
+```
+
+As we previously wrote, `?computeSigScores` accepts in input summary score ids or scorers.
+
+### Score IDs
+We can extract the ids by selecting the `id` column in the previous table.
+
+```{r summary_scores_ids}
+#summary score ids
+summary.scores.ids = summary.scores$id
+
+#print
+print(summary.scores.ids)
+```
+
+Internally, the score ids are used to create scorers, that will be used for the computation of the scores.
+
+
+### Scorers
+Under the hood, `sigscores` uses scorers, i.e. functions that compute the summary scores. All scorers in `sigscores` share some common parameters:
+
+* `x`: a (named) numerical vector or matrix
+* `i`: a signature
+* `na.rm`: a logical value, indicating whether to remove `NA` values before the computation of the score
+* `...`: further parameters to the specific scoring function
+* `transform.fun`: it is used to provide a transformation function
+* `transform.args`: a list containing the parameters for `transform.fun`
+* `transform.sub`: a logical value indicating whether to transform `x` after it is subset for the signature `i` (used to speedup computation, as transformation function should take less time on a reduced data set)
+
+The option of providing a data transformer to a scorer is given to facilitate the application of specific transformation functions to a selected summary measure via an automated process.
+
+We can retrieve a scorer by providing a single score id to the function `?getScorer` or multiple ids to `?getScorers`. For example, let's get the scorer for a weighted sum. We know the related score id (i.e. `weightedSum`) from the table obtained through the `?getAvailableScores` function call, so to obtain the scorer we can do: 
+
+```{r get_scorer}
+#get one scorer
+scorer = getScorer(score = "weightedSum")
+
+#see function
+scorer
+```
+
+
 ## Compute the Scores
 Finally, we can compute our summary scores. 
 
@@ -191,9 +220,7 @@ head(scores)
 ```
 
 ### Using `scorers`
-Alternatively, we can define our own list by providing scoring functions. In `sigscores`, the scoring functions are created via the generic scorer `?computeScore`, which provides a common interface for all the scorers.
-
-We can retrieve a scorer by providing a score id to the function `?getScorer`.
+Alternatively, we can define our own list by providing scoring functions. Let's retrieve two scorers by using the function `?getScorer`.
 
 ```{r summary_scores_by_scorers}
 #create scorers list
@@ -217,7 +244,7 @@ head(scores)
 
 ### Changing Default Arguments
 
-To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we can see the internal function computing the trimmed mean is called `?colTrimmedMeans`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
+To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we can see the scorer computing the trimmed mean is called `?trimmedMeanScorer`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
 
 ```{r summary_scores_w_args}
 #compute summary scores
@@ -261,15 +288,9 @@ head(scores2)
 ```
 
 ### Transforming the Data
-To facilitate the application of specific transformation functions to selected scores via an automated process, it is possible to provide a data transformer in input to the scorers. In fact, the generic scorer `?computeScore` accepts three arguments that are used for this:
+To facilitate the application of specific transformation functions to selected scores via an automated process, it is possible to provide a data transformer in input to the scorers. The provided transformer is used to transform the data before the computation of the scores.
 
-* `transform.fun`: it is used to provide a transformation function
-* `transform.args`: a list containing the parameters for `transform.fun`
-* `transform.sub`: a logical value indicating whether to transform `x` after it is subset for the signature `i` (used to speedup computation, as transformation function should take less time on a reduced data set)
-
-`?computeScore` internally uses the provided transformer to transform the data before the computation of the scores.
-
-To pass the parameters to the scorer from `?computeSigScores` we can again use `args`.
+To pass the needed parameters to the scorer from `?computeSigScores` we can again use `args`.
 
 ```{r summary_scores_and_transformers, fig.height = 5, fig.width = 6}
 #Transform data and compute the scores

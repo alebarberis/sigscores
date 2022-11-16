@@ -28,6 +28,11 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{weighted sum}
 for each column in an input matrix.
+See the \strong{Details} section below for further information.
+}
+\details{
+This function applies \code{\link{weightedSum}}
+to each column of the input matrix.
 }
 \examples{
 x = matrix(data = c(1,3,1,4), ncol = 2)

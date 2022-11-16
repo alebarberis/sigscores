@@ -72,48 +72,41 @@ to calculate the measures.
 
 If \code{scorers = NULL} and \code{scores} are provided,
 the scorers are retrieved by using the function
-\code{\link{getScorers}}.
-
-The scoring functions are created via the generic scorer
-\code{\link{computeScore}} which handles a matrix
-input by calling \code{\link{computeColMeasures}}.
-
-Internally, \code{\link{computeColMeasures}} uses these
-functions to compute the measures:
+\code{\link{getScorers}}:
 
 \describe{
-\item{\code{"sum"         }}{\code{\link{colSummations}}}
-\item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
-\item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
-\item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
-\item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
-\item{\code{"median"      }}{\code{\link{colMidpoints}}}
-\item{\code{"mode"        }}{\code{\link{colModes}}}
-\item{\code{"midrange"    }}{\code{\link{colMidranges}}}
-\item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
-\item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
-\item{\code{"iqr"         }}{\code{\link{colIQRs}}}
-\item{\code{"iqm"         }}{\code{\link{colIQMs}}}
-\item{\code{"mad"         }}{\code{\link{colMADs}}}
-\item{\code{"aad"         }}{\code{\link{colAADs}}}
-\item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
-\item{\code{"gsva"        }}{\code{\link{colGsva}}}
-\item{\code{"plage"       }}{\code{\link{colPlage}}}
-\item{\code{"zscore"      }}{\code{\link{colZscore}}}
+\item{\code{"sum"         }}{\code{\link{sumScorer}}}
+\item{\code{"weightedSum" }}{\code{\link{weightedSumScorer}}}
+\item{\code{"mean"        }}{\code{\link{meanScorer}}}
+\item{\code{"trimmedMean" }}{\code{\link{trimmedMeanScorer}}}
+\item{\code{"weightedMean"}}{\code{\link{weightedMeanScorer}}}
+\item{\code{"median"      }}{\code{\link{medianScorer}}}
+\item{\code{"mode"        }}{\code{\link{modeScorer}}}
+\item{\code{"midrange"    }}{\code{\link{midrangeScorer}}}
+\item{\code{"midhinge"    }}{\code{\link{midhingeScorer}}}
+\item{\code{"trimean"     }}{\code{\link{trimeanScorer}}}
+\item{\code{"iqr"         }}{\code{\link{iqrScorer}}}
+\item{\code{"iqm"         }}{\code{\link{iqmScorer}}}
+\item{\code{"mad"         }}{\code{\link{madScorer}}}
+\item{\code{"aad"         }}{\code{\link{aadScorer}}}
+\item{\code{"ssgsea"      }}{\code{\link{ssgseaScorer}}}
+\item{\code{"gsva"        }}{\code{\link{gsvaScorer}}}
+\item{\code{"plage"       }}{\code{\link{plageScorer}}}
+\item{\code{"zscore"      }}{\code{\link{zscoreScorer}}}
 }
 
 Look at the different functions to know which specific
 arguments they accept (arguments can be passed via the
 \code{args} parameter).
 
-\code{\link{computeColMeasures}} also accepts a
-transformation function via the \code{transform.fun}
-argument, which is used to transform the data
-before the computation of the scores so that:
+Scorers also accepts a transformation function
+via the \code{transform.fun} argument, which
+is used to transform the data before the computation
+of the scores so that:
 \code{x = transform.fun(x = x, transform.args)},
 where \code{transform.args} is a list of parameters passed
 to the transformation function.
-See \code{\link{computeColMeasures}} for further details.
+Look at the different functions for further details.
 }
 \examples{
 \dontrun{

@@ -28,6 +28,11 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{interquartile range}
 for each column vector in the input matrix \code{x}.
+See the \strong{Details} section below for further information.
+}
+\details{
+This function applies \code{\link{iqr}}
+to each column of the input matrix.
 }
 \examples{
 x = c(7,7,31,31,47,75,87,115,116,119,119,155,177,NA)

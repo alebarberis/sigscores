@@ -28,6 +28,11 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{interquartile mean}
 for each column vector in the input matrix \code{x}.
+See the \strong{Details} section below for further information.
+}
+\details{
+This function applies \code{\link{IQM}}
+to each column of the input matrix.
 }
 \examples{
 x = c(1,2,3,4,5)

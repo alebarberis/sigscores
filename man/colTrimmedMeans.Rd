@@ -33,6 +33,11 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{trimmed mean}
 for each column in an input matrix.
+See the \strong{Details} section below for further information.
+}
+\details{
+This function applies \code{\link{trimmedMean}}
+to each column of the input matrix.
 }
 \examples{
 x = matrix(data = sample(seq_len(10)), ncol = 2)

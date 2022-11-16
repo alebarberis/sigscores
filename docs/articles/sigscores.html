@@ -80,7 +80,9 @@
 <p><strong>sigscores</strong> is an helpful package providing an easy
 way to compute summary scores for gene signatures.</p>
 <p>There is one main function <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code>, that can
-be used to compute all the available scores.</p>
+be used to compute all the available scores. The scores can be selected
+via summary score ids (<code>scores</code> argument) or scorers
+(<code>scorers</code> argument).</p>
 </div>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
@@ -111,11 +113,157 @@ results of this vignette. We can specify a seed by calling
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h2>
+<p>We create now some simulated data to use. For this vignette, we will
+consider a matrix with 100 genes and 10 samples.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#number of samples</span></span>
+<span><span class="va">nc</span> <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="co">#number of genes</span></span>
+<span><span class="va">nr</span> <span class="op">=</span> <span class="fl">100</span></span>
+<span><span class="co">#create matrix</span></span>
+<span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nr</span><span class="op">*</span><span class="va">nc</span><span class="op">)</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="va">nr</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="va">nc</span>,</span>
+<span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"g"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nr</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"S"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We can inspect the data by using the <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">?head</a></code> function,
+which returns the first parts of a vector, matrix, table, data frame or
+function. Let’s print the first 6 rows of our matrix.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     S1  S2  S3  S4  S5  S6  S7  S8  S9 S10</span></span>
+<span><span class="co">#&gt; g1 993 702 660 854 769 859 940 679 946 218</span></span>
+<span><span class="co">#&gt; g2 585 620 941 714 994 369 602 506 981 674</span></span>
+<span><span class="co">#&gt; g3 175 779 984 834 460 292 445 953 491 673</span></span>
+<span><span class="co">#&gt; g4 778 855 293 140  29 601 980  82 161 115</span></span>
+<span><span class="co">#&gt; g5 876  32 838  22 803 804 355 663  11 731</span></span>
+<span><span class="co">#&gt; g6 835 462 894 560 885  88 442 199 541 725</span></span></code></pre></div>
+<p>We can now define our gene signature. For example, we can randomly
+select some genes from the matrix. Let’s select 20 genes.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#number of genes in signature</span></span>
+<span><span class="va">ng</span> <span class="op">=</span> <span class="fl">20</span></span>
+<span></span>
+<span><span class="co">#select genes</span></span>
+<span><span class="va">signature</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nr</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">ng</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">#print</span></span>
+<span><span class="va">signature</span></span>
+<span><span class="co">#&gt;  [1] "g12" "g41" "g23" "g59" "g93" "g70" "g51" "g53" "g20" "g72" "g78" "g48"</span></span>
+<span><span class="co">#&gt; [13] "g67" "g46" "g36" "g7"  "g13" "g15" "g45" "g33"</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="data-transformation">Data Transformation<a class="anchor" aria-label="anchor" href="#data-transformation"></a>
+</h2>
+<p>We may want to compute some of the scores on transformed data. Users
+can obviously directly provide the data to work on as
+<code>x</code>.</p>
+<p>However, to facilitate this task, <code>sigscores</code> provides 2
+built-in data transformation functions. A list of currently supported
+data transformers is available through the
+<code><a href="../reference/getAvailableDataTransformers.html">?getAvailableDataTransformers</a></code> function call.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#list transformers</span></span>
+<span><span class="va">data.transformers</span> <span class="op">=</span> <span class="fu"><a href="../reference/getAvailableDataTransformers.html">getAvailableDataTransformers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#print in table</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">data.transformers</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">id</th>
+<th align="left">name</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">stepFunction</td>
+<td align="left">stepFunction</td>
+<td align="left">Step Function</td>
+</tr>
+<tr class="even">
+<td align="left">quantile</td>
+<td align="left">quantile</td>
+<td align="left">Quantile Normalization</td>
+</tr>
+</tbody>
+</table>
+<p>We can extract the ids by selecting the <code>id</code> column.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#transformer ids</span></span>
+<span><span class="va">data.transformers.ids</span> <span class="op">=</span> <span class="va">data.transformers</span><span class="op">$</span><span class="va">id</span></span>
+<span></span>
+<span><span class="co">#print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">data.transformers.ids</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "stepFunction" "quantile"</span></span></code></pre></div>
+<p>The data transformation function can be obtained through the
+<code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> function call. For example, let’s
+select a step function as data transformer.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#transformer</span></span>
+<span><span class="va">data.transformer</span> <span class="op">=</span> <span class="fu"><a href="../reference/getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span>f <span class="op">=</span> <span class="st">'stepFunction'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#function</span></span>
+<span><span class="va">data.transformer</span></span>
+<span><span class="co">#&gt; function(</span></span>
+<span><span class="co">#&gt;   x,</span></span>
+<span><span class="co">#&gt;   y      = c(-1,0,1),</span></span>
+<span><span class="co">#&gt;   thr    = NULL,</span></span>
+<span><span class="co">#&gt;   method = c("median", "mean", "mode", "midrange", "trimean", "iqm", "iqr", "mad"),</span></span>
+<span><span class="co">#&gt;   by     = c("rows", "cols"),</span></span>
+<span><span class="co">#&gt;   na.rm  = TRUE</span></span>
+<span><span class="co">#&gt; ){</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     UseMethod("stepFunctionTranformation", x)</span></span>
+<span><span class="co">#&gt; }</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x000000000646eab0&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
+<p>Looking at the documentation of <code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> we
+can see the function for computing the step function is called
+<code><a href="../reference/stepFunctionTranformation.html">?stepFunctionTranformation</a></code>, which accepts different
+arguments. In particular, <code>method</code> indicates the score to be
+used as threshold in the step function, and <code>by</code> indicates
+whether to compute the threshold by applying <code>method</code> to rows
+or columns of <code>x</code>.</p>
+<p>We can then use the transformer to create a new data set to be used
+for the computation of the scores.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#transform data</span></span>
+<span><span class="va">newx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>  what <span class="op">=</span> <span class="va">data.transformer</span>, </span>
+<span>  args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, method <span class="op">=</span> <span class="st">'median'</span>, by <span class="op">=</span> <span class="st">'rows'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">newx</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    S1 S2 S3 S4 S5 S6 S7 S8 S9 S10</span></span>
+<span><span class="co">#&gt; g1  1 -1 -1  1 -1  1  1 -1  1  -1</span></span>
+<span><span class="co">#&gt; g2 -1 -1  1  1  1 -1 -1 -1  1   1</span></span>
+<span><span class="co">#&gt; g3 -1  1  1  1 -1 -1 -1  1 -1   1</span></span>
+<span><span class="co">#&gt; g4  1  1  1 -1 -1  1  1 -1 -1  -1</span></span>
+<span><span class="co">#&gt; g5  1 -1  1 -1  1  1 -1 -1 -1   1</span></span>
+<span><span class="co">#&gt; g6  1 -1  1  1  1 -1 -1 -1 -1   1</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="summary-scores">Summary Scores<a class="anchor" aria-label="anchor" href="#summary-scores"></a>
 </h2>
 <p>A list of currently supported scores is available through the
-<code><a href="../reference/getAvailableScores.html">?getAvailableScores</a></code> function call.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code><a href="../reference/getAvailableScores.html">?getAvailableScores</a></code> function call, which returns a table
+with two columns:</p>
+<ul>
+<li>
+<code>id</code>: the id of the summary score, to be used in the
+function calls</li>
+<li>
+<code>name</code>: the name of the summary score</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#list summary scores</span></span>
 <span><span class="va">summary.scores</span> <span class="op">=</span> <span class="fu"><a href="../reference/getAvailableScores.html">getAvailableScores</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -225,8 +373,14 @@ results of this vignette. We can specify a seed by calling
 </tr>
 </tbody>
 </table>
-<p>We can extract the ids by selecting the <code>id</code> column.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>As we previously wrote, <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> accepts in
+input summary score ids or scorers.</p>
+<div class="section level3">
+<h3 id="score-ids">Score IDs<a class="anchor" aria-label="anchor" href="#score-ids"></a>
+</h3>
+<p>We can extract the ids by selecting the <code>id</code> column in the
+previous table.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#summary score ids</span></span>
 <span><span class="va">summary.scores.ids</span> <span class="op">=</span> <span class="va">summary.scores</span><span class="op">$</span><span class="va">id</span></span>
 <span></span>
@@ -236,144 +390,81 @@ results of this vignette. We can specify a seed by calling
 <span><span class="co">#&gt;  [6] "median"       "mode"         "midrange"     "midhinge"     "trimean"     </span></span>
 <span><span class="co">#&gt; [11] "iqr"          "iqm"          "mad"          "aad"          "ssgsea"      </span></span>
 <span><span class="co">#&gt; [16] "gsva"         "plage"        "zscore"</span></span></code></pre></div>
+<p>Internally, the score ids are used to create scorers, that will be
+used for the computation of the scores.</p>
 </div>
-<div class="section level2">
-<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h2>
-<p>We create now some simulated data to use. For this vignette, we will
-consider a matrix with 100 genes and 10 samples.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#number of samples</span></span>
-<span><span class="va">nc</span> <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="co">#number of genes</span></span>
-<span><span class="va">nr</span> <span class="op">=</span> <span class="fl">100</span></span>
-<span><span class="co">#create matrix</span></span>
-<span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nr</span><span class="op">*</span><span class="va">nc</span><span class="op">)</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="va">nr</span>,</span>
-<span>  ncol <span class="op">=</span> <span class="va">nc</span>,</span>
-<span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"g"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nr</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"S"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>We can inspect the data by using the <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">?head</a></code> function,
-which returns the first parts of a vector, matrix, table, data frame or
-function. Let’s print the first 6 rows of our matrix.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#print</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     S1  S2  S3  S4  S5  S6  S7  S8  S9 S10</span></span>
-<span><span class="co">#&gt; g1 993 702 660 854 769 859 940 679 946 218</span></span>
-<span><span class="co">#&gt; g2 585 620 941 714 994 369 602 506 981 674</span></span>
-<span><span class="co">#&gt; g3 175 779 984 834 460 292 445 953 491 673</span></span>
-<span><span class="co">#&gt; g4 778 855 293 140  29 601 980  82 161 115</span></span>
-<span><span class="co">#&gt; g5 876  32 838  22 803 804 355 663  11 731</span></span>
-<span><span class="co">#&gt; g6 835 462 894 560 885  88 442 199 541 725</span></span></code></pre></div>
-<p>We can now define our gene signature. For example, we can randomly
-select some genes from the matrix. Let’s select 20 genes.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#number of genes in signature</span></span>
-<span><span class="va">ng</span> <span class="op">=</span> <span class="fl">20</span></span>
+<div class="section level3">
+<h3 id="scorers">Scorers<a class="anchor" aria-label="anchor" href="#scorers"></a>
+</h3>
+<p>Under the hood, <code>sigscores</code> uses scorers, i.e. functions
+that compute the summary scores. All scorers in <code>sigscores</code>
+share some common parameters:</p>
+<ul>
+<li>
+<code>x</code>: a (named) numerical vector or matrix</li>
+<li>
+<code>i</code>: a signature</li>
+<li>
+<code>na.rm</code>: a logical value, indicating whether to remove
+<code>NA</code> values before the computation of the score</li>
+<li>
+<code>...</code>: further parameters to the specific scoring
+function</li>
+<li>
+<code>transform.fun</code>: it is used to provide a transformation
+function</li>
+<li>
+<code>transform.args</code>: a list containing the parameters for
+<code>transform.fun</code>
+</li>
+<li>
+<code>transform.sub</code>: a logical value indicating whether to
+transform <code>x</code> after it is subset for the signature
+<code>i</code> (used to speedup computation, as transformation function
+should take less time on a reduced data set)</li>
+</ul>
+<p>The option of providing a data transformer to a scorer is given to
+facilitate the application of specific transformation functions to a
+selected summary measure via an automated process.</p>
+<p>We can retrieve a scorer by providing a single score id to the
+function <code><a href="../reference/getScorer.html">?getScorer</a></code> or multiple ids to
+<code><a href="../reference/getScorers.html">?getScorers</a></code>. For example, let’s get the scorer for a
+weighted sum. We know the related score id
+(i.e. <code>weightedSum</code>) from the table obtained through the
+<code><a href="../reference/getAvailableScores.html">?getAvailableScores</a></code> function call, so to obtain the scorer
+we can do:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#get one scorer</span></span>
+<span><span class="va">scorer</span> <span class="op">=</span> <span class="fu"><a href="../reference/getScorer.html">getScorer</a></span><span class="op">(</span>score <span class="op">=</span> <span class="st">"weightedSum"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#select genes</span></span>
-<span><span class="va">signature</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nr</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">ng</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co">#print</span></span>
-<span><span class="va">signature</span></span>
-<span><span class="co">#&gt;  [1] "g12" "g41" "g23" "g59" "g93" "g70" "g51" "g53" "g20" "g72" "g78" "g48"</span></span>
-<span><span class="co">#&gt; [13] "g67" "g46" "g36" "g7"  "g13" "g15" "g45" "g33"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="data-transformation">Data Transformation<a class="anchor" aria-label="anchor" href="#data-transformation"></a>
-</h2>
-<p>We may want to compute some of the scores on transformed data. Users
-can obviously directly provide the data to work on as
-<code>x</code>.</p>
-<p>However, to facilitate this task, <code>sigscores</code> provides 2
-built-in data transformation functions. A list of currently supported
-data transformers is available through the
-<code><a href="../reference/getAvailableDataTransformers.html">?getAvailableDataTransformers</a></code> function call.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#list transformers</span></span>
-<span><span class="va">data.transformers</span> <span class="op">=</span> <span class="fu"><a href="../reference/getAvailableDataTransformers.html">getAvailableDataTransformers</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#print in table</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">data.transformers</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left"></th>
-<th align="left">id</th>
-<th align="left">name</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">stepFunction</td>
-<td align="left">stepFunction</td>
-<td align="left">Step Function</td>
-</tr>
-<tr class="even">
-<td align="left">quantile</td>
-<td align="left">quantile</td>
-<td align="left">Quantile Normalization</td>
-</tr>
-</tbody>
-</table>
-<p>We can extract the ids by selecting the <code>id</code> column.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#transformer ids</span></span>
-<span><span class="va">data.transformers.ids</span> <span class="op">=</span> <span class="va">data.transformers</span><span class="op">$</span><span class="va">id</span></span>
-<span></span>
-<span><span class="co">#print</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">data.transformers.ids</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "stepFunction" "quantile"</span></span></code></pre></div>
-<p>The data transformation function can be obtained through the
-<code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> function call. For example, let’s
-select a step function as data transformer.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#transformer</span></span>
-<span><span class="va">data.transformer</span> <span class="op">=</span> <span class="fu"><a href="../reference/getDataTransformer.html">getDataTransformer</a></span><span class="op">(</span>f <span class="op">=</span> <span class="st">'stepFunction'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#function</span></span>
-<span><span class="va">data.transformer</span></span>
+<span><span class="co">#see function</span></span>
+<span><span class="va">scorer</span></span>
 <span><span class="co">#&gt; function(</span></span>
-<span><span class="co">#&gt;   x,</span></span>
-<span><span class="co">#&gt;   y      = c(-1,0,1),</span></span>
-<span><span class="co">#&gt;   thr    = NULL,</span></span>
-<span><span class="co">#&gt;   method = c("median", "mean", "mode", "midrange", "trimean", "iqm", "iqr", "mad"),</span></span>
-<span><span class="co">#&gt;   by     = c("rows", "cols"),</span></span>
-<span><span class="co">#&gt;   na.rm  = TRUE</span></span>
+<span><span class="co">#&gt;     x,</span></span>
+<span><span class="co">#&gt;     i = NULL,</span></span>
+<span><span class="co">#&gt;     w = NULL,</span></span>
+<span><span class="co">#&gt;     na.rm = TRUE,</span></span>
+<span><span class="co">#&gt;     transform.fun = NULL,</span></span>
+<span><span class="co">#&gt;     transform.args = list(),</span></span>
+<span><span class="co">#&gt;     transform.sub = F,</span></span>
+<span><span class="co">#&gt;     ...</span></span>
 <span><span class="co">#&gt; ){</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     UseMethod("stepFunctionTranformation", x)</span></span>
+<span><span class="co">#&gt;   return(</span></span>
+<span><span class="co">#&gt;     genericScorer(</span></span>
+<span><span class="co">#&gt;       score = "weightedSum" ,</span></span>
+<span><span class="co">#&gt;       x = x,</span></span>
+<span><span class="co">#&gt;       i = i,</span></span>
+<span><span class="co">#&gt;       w = w,</span></span>
+<span><span class="co">#&gt;       na.rm = na.rm,</span></span>
+<span><span class="co">#&gt;       transform.fun = transform.fun,</span></span>
+<span><span class="co">#&gt;       transform.args = transform.args,</span></span>
+<span><span class="co">#&gt;       transform.sub = transform.sub,</span></span>
+<span><span class="co">#&gt;       ...)</span></span>
+<span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x0000000013a25608&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x00000000089f8070&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
-<p>Looking at the documentation of <code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> we
-can see the function for computing the step function is called
-<code><a href="../reference/stepFunctionTranformation.html">?stepFunctionTranformation</a></code>, which accepts different
-arguments. In particular, <code>method</code> indicates the score to be
-used as threshold in the step function, and <code>by</code> indicates
-whether to compute the threshold by applying <code>method</code> to rows
-or columns of <code>x</code>.</p>
-<p>We can then use the transformer to create a new data set to be used
-for the computation of the scores.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#transform data</span></span>
-<span><span class="va">newx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
-<span>  what <span class="op">=</span> <span class="va">data.transformer</span>, </span>
-<span>  args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, method <span class="op">=</span> <span class="st">'median'</span>, by <span class="op">=</span> <span class="st">'rows'</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#print</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">newx</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    S1 S2 S3 S4 S5 S6 S7 S8 S9 S10</span></span>
-<span><span class="co">#&gt; g1  1 -1 -1  1 -1  1  1 -1  1  -1</span></span>
-<span><span class="co">#&gt; g2 -1 -1  1  1  1 -1 -1 -1  1   1</span></span>
-<span><span class="co">#&gt; g3 -1  1  1  1 -1 -1 -1  1 -1   1</span></span>
-<span><span class="co">#&gt; g4  1  1  1 -1 -1  1  1 -1 -1  -1</span></span>
-<span><span class="co">#&gt; g5  1 -1  1 -1  1  1 -1 -1 -1   1</span></span>
-<span><span class="co">#&gt; g6  1 -1  1  1  1 -1 -1 -1 -1   1</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="compute-the-scores">Compute the Scores<a class="anchor" aria-label="anchor" href="#compute-the-scores"></a>
@@ -386,7 +477,7 @@ for the computation of the scores.</p>
 function via the <code>scores</code> argument. Internally, a scoring
 function is retrieved for each provided score id by calling
 <code><a href="../reference/getScorers.html">?getScorers</a></code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x      <span class="op">=</span> <span class="va">x</span>,</span>
@@ -423,12 +514,9 @@ function is retrieved for each provided score id by calling
 <h3 id="using-scorers">Using <code>scorers</code><a class="anchor" aria-label="anchor" href="#using-scorers"></a>
 </h3>
 <p>Alternatively, we can define our own list by providing scoring
-functions. In <code>sigscores</code>, the scoring functions are created
-via the generic scorer <code><a href="../reference/computeScore.html">?computeScore</a></code>, which provides a
-common interface for all the scorers.</p>
-<p>We can retrieve a scorer by providing a score id to the function
+functions. Let’s retrieve two scorers by using the function
 <code><a href="../reference/getScorer.html">?getScorer</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create scorers list</span></span>
 <span><span class="va">scorers</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">'mean'</span>     <span class="op">=</span> <span class="fu"><a href="../reference/getScorer.html">getScorer</a></span><span class="op">(</span><span class="st">"mean"</span><span class="op">)</span>,</span>
@@ -461,12 +549,11 @@ use <code>args</code>: the argument accept a named list, where the name
 of the element must match the id of the score we want to compute. For
 example, we may want to compute a trimmed mean considering a specific
 fraction of elements to be trimmed from each end. Looking at the
-documentation of <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> we can see the internal
-function computing the trimmed mean is called
-<code><a href="../reference/colTrimmedMeans.html">?colTrimmedMeans</a></code>, which accepts an argument
-<code>trim</code>. We can then pass the argument from
-<code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> via <code>args</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+documentation of <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> we can see the scorer
+computing the trimmed mean is called <code><a href="../reference/trimmedMeanScorer.html">?trimmedMeanScorer</a></code>,
+which accepts an argument <code>trim</code>. We can then pass the
+argument from <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> via <code>args</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x      <span class="op">=</span> <span class="va">x</span>,</span>
@@ -506,7 +593,7 @@ function computing the trimmed mean is called
 </h3>
 <p>By using <code>scorers</code> and <code>args</code> we can define our
 list of scorers having specific names and parameters.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create scorers list</span></span>
 <span><span class="va">scorers</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">'trimmedMean03'</span> <span class="op">=</span> <span class="fu"><a href="../reference/getScorer.html">getScorer</a></span><span class="op">(</span><span class="st">"trimmedMean"</span><span class="op">)</span>,</span>
@@ -540,28 +627,11 @@ list of scorers having specific names and parameters.</p>
 </h3>
 <p>To facilitate the application of specific transformation functions to
 selected scores via an automated process, it is possible to provide a
-data transformer in input to the scorers. In fact, the generic scorer
-<code><a href="../reference/computeScore.html">?computeScore</a></code> accepts three arguments that are used for
-this:</p>
-<ul>
-<li>
-<code>transform.fun</code>: it is used to provide a transformation
-function</li>
-<li>
-<code>transform.args</code>: a list containing the parameters for
-<code>transform.fun</code>
-</li>
-<li>
-<code>transform.sub</code>: a logical value indicating whether to
-transform <code>x</code> after it is subset for the signature
-<code>i</code> (used to speedup computation, as transformation function
-should take less time on a reduced data set)</li>
-</ul>
-<p><code><a href="../reference/computeScore.html">?computeScore</a></code> internally uses the provided transformer
-to transform the data before the computation of the scores.</p>
-<p>To pass the parameters to the scorer from
+data transformer in input to the scorers. The provided transformer is
+used to transform the data before the computation of the scores.</p>
+<p>To pass the needed parameters to the scorer from
 <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> we can again use <code>args</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Transform data and compute the scores</span></span>
 <span><span class="va">scoresTD</span> <span class="op">=</span> <span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">x</span>,</span>
@@ -604,7 +674,7 @@ For example, we can plot our computed results via an heat map by using
 the <code><a href="../reference/heatmapSigScores.html">?heatmapSigScores</a></code> function, which requires the output
 of <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> as the <code>data</code>
 parameter.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create plot</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/heatmapSigScores.html">heatmapSigScores</a></span><span class="op">(</span></span>
 <span>  data   <span class="op">=</span> <span class="va">scores</span></span>
@@ -619,7 +689,7 @@ correlation matrix can be directly provided via the <code>cor</code>
 parameter. If <code>cor = NULL</code>, <code><a href="../reference/heatmapCorSigScores.html">?heatmapCorSigScores</a></code>
 internally computes the correlation by using the default settings of
 <code><a href="../reference/computeSigScoresCorrelation.html">?computeSigScoresCorrelation</a></code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create plot</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/heatmapCorSigScores.html">heatmapCorSigScores</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">scores</span>,</span>
@@ -633,7 +703,7 @@ internally computes the correlation by using the default settings of
 thanks to another built-in function,
 i.e. <code><a href="../reference/boxplotSigScores.html">?boxplotSigScores</a></code>. We can also subset the scores we
 want to plot by using the <code>scores</code> parameter.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create plot</span></span>
 <span><span class="va">p</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/boxplotSigScores.html">boxplotSigScores</a></span><span class="op">(</span></span>
 <span>  data   <span class="op">=</span> <span class="va">scores</span>,</span>
@@ -674,7 +744,7 @@ and <code>n.repeat</code>, which tells the function how many random
 samples we want to generate.</p>
 <p>Let’s create summary scores for 10 data sets generated using sampling
 without replacement.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -710,7 +780,7 @@ without replacement.</p>
 <span><span class="co">#&gt; 6  0.4529517  0.453742266  1.6396185</span></span></code></pre></div>
 <p>To use bootstrap instead, we just need change the
 <code>sampling</code> argument.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -761,7 +831,7 @@ technique we want to use, and <code>n.repeat</code>, to tell the
 function how many random signatures we want to generate.</p>
 <p>Let’s create summary scores for 10 random signatures. For doing so,
 we just need to write <code>sampling = 'rndsig'</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -799,7 +869,7 @@ we just need to write <code>sampling = 'rndsig'</code>.</p>
 all possible elements of <code>x</code> after removing the value from
 <code>i</code>. For this scenario, we just need to use
 <code>sampling = 'rndsigsub'</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -846,7 +916,7 @@ packages.</p>
 <p>To enable parallel execution we just need to set the argument
 <code>cores</code> in the <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> function with
 an integer greater than 1. For example, let’s try to use 2 cores.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores with parallel execution</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -870,7 +940,7 @@ an higher number of repeats. To time the execution of the function calls
 we can use the <code><a href="https://rdrr.io/r/base/system.time.html" class="external-link">?system.time</a></code> R function.</p>
 <p>Let’s consider 500 permutations of the original data and compute the
 scores in a serial fashion first.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_serial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -889,7 +959,7 @@ and selecting 5 cores. Considering that we don’t need the results of the
 parallel execution to be in order, we can set the argument
 <code>.inorder</code> as <code>FALSE</code> since this can improve the
 performance.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_parallel</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -914,7 +984,7 @@ Logical Processor(s)</li>
 </ul>
 <p>the execution times for the serial and parallel computations
 were:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create a matrix</span></span>
 <span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  serial   <span class="op">=</span> <span class="va">time_serial</span>,</span>

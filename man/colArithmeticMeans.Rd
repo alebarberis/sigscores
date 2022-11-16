@@ -28,6 +28,7 @@ score for each column in \code{x}.
 \description{
 This function computes the \emph{mean}
 for each column in an input matrix.
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[matrixStats]{colMeans2}}

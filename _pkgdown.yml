@@ -12,18 +12,32 @@ reference:
   - heatmapCorSigScores
   - boxplotSigScores
   - scatterplotSigScores
-- title: Summary Scores for Matrix
-  desc: These functions are used to compute the summary scores
+- title: Scorers
+  desc: These are the scorers to compute the summary scores
   contents:
-  - computeColScores
-- title: Summary Scores for Vector
-  desc: These functions are used to compute the summary scores
-  contents:
-  - computeVectorScore
+  - sumScorer
+  - weightedSumScorer
+  - meanScorer
+  - trimmedMeanScorer
+  - weightedMeanScorer
+  - medianScorer
+  - modeScorer
+  - midrangeScorer
+  - midhingeScorer
+  - trimeanScorer
+  - iqrScorer
+  - iqmScorer
+  - madScorer
+  - aadScorer
+  - ssgseaScorer
+  - gsvaScorer
+  - plageScorer
+  - zscoreScorer
 
 - title: Statistical Measures for Matrix
   desc: These are the functions used to compute the statistical measures
   contents:
+  - computeColMeasures
   - colSummations
   - colWeightedSums
   - colArithmeticMeans
@@ -46,6 +60,7 @@ reference:
 - title: Statistical Measures for Vector
   desc: These are the functions used to compute the statistical measures
   contents:
+  - computeVectorMeasure
   - summation
   - weightedSum
   - arithmeticMean

@@ -12,6 +12,8 @@ Description: This package contains a set of useful functions to compute summary 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 4.1.2)
 Imports: 
     data.table,
     doParallel,

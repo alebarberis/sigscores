@@ -14,7 +14,28 @@ getScorer(
 \item{score}{character string, one of the supported measures}
 }
 \value{
-A scoring function.
+A scoring function:
+
+\describe{
+\item{\code{"sum"         }}{\code{\link{sumScorer}}}
+\item{\code{"weightedSum" }}{\code{\link{weightedSumScorer}}}
+\item{\code{"mean"        }}{\code{\link{meanScorer}}}
+\item{\code{"trimmedMean" }}{\code{\link{trimmedMeanScorer}}}
+\item{\code{"weightedMean"}}{\code{\link{weightedMeanScorer}}}
+\item{\code{"median"      }}{\code{\link{medianScorer}}}
+\item{\code{"mode"        }}{\code{\link{modeScorer}}}
+\item{\code{"midrange"    }}{\code{\link{midrangeScorer}}}
+\item{\code{"midhinge"    }}{\code{\link{midhingeScorer}}}
+\item{\code{"trimean"     }}{\code{\link{trimeanScorer}}}
+\item{\code{"iqr"         }}{\code{\link{iqrScorer}}}
+\item{\code{"iqm"         }}{\code{\link{iqmScorer}}}
+\item{\code{"mad"         }}{\code{\link{madScorer}}}
+\item{\code{"aad"         }}{\code{\link{aadScorer}}}
+\item{\code{"ssgsea"      }}{\code{\link{ssgseaScorer}}}
+\item{\code{"gsva"        }}{\code{\link{gsvaScorer}}}
+\item{\code{"plage"       }}{\code{\link{plageScorer}}}
+\item{\code{"zscore"      }}{\code{\link{zscoreScorer}}}
+}
 }
 \description{
 This function is a dispatcher for the score
@@ -22,9 +43,8 @@ function selected in input.
 }
 \details{
 The scoring functions are created via the generic scorer
-\code{\link{computeScore}} which handles vector or matrix
-input by calling \code{\link{computeVectorMeasure}} or
-\code{\link{computeColMeasures}}, respectively.
+\code{\link{genericScorer}} which handles vector or matrix
+input by calling \code{\link{computeColMeasures}}.
 
 Internally, \code{\link{computeColMeasures}} uses these
 functions to compute the measures:
@@ -46,27 +66,6 @@ functions to compute the measures:
 \code{\link{colGsva}},
 \code{\link{colPlage}},
 \code{\link{colZscore}}
-
-\code{\link{computeVectorMeasure}} uses instead these
-functions:
-\code{\link{summation}},
-\code{\link{weightedSum}},
-\code{\link{arithmeticMean}},
-\code{\link{trimmedMean}},
-\code{\link{weightedMean}},
-\code{\link{midpoint}},
-\code{\link{modalValue}},
-\code{\link{midrange}},
-\code{\link{midhinge}},
-\code{\link{trimean}},
-\code{\link{iqr}},
-\code{\link{IQM}},
-\code{\link{MAD}},
-\code{\link{AAD}},
-\code{\link{ssgsea}},
-\code{\link{gsva}},
-\code{\link{plage}},
-\code{\link{zscore}}
 }
 \author{
 Alessandro Barberis
