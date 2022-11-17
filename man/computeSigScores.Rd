@@ -107,6 +107,8 @@ A parallel execution to speed up the computation
 on a multi-core machine can be run by setting
 the argument \code{cores} with a number greater
 than \code{1}.
+
+See the \strong{Details} section below for further information.
 }
 \details{
 \code{\link{computeSigScores}} uses internally

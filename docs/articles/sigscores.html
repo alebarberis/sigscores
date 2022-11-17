@@ -222,7 +222,7 @@ select a step function as data transformer.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     UseMethod("stepFunctionTranformation", x)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x000000000646eab0&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x000000001644e1f8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 <p>Looking at the documentation of <code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> we
 can see the function for computing the step function is called
@@ -462,7 +462,7 @@ we can do:</p>
 <span><span class="co">#&gt;       ...)</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x00000000089f8070&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x0000000008257ff0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 </div>
 </div>
@@ -955,10 +955,7 @@ scores in a serial fashion first.</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now we can run the parallel execution with the same number of repeats
-and selecting 5 cores. Considering that we don’t need the results of the
-parallel execution to be in order, we can set the argument
-<code>.inorder</code> as <code>FALSE</code> since this can improve the
-performance.</p>
+and selecting 5 cores.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_parallel</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>

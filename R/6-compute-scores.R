@@ -13,6 +13,8 @@ NULL
 #'the argument \code{cores} with a number greater
 #'than \code{1}.
 #'
+#'See the **Details** section below for further information.
+#'
 #'@inheritParams computeScores
 #'@param sampling character string, indicating whether
 #'to compute the scores using the provided data

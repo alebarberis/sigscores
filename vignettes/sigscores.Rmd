@@ -502,7 +502,7 @@ time_serial = system.time(
 ```
 
 
-Now we can run the parallel execution with the same number of repeats and selecting 5 cores. Considering that we don't need the results of the parallel execution to be in order, we can set the argument `.inorder` as `FALSE` since this can improve the performance.
+Now we can run the parallel execution with the same number of repeats and selecting 5 cores. 
 
 ```{r summary_scores_random_signatures_parallel_time, eval=FALSE}
 #compute summary scores
