@@ -41,7 +41,7 @@ speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
 
-\item{...}{further arguments to \code{\link{midrange}}}
+\item{...}{currently not used}
 }
 \value{
 A numerical value representing the computed score.
@@ -53,8 +53,16 @@ This scorer returns the \emph{midrange} score(s).
 See the \strong{Details} section below for further information.
 }
 \details{
-This function applies \code{\link{midrange}}
-to each column of the input matrix.
+The midrange score is the average of the lowest
+and highest values in a set of data.
+It is a measure of central tendency like
+the mean, median, and mode. However, it is more prone to bias than
+these other measures because it relies solely upon the two most
+extreme scores, which could potentially be outliers.
+
+This function calculates the range of values in each
+column of \code{x} by calling \code{\link[matrixStats]{colRanges}}.
+Then, it uses the min and max values to compute the score.
 }
 \seealso{
 \code{\link{colMidranges}}

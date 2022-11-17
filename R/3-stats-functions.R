@@ -1042,12 +1042,12 @@ colSummations <- function(
 #'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
-#'@param ... further arguments to \code{\link{weightedSum}}
+#'@param ... currently not used
 #'
 #'@inherit computeColMeasures return
 #'
-#'@details This function applies \code{\link{weightedSum}}
-#'to each column of the input matrix.
+#'@details This function applies \code{\link[matrixStats]{colSums2}}
+#'to each column of the matrix resulting from \code{w * x}.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1063,6 +1063,10 @@ colWeightedSums <- function(
   rows  = NULL,
   na.rm = TRUE,
   ...){
+
+  #check
+  if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(x))}
+
   #update
   if(isTRUE(!is.null(rows))){
     x = x[rows,,drop=F]
@@ -1070,7 +1074,13 @@ colWeightedSums <- function(
   }
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = weightedSum, w = w, ..., na.rm = na.rm, simplify = FALSE)
+  ##multiply
+  out = w * x
+  ##sum
+  out = colSummations(
+    x = out,
+    na.rm = na.rm
+  )
 
   #update
   out = unlist(out)
@@ -1286,12 +1296,20 @@ colModes <- function(
 #'See the **Details** section below for further information.
 #'
 #'@inheritParams computeColMeasures
-#'@param ... further arguments to \code{\link{midrange}}
+#'@param ... currently not used
 #'
 #'@inherit computeColMeasures return
 #'
-#'@details This function applies \code{\link{midrange}}
-#'to each column of the input matrix.
+#'@details The midrange score is the average of the lowest
+#'and highest values in a set of data.
+#'It is a measure of central tendency like
+#'the mean, median, and mode. However, it is more prone to bias than
+#'these other measures because it relies solely upon the two most
+#'extreme scores, which could potentially be outliers.
+#'
+#'This function calculates the range of values in each
+#'column of \code{x} by calling \code{\link[matrixStats]{colRanges}}.
+#'Then, it uses the min and max values to compute the score.
 #'
 #'@inherit computeColMeasures author
 #'
@@ -1312,10 +1330,17 @@ colMidranges <- function(
   }
 
   #compute
-  out = apply(X = x, MARGIN = 2, FUN = midrange, na.rm = na.rm, ..., simplify = FALSE)
+  ##ranges
+  ranges = matrixStats::colRanges(
+    x     = x,
+    na.rm = na.rm)
+  ##max
+  maxValues = ranges[,2]
+  ##min
+  minValues = ranges[,1]
+  ##score
+  out = (maxValues + minValues) / 2
 
-  #update
-  out = unlist(out)
   return(out)
 }
 

@@ -19,7 +19,7 @@ the measures}
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
 
-\item{...}{further arguments to \code{\link{midrange}}}
+\item{...}{currently not used}
 }
 \value{
 A numerical vector containing the computed
@@ -31,8 +31,16 @@ for each column vector in the input matrix \code{x}.
 See the \strong{Details} section below for further information.
 }
 \details{
-This function applies \code{\link{midrange}}
-to each column of the input matrix.
+The midrange score is the average of the lowest
+and highest values in a set of data.
+It is a measure of central tendency like
+the mean, median, and mode. However, it is more prone to bias than
+these other measures because it relies solely upon the two most
+extreme scores, which could potentially be outliers.
+
+This function calculates the range of values in each
+column of \code{x} by calling \code{\link[matrixStats]{colRanges}}.
+Then, it uses the min and max values to compute the score.
 }
 \examples{
 x = matrix(data = c(1,2,2,1,1,3), ncol = 2)

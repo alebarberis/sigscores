@@ -19,7 +19,7 @@ the measures}
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
 
-\item{...}{further arguments to \code{\link{weightedSum}}}
+\item{...}{currently not used}
 }
 \value{
 A numerical vector containing the computed
@@ -31,8 +31,8 @@ for each column in an input matrix.
 See the \strong{Details} section below for further information.
 }
 \details{
-This function applies \code{\link{weightedSum}}
-to each column of the input matrix.
+This function applies \code{\link[matrixStats]{colSums2}}
+to each column of the matrix resulting from \code{w * x}.
 }
 \examples{
 x = matrix(data = c(1,3,1,4), ncol = 2)

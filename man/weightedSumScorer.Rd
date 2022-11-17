@@ -45,7 +45,7 @@ speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
 
-\item{...}{further arguments to \code{\link{weightedSum}}}
+\item{...}{currently not used}
 }
 \value{
 A numerical value representing the computed score.
@@ -57,8 +57,8 @@ This scorer returns the \emph{weighted sum} score(s).
 See the \strong{Details} section below for further information.
 }
 \details{
-This function applies \code{\link{weightedSum}}
-to each column of the input matrix.
+This function applies \code{\link[matrixStats]{colSums2}}
+to each column of the matrix resulting from \code{w * x}.
 }
 \seealso{
 \code{\link{colWeightedSums}}
