@@ -125,7 +125,7 @@ getAvailableRandomSamplers <- function(){
 
   out = c(
     "permutation" = "Permutation (Sampling without Replacement)",
-    "bootstrap"   = "Sampling with Replacement",
+    "bootstrap"   = "Bootstrap (Sampling with Replacement)",
     "rndsig"      = "Random Signatures",
     "rndsigsub"   = "Quasi-Random Signatures"
   )
