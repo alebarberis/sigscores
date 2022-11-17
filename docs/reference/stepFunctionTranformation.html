@@ -64,25 +64,6 @@ See <code><a href="stepFunction.html">stepFunction</a></code> for further inform
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"trimean"</span>, <span class="st">"iqm"</span>, <span class="st">"iqr"</span>, <span class="st">"mad"</span><span class="op">)</span>,</span>
 <span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for vector</span></span>
-<span><span class="fu">stepFunctionTranformation</span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  <span class="va">thr</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"trimean"</span>, <span class="st">"iqm"</span>, <span class="st">"iqr"</span>, <span class="st">"mad"</span><span class="op">)</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">T</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for matrix</span></span>
-<span><span class="fu">stepFunctionTranformation</span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  <span class="va">thr</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"median"</span>, <span class="st">"mean"</span>, <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"trimean"</span>, <span class="st">"iqm"</span>, <span class="st">"iqr"</span>, <span class="st">"mad"</span><span class="op">)</span>,</span>
-<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">T</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -135,12 +116,6 @@ before the computation of the threshold</p></dd>
 of the transformation.</p>
     </div>
     <div class="section level2">
-    <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
-    
-<ul><li><p><code>stepFunctionTranformation(vector)</code>: returns a vector with the transformed values</p></li>
-<li><p><code>stepFunctionTranformation(matrix)</code>: returns a matrix with the transformed values</p></li>
-</ul></div>
-    <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Alessandro Barberis</p>
     </div>
@@ -153,7 +128,7 @@ of the transformation.</p>
 <span class="r-in"><span><span class="co">#x is a vector</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">10</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">stepFunctionTranformation</span><span class="op">(</span><span class="va">x</span>, thr <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("stepFunctionTranformation", x):</span> no applicable method for 'stepFunctionTranformation' applied to an object of class "c('integer', 'numeric')"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -1 -1  1 -1  1 -1 -1  1  1  0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#x is a matrix</span></span></span>
 <span class="r-in"><span><span class="co">#Define row/col size</span></span></span>
@@ -217,6 +192,30 @@ of the transformation.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g18  1  1 -1 -1 -1  1 -1  1  1  -1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g19  1 -1 -1  1 -1 -1  1  1 -1   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g20  1  1 -1 -1 -1  1 -1  1  1  -1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#use median as threshold (by columns)</span></span></span>
+<span class="r-in"><span><span class="fu">stepFunctionTranformation</span><span class="op">(</span><span class="va">x</span>, method <span class="op">=</span> <span class="st">'median'</span>, by <span class="op">=</span> <span class="st">'cols'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     S1 S2 S3 S4 S5 S6 S7 S8 S9 S10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g1  -1  1 -1 -1 -1 -1  1 -1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g2   1 -1  1  1 -1  1  1 -1 -1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g3   1  1 -1 -1 -1 -1 -1  1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g4  -1 -1 -1  1  1 -1 -1 -1 -1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g5   1  1  1 -1  1 -1  1 -1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g6  -1 -1 -1 -1 -1  1  1 -1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g7   1  1 -1 -1 -1 -1 -1 -1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g8  -1 -1 -1  1  1 -1 -1 -1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g9  -1  1  1 -1  1  1 -1  1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g10 -1 -1  1  1  1 -1  1 -1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g11 -1  1  1  1 -1  1  1 -1  1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g12  1  1 -1 -1  1  1  1  1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g13 -1 -1  1 -1  1  1 -1  1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g14 -1 -1 -1 -1  1 -1 -1 -1 -1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g15  1  1  1  1 -1  1  1  1  1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g16 -1 -1  1  1  1  1  1  1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g17  1 -1  1  1  1 -1 -1  1  1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g18  1  1 -1 -1 -1  1 -1  1  1  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g19  1 -1  1  1 -1 -1  1  1 -1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g20  1  1 -1  1 -1  1 -1  1  1  -1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
