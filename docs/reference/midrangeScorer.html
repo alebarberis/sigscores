@@ -106,7 +106,7 @@ to <code>x</code> provided in input</p></dd>
 
 
 <dt>...</dt>
-<dd><p>further arguments to <code><a href="midrange.html">midrange</a></code></p></dd>
+<dd><p>currently not used</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -119,8 +119,15 @@ computed, or if <code>i</code> values are not present in <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function applies <code><a href="midrange.html">midrange</a></code>
-to each column of the input matrix.</p>
+    <p>The midrange score is the average of the lowest
+and highest values in a set of data.
+It is a measure of central tendency like
+the mean, median, and mode. However, it is more prone to bias than
+these other measures because it relies solely upon the two most
+extreme scores, which could potentially be outliers.</p>
+<p>This function calculates the range of values in each
+column of <code>x</code> by calling <code><a href="https://rdrr.io/pkg/matrixStats/man/rowRanges.html" class="external-link">colRanges</a></code>.
+Then, it uses the min and max values to compute the score.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

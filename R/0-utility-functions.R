@@ -672,9 +672,6 @@ getSigScoresAsMatrix <- function(
 #'  )
 #')
 #'
-#'#Set signature
-#'i = rownames(x)[1:5]
-#'
 #'#Take one sample via permutation
 #'#(duplicated elements are not possible)
 #'sampleData(
