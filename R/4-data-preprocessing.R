@@ -163,9 +163,18 @@ getDataTransformer <- function(
 #'@keywords internal
 quantileNormalization <- function(
     x,
-    ...){
+    na.rm       = TRUE,
+    ties.method = c( "min", "max", "first", "last")
+  ){
 
-  UseMethod("quantileNormalization", x)
+  if(isTRUE(is.vector(x))){
+    out = quantileNormalizationForVector(x=x)
+  } else if(isTRUE(is.matrix(x))){
+    out = quantileNormalizationForMatrix(x=x, na.rm=na.rm, ties.method = ties.method)
+  } else {
+    stop("Error: 'x' class is not supported.\n")
+  }
+  return(out)
 }
 
 
@@ -202,7 +211,7 @@ quantileNormalization <- function(
 #'}
 #'@export
 #'@keywords internal
-quantileNormalization.matrix <- function(
+quantileNormalizationForMatrix <- function(
     x,
     na.rm       = TRUE,
     ties.method = c( "min", "max", "first", "last")
@@ -245,8 +254,20 @@ quantileNormalization.matrix <- function(
   return(x)
 }
 
-#'@export
-quantileNormalization.numeric <- function(x){return(x)}
+
+#'Quantile Normalization
+#'
+#'@description Currently this function just returns
+#'\code{x} as it is.
+#'
+#'@param x a (named) numerical vector
+#'
+#'@return This function always returns \code{x}.
+#'
+#'@inherit normaliseData author
+#'
+#'@keywords internal
+quantileNormalizationForVector <- function(x){return(x)}
 
 # #'Class-Specific Quantile Normalization
 # classSpecificQuantileNormalization <- function(
@@ -329,6 +350,9 @@ quantileNormalization.numeric <- function(x){return(x)}
 #'#use median as threshold
 #'stepFunctionTranformation(x, method = 'median')
 #'
+#'#use median as threshold (by columns)
+#'stepFunctionTranformation(x, method = 'median', by = 'cols')
+#'
 #'@export
 stepFunctionTranformation <- function(
   x,
@@ -339,14 +363,29 @@ stepFunctionTranformation <- function(
   na.rm  = TRUE
 ){
 
-    UseMethod("stepFunctionTranformation", x)
+  if(isTRUE(is.vector(x))){
+    out = stepFunctionTranformationForVector(x=x,y=y,thr=thr,method=method,na.rm=na.rm)
+  } else if(isTRUE(is.matrix(x))){
+    out = stepFunctionTranformationForMatrix(x=x,y=y,thr=thr,method=method,by=by,na.rm=na.rm)
+  } else {
+    stop("Error: 'x' class is not supported.\n")
+  }
+  return(out)
 }
 
-
-#'@describeIn stepFunctionTranformation returns a vector with the transformed values
+#'Step Function Transformation for Vector
 #'
-#'@export
-stepFunctionTranformation.vector <- function(
+#'@inherit stepFunctionTranformation description
+#'
+#'@param x a (named) numerical vector
+#'@inheritParams stepFunctionTranformation
+#'
+#'@return A vector with the transformed values.
+#'
+#'@inherit stepFunctionTranformation author
+#'
+#'@keywords internal
+stepFunctionTranformationForVector <- function(
     x,
     y   = c(-1,0,1),
     thr,
@@ -381,12 +420,17 @@ stepFunctionTranformation.vector <- function(
   return(x)
 }
 
-
-
-#'@describeIn stepFunctionTranformation returns a matrix with the transformed values
+#'Step Function Transformation for Matrix
 #'
-#'@export
-stepFunctionTranformation.matrix <- function(
+#'@inherit stepFunctionTranformation description
+#'
+#'@param x a matrix features-by-samples
+#'@inheritParams stepFunctionTranformation
+#'
+#'@return A matrix with the transformed values.
+#'
+#'@keywords internal
+stepFunctionTranformationForMatrix <- function(
     x,
     y   = c(-1,0,1),
     thr,
@@ -397,21 +441,23 @@ stepFunctionTranformation.matrix <- function(
 
   #match
   method = match.arg(method)
+  by     = match.arg(by)
 
   #check
   if(isTRUE(missing(thr) || is.null(thr))) {
     if(isTRUE(identical(by, "cols"))){
-      thr = NULL
+      #compute
+      thr = apply(X = x, MARGIN = 2, FUN = computeMeasure, score = method, na.rm = na.rm, simplify = FALSE)
     } else {
       #compute
       thr = apply(X = x, MARGIN = 1, FUN = computeMeasure, score = method, na.rm = na.rm, simplify = FALSE)
-      #as vector
-      thr = as.vector(unlist(thr))
     }
+    #as vector
+    thr = as.vector(unlist(thr))
   }
 
   #compute
-  x = stepFunction(x = x, y = y, thr = thr)
+  x = stepFunction(x = x, y = y, thr = thr, by = by)
 
   return(x)
 }

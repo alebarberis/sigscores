@@ -1753,7 +1753,21 @@ colZscore <- function(
 #'See the **Details** section below for further information.
 #'
 #'@param x a (named) numerical vector or a matrix features-by-samples
-#'@param ... further arguments passed to or from other methods
+#'@param thr numerical value, the threshold to use to
+#'divide values in \code{x} in two intervals
+#'@param y numerical vector of length 3, the values to
+#'use for the piecewise function.
+#'The first value is used for the left interval,
+#'the second value is used when \code{x == threshold},
+#'and the third value is used for the right interval
+#'@param by character string, indicating whether to
+#'apply the threshold to rows or columns of
+#'\code{x}.
+#'In the first case, the threshold for the \eqn{i}-th row
+#'is the same across columns.
+#'In the second case, the threshold is the same within
+#'the same column vector.
+#'It is used when \code{x} is a matrix
 #'
 #'@return A numerical vector or matrix, containing the output
 #'of the step function for each element of \code{x}.
@@ -1775,42 +1789,70 @@ colZscore <- function(
 #'
 #'@author Alessandro Barberis
 #'
-#@export
+#'@examples
+#'#set seed for reproducibility
+#'set.seed(seed = 5381L)
+#'
+#'#x is a vector
+#'x = sample(x = -10:10, size = 10)
+#'stepFunction(x, thr = 0)
+#'
+#'#x is a matrix
+#'#Define row/col size
+#'nr = 20
+#'nc = 10
+#'
+#'#Create input matrix
+#'x = matrix(
+#'  data = stats::runif(n = nr*nc, min = 0, max = 1000),
+#'  nrow = nr,
+#'  ncol = nc,
+#'  dimnames = list(
+#'    paste0("g",seq(nr)),
+#'    paste0("S",seq(nc))
+#'  )
+#')
+#'#compute
+#'stepFunction(x, thr = 500)
+#'
 #'@keywords internal
 stepFunction <- function(
     x,
-    # y   = c(-1,0,1),
-    # thr = 0
-    ...
+    y   = c(-1,0,1),
+    thr = 0,
+    by = c("rows", "cols")
 ){
 
-  UseMethod("stepFunction", x)
+  if(isTRUE(is.vector(x))){
+    out = stepFunctionForVector(x=x, y=y, thr=thr)
+  } else if(isTRUE(is.matrix(x))){
+    out = stepFunctionForMatrix(x=x, y=y, thr=thr, by = by)
+  } else {
+    stop("Error: 'x' class is not supported.\n")
+  }
+  return(out)
 
 }
 
 #'Step Function
 #'
-#'@describeIn stepFunction returns a vector with the transformed values
+#'@inherit stepFunction  description
 #'
-#@param x (named) numerical vector
-#@inheritParams stepFunction
+#'@param x (named) numerical vector
 #'@param thr numerical value, the threshold to use to
 #'divide values in \code{x} in two intervals
-#'@param y numerical vector of length 3, the values to
-#'use for the piecewise function.
-#'The first value is used for the left interval,
-#'the second value is used when \code{x == threshold},
-#'and the third value is used for the right interval
-#@return A numerical vector, containing the output
-#of the step function for each element of \code{x}.
-#The default settings of \code{thr} and \code{y}
-#makes this function equivalent to a sign function.
+#'@inheritParams stepFunction
+#'@return A numerical vector, containing the output
+#'of the step function for each element of \code{x}.
+#'The default settings of \code{thr} and \code{y}
+#'makes this function equivalent to a sign function.
+#'
+#'@inherit stepFunction details
 #'
 #'@author Alessandro Barberis
 #'
-#'@export
-#@keywords internal
-stepFunction.vector <- function(
+#'@keywords internal
+stepFunctionForVector <- function(
     x,
     y   = c(-1,0,1),
     thr = 0){
@@ -1833,41 +1875,68 @@ stepFunction.vector <- function(
 
 #'Step Function
 #'
-#'@describeIn stepFunction returns a matrix with transformed values
+#'@inherit stepFunction description
 #'
-#@param x numerical matrix, features-by-samples
-#@inheritParams stepFunction
-#'@param thr numerical value, the threshold to use to
-#'divide values in \code{x} in two intervals
-#'@param y numerical vector of length 3, the values to
-#'use for the piecewise function.
-#'The first value is used for the left interval,
-#'the second value is used when \code{x == threshold},
-#'and the third value is used for the right interval
-#@return A numerical matrix, containing the output
-#of the step function for each element of \code{x}.
-#The default settings of \code{thr} and \code{y}
-#makes this function equivalent to a sign function.
+#'@param x numerical matrix, features-by-samples
+#'@param thr numerical vector, the threshold(s) to use to
+#'divide values in \code{x} in two intervals.
+#'If it is a single value, the same threshold is applied
+#'throughout \code{x}.
+#'If \code{by = 'rows'} and \code{thr} has number
+#'of elements equivalent to rows in \code{x} then
+#'a different threshold is applied to each row.
+#'If \code{by = 'cols'} and \code{thr} has number
+#'of elements equivalent to columns in \code{x} then
+#'a different threshold is applied to each column
+#'@inheritParams stepFunction
+#'@param by character string, indicating whether to
+#'apply the threshold to rows or columns of
+#'\code{x}.
+#'In the first case, the threshold for the \eqn{i}-th row
+#'is the same across columns.
+#'In the second case, the threshold is the same within
+#'the same column vector
+#' @return A numerical matrix, containing the output
+#' of the step function for each element of \code{x}.
+#' The default settings of \code{thr} and \code{y}
+#' makes this function equivalent to a sign function.
+#'
+#'@inherit stepFunction details
 #'
 #'@author Alessandro Barberis
 #'
-#'@export
-#@keywords internal
-stepFunction.matrix <- function(
+#'@keywords internal
+stepFunctionForMatrix <- function(
     x,
     y   = c(-1,0,1),
-    thr = 0){
+    thr = 0,
+    by = c("rows", "cols")){
 
+  #0) Match
+  by = match.arg(by)
 
-  #0) dim
+  #1) dim
   dimX = dim(x)
+  len  = length(thr)
+
+  #2) Check input
+  if(isTRUE(len>1)){
+    if(isTRUE(identical(by, "rows") && len!=dimX[1])){stop("Error: 'thr' must be a single value or a vector of values of length nrow(x). Please, check your input.\n")}
+    if(isTRUE(identical(by, "cols") && len!=dimX[2])){stop("Error: 'thr' must be a single value or a vector of values of length ncol(x). Please, check your input.\n")}
+  }
 
   #1) Store row and column names
   rnames = rownames(x)
   cnames = colnames(x)
 
   #2) Apply function
-  x = as.matrix(as.data.frame(apply(X = x, MARGIN = 2, FUN = stepFunction.vector, y = y, thr = thr, simplify = F)))
+  if(isTRUE(identical(by, "rows"))){
+    x = as.matrix(as.data.frame(apply(X = x, MARGIN = 2, FUN = stepFunctionForVector, y = y, thr = thr, simplify = F)))
+  } else {
+    x = as.matrix(as.data.frame(apply(X = x, MARGIN = 1, FUN = stepFunctionForVector, y = y, thr = thr, simplify = F)))
+    x = t(x)
+  }
+
 
   #3) Create output
   x = matrix(data = x, nrow = dimX[1], ncol = dimX[2])
