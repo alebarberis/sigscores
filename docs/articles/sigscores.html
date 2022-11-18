@@ -229,7 +229,7 @@ select a step function as data transformer.</p>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt;   return(out)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x0000000017968238&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x0000000017920f90&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 <p>Looking at the documentation of <code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> we
 can see the function for computing the step function is called
@@ -453,23 +453,38 @@ we can do:</p>
 <span><span class="co">#&gt;     na.rm = TRUE,</span></span>
 <span><span class="co">#&gt;     transform.fun = NULL,</span></span>
 <span><span class="co">#&gt;     transform.args = list(),</span></span>
-<span><span class="co">#&gt;     transform.sub = F,</span></span>
-<span><span class="co">#&gt;     ...</span></span>
-<span><span class="co">#&gt; ){</span></span>
-<span><span class="co">#&gt;   return(</span></span>
-<span><span class="co">#&gt;     genericScorer(</span></span>
-<span><span class="co">#&gt;       score = "weightedSum" ,</span></span>
-<span><span class="co">#&gt;       x = x,</span></span>
-<span><span class="co">#&gt;       i = i,</span></span>
-<span><span class="co">#&gt;       w = w,</span></span>
-<span><span class="co">#&gt;       na.rm = na.rm,</span></span>
-<span><span class="co">#&gt;       transform.fun = transform.fun,</span></span>
-<span><span class="co">#&gt;       transform.args = transform.args,</span></span>
-<span><span class="co">#&gt;       transform.sub = transform.sub,</span></span>
-<span><span class="co">#&gt;       ...)</span></span>
+<span><span class="co">#&gt;     transform.sub = F){</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   if(isTRUE(!is.null(transform.fun) &amp;&amp; is.function(transform.fun))){</span></span>
+<span><span class="co">#&gt;     x = do.call(what = transform.fun, args = c(list(x = x), transform.args))</span></span>
+<span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   #update</span></span>
+<span><span class="co">#&gt;   if(isTRUE(!is.null(i))){</span></span>
+<span><span class="co">#&gt;     x = x[i,,drop=F]</span></span>
+<span><span class="co">#&gt;     w = w[i]</span></span>
+<span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   #compute</span></span>
+<span><span class="co">#&gt;   if(isTRUE(!is.null(w))){</span></span>
+<span><span class="co">#&gt;     ##multiply</span></span>
+<span><span class="co">#&gt;     out = w * x</span></span>
+<span><span class="co">#&gt;   } else {</span></span>
+<span><span class="co">#&gt;     out = x</span></span>
+<span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   ##sum</span></span>
+<span><span class="co">#&gt;   out = colSummations(</span></span>
+<span><span class="co">#&gt;     x = out,</span></span>
+<span><span class="co">#&gt;     na.rm = na.rm</span></span>
 <span><span class="co">#&gt;   )</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   #update</span></span>
+<span><span class="co">#&gt;   out = unlist(out)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   return(out)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x00000000139f2218&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x0000000012f621b0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 </div>
 </div>
@@ -489,7 +504,7 @@ function is retrieved for each provided score id by calling
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x      <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  i      <span class="op">=</span> <span class="va">signature</span>,</span>
-<span>  na.rm  <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  na.rm  <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  scores <span class="op">=</span> <span class="va">summary.scores.ids</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -756,7 +771,7 @@ without replacement.</p>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
-<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
 <span>  sampling <span class="op">=</span> <span class="st">"permutation"</span>,</span>
 <span>  n.repeat <span class="op">=</span> <span class="fl">10</span></span>
@@ -792,7 +807,7 @@ without replacement.</p>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
-<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
 <span>  sampling <span class="op">=</span> <span class="st">"bootstrap"</span>,</span>
 <span>  n.repeat <span class="op">=</span> <span class="fl">10</span></span>
@@ -928,30 +943,30 @@ calling the <code><a href="../reference/createLogger.html">?createLogger</a></co
 <span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
 <span>  logger   <span class="op">=</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span>, level <span class="op">=</span> <span class="st">"DEBUG"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [INFO]  2022-11-18 09:14:52 SIGSCORES</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Starting the computation.</span></span>
+<span><span class="co">#&gt; [INFO]  2022-11-18 23:33:46 SIGSCORES</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Starting the computation.</span></span>
 <span><span class="co">#&gt; ------------------------------------------</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 1</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 2</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 3</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 4</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 5</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 6</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 7</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 8</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 9</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 10</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 11</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 12</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 13</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 14</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 15</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 16</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 17</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 18</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 1</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 2</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 3</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 4</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 5</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 6</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 7</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 8</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 9</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 10</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 11</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 12</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 13</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 14</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 15</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 16</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 17</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Iteration 18</span></span>
 <span><span class="co">#&gt; ------------------------------------------</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Computation finished.</span></span>
-<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Creating output object...DONE</span></span></code></pre></div>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Computation finished.</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 23:33:46 Creating output object...DONE</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="save-to-file">Save to File<a class="anchor" aria-label="anchor" href="#save-to-file"></a>

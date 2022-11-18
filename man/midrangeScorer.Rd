@@ -10,8 +10,7 @@ midrangeScorer(
   na.rm = TRUE,
   transform.fun = NULL,
   transform.args = list(),
-  transform.sub = F,
-  ...
+  transform.sub = F
 )
 }
 \arguments{
@@ -40,8 +39,6 @@ data transformation function}
 speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
-
-\item{...}{currently not used}
 }
 \value{
 A numerical value representing the computed score.
@@ -65,7 +62,7 @@ column of \code{x} by calling \code{\link[matrixStats]{colRanges}}.
 Then, it uses the min and max values to compute the score.
 }
 \seealso{
-\code{\link{colMidranges}}
+\code{\link[matrixStats]{colRanges}}
 }
 \author{
 Alessandro Barberis

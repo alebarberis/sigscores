@@ -129,8 +129,7 @@ See the \strong{Details} section below for further information.
 \code{\link{computeScores}} to handle the computation of
 the scores.
 
-The scoring functions are created via the generic scorer
-\code{\link{genericScorer}}:
+The available scoring functions are:
 \describe{
 \item{\code{"sum"         }}{\code{\link{sumScorer}}}
 \item{\code{"weightedSum" }}{\code{\link{weightedSumScorer}}}

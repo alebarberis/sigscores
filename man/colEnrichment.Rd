@@ -51,6 +51,9 @@ See the \strong{Details} section below for further information.
 It is a wrapper to \code{\link[GSVA]{gsva}}
 function.
 }
+\seealso{
+\code{\link[GSVA]{gsva}}
+}
 \author{
 Alessandro Barberis
 }

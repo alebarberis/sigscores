@@ -55,22 +55,6 @@ from an input vector or from each column vector
 of an input matrix.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">genericScorer</span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  i <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"weightedSum"</span>, <span class="st">"mean"</span>, <span class="st">"trimmedMean"</span>, <span class="st">"weightedMean"</span>, <span class="st">"median"</span>,</span>
-<span>    <span class="st">"mode"</span>, <span class="st">"midrange"</span>, <span class="st">"midhinge"</span>, <span class="st">"trimean"</span>, <span class="st">"iqr"</span>, <span class="st">"iqm"</span>, <span class="st">"mad"</span>, <span class="st">"aad"</span>, <span class="st">"ssgsea"</span>,</span>
-<span>    <span class="st">"gsva"</span>, <span class="st">"plage"</span>, <span class="st">"zscore"</span><span class="op">)</span>,</span>
-<span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  transform.sub <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-    </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -87,7 +71,7 @@ considered for the computation of the score</p></dd>
 
 <dt>w</dt>
 <dd><p>numerical vector of weights the same length as
-<code>i</code>. It is used for the computation of the weighted scores</p></dd>
+<code>nrow(x)</code>. It is used for the computation of the weighted scores</p></dd>
 
 
 <dt>na.rm</dt>
@@ -97,6 +81,10 @@ values from <code>x</code> before computation</p></dd>
 
 <dt>score</dt>
 <dd><p>character string indicating the summary score to compute</p></dd>
+
+
+<dt>...</dt>
+<dd><p>further arguments to <code>score</code></p></dd>
 
 
 <dt>transform.fun</dt>
@@ -120,10 +108,6 @@ speedup computation). Default is <code>FALSE</code>,
 meaning the transformation would be applied directly
 to <code>x</code> provided in input</p></dd>
 
-
-<dt>...</dt>
-<dd><p>further arguments to <code>score</code></p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -134,71 +118,8 @@ A default <code>NA</code> value is returned if the score can't be
 computed, or if <code>i</code> values are not present in <code>x</code>.</p>
     </div>
     <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The function handles input matrices by calling
-<code><a href="computeColMeasures.html">computeColMeasures</a></code>.
-Vectors are converted to 1 column matrices.</p>
-<p>Internally, <code><a href="computeColMeasures.html">computeColMeasures</a></code> uses these
-functions to compute the measures:</p><dl><dt><code>"sum"         </code></dt>
-<dd><p><code><a href="colSummations.html">colSummations</a></code></p></dd>
-
-<dt><code>"weightedSum" </code></dt>
-<dd><p><code><a href="colWeightedSums.html">colWeightedSums</a></code></p></dd>
-
-<dt><code>"mean"        </code></dt>
-<dd><p><code><a href="colArithmeticMeans.html">colArithmeticMeans</a></code></p></dd>
-
-<dt><code>"trimmedMean" </code></dt>
-<dd><p><code><a href="colTrimmedMeans.html">colTrimmedMeans</a></code></p></dd>
-
-<dt><code>"weightedMean"</code></dt>
-<dd><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></dd>
-
-<dt><code>"median"      </code></dt>
-<dd><p><code><a href="colMidpoints.html">colMidpoints</a></code></p></dd>
-
-<dt><code>"mode"        </code></dt>
-<dd><p><code><a href="colModes.html">colModes</a></code></p></dd>
-
-<dt><code>"midrange"    </code></dt>
-<dd><p><code><a href="colMidranges.html">colMidranges</a></code></p></dd>
-
-<dt><code>"midhinge"    </code></dt>
-<dd><p><code><a href="colMidhinges.html">colMidhinges</a></code></p></dd>
-
-<dt><code>"trimean"     </code></dt>
-<dd><p><code><a href="colTrimeans.html">colTrimeans</a></code></p></dd>
-
-<dt><code>"iqr"         </code></dt>
-<dd><p><code><a href="colIQRs.html">colIQRs</a></code></p></dd>
-
-<dt><code>"iqm"         </code></dt>
-<dd><p><code><a href="colIQMs.html">colIQMs</a></code></p></dd>
-
-<dt><code>"mad"         </code></dt>
-<dd><p><code><a href="colMADs.html">colMADs</a></code></p></dd>
-
-<dt><code>"aad"         </code></dt>
-<dd><p><code><a href="colAADs.html">colAADs</a></code></p></dd>
-
-<dt><code>"ssgsea"      </code></dt>
-<dd><p><code><a href="colSsgsea.html">colSsgsea</a></code></p></dd>
-
-<dt><code>"gsva"        </code></dt>
-<dd><p><code><a href="colGsva.html">colGsva</a></code></p></dd>
-
-<dt><code>"plage"       </code></dt>
-<dd><p><code><a href="colPlage.html">colPlage</a></code></p></dd>
-
-<dt><code>"zscore"      </code></dt>
-<dd><p><code><a href="colZscore.html">colZscore</a></code></p></dd>
-
-
-</dl></div>
-    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="getDataTransformer.html">getDataTransformer</a></code>,
-<code><a href="computeColMeasures.html">computeColMeasures</a></code></p></div>
+    <div class="dont-index"><p><code><a href="getDataTransformer.html">getDataTransformer</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

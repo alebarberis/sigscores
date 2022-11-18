@@ -61,8 +61,7 @@ See the <strong>Details</strong> section below for further information.</p>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  transform.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  transform.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  transform.sub <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  transform.sub <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -81,7 +80,7 @@ considered for the computation of the score</p></dd>
 
 <dt>w</dt>
 <dd><p>numerical vector of weights the same length as
-<code>i</code>. It is used for the computation of the weighted scores</p></dd>
+<code>nrow(x)</code>. It is used for the computation of the weighted scores</p></dd>
 
 
 <dt>na.rm</dt>
@@ -110,10 +109,6 @@ speedup computation). Default is <code>FALSE</code>,
 meaning the transformation would be applied directly
 to <code>x</code> provided in input</p></dd>
 
-
-<dt>...</dt>
-<dd><p>further arguments to <code><a href="https://rdrr.io/pkg/matrixStats/man/rowWeightedMeans.html" class="external-link">colWeightedMeans</a></code></p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -130,7 +125,7 @@ function.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="colWeightedArithmeticMeans.html">colWeightedArithmeticMeans</a></code></p></div>
+    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/matrixStats/man/rowWeightedMeans.html" class="external-link">colWeightedMeans</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

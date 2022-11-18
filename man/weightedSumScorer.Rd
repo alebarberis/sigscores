@@ -11,8 +11,7 @@ weightedSumScorer(
   na.rm = TRUE,
   transform.fun = NULL,
   transform.args = list(),
-  transform.sub = F,
-  ...
+  transform.sub = F
 )
 }
 \arguments{
@@ -24,7 +23,7 @@ If \code{missing} or \code{i = NULL}, the entire \code{x} is
 considered for the computation of the score}
 
 \item{w}{numerical vector of weights the same length as
-\code{i}. It is used for the computation of the weighted scores}
+\code{nrow(x)}. It is used for the computation of the weighted scores}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
@@ -44,8 +43,6 @@ data transformation function}
 speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
-
-\item{...}{currently not used}
 }
 \value{
 A numerical value representing the computed score.
@@ -61,7 +58,7 @@ This function applies \code{\link[matrixStats]{colSums2}}
 to each column of the matrix resulting from \code{w * x}.
 }
 \seealso{
-\code{\link{colWeightedSums}}
+\code{\link[matrixStats]{colSums2}}
 }
 \author{
 Alessandro Barberis

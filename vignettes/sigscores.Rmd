@@ -211,7 +211,7 @@ The easiest way for doing so is by passing the score ids to the function via the
 scores = sigscores::computeSigScores(
   x      = x,
   i      = signature,
-  na.rm  = T,
+  na.rm  = FALSE,
   scores = summary.scores.ids
 )
 
@@ -387,7 +387,7 @@ Let's create summary scores for 10 data sets generated using sampling without re
 scores = sigscores::computeSigScores(
   x        = x,
   i        = signature,
-  na.rm    = T,
+  na.rm    = F,
   scores   = summary.scores.ids,
   sampling = "permutation",
   n.repeat = 10
@@ -405,7 +405,7 @@ To use bootstrap instead, we just need change the `sampling` argument.
 scores = sigscores::computeSigScores(
   x        = x,
   i        = signature,
-  na.rm    = T,
+  na.rm    = F,
   scores   = summary.scores.ids,
   sampling = "bootstrap",
   n.repeat = 10

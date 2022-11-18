@@ -11,8 +11,7 @@ aadScorer(
   na.rm = TRUE,
   transform.fun = NULL,
   transform.args = list(),
-  transform.sub = F,
-  ...
+  transform.sub = F
 )
 }
 \arguments{
@@ -54,11 +53,11 @@ This scorer returns the \emph{average absolute deviation} score(s).
 See the \strong{Details} section below for further information.
 }
 \details{
-Internally, it uses \code{\link{colAADs}} to
+Internally, it uses \code{\link[matrixStats]{colMeans2}} to
 compute the measure(s).
 }
 \seealso{
-\code{\link{colAADs}}
+\code{\link[matrixStats]{colMeans2}}
 }
 \author{
 Alessandro Barberis

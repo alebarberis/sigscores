@@ -10,8 +10,7 @@ madScorer(
   na.rm = TRUE,
   transform.fun = NULL,
   transform.args = list(),
-  transform.sub = F,
-  ...
+  transform.sub = F
 )
 }
 \arguments{
@@ -40,8 +39,6 @@ data transformation function}
 speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
-
-\item{...}{further arguments to \code{\link[matrixStats]{colMads}}}
 }
 \value{
 A numerical value representing the computed score.
@@ -57,7 +54,7 @@ It is a wrapper to \code{\link[matrixStats]{colMads}}
 function.
 }
 \seealso{
-\code{\link{colMADs}}
+\code{\link[matrixStats]{colMads}}
 }
 \author{
 Alessandro Barberis

@@ -15,7 +15,7 @@ NULL
 #'If \code{missing} or \code{i = NULL}, the entire \code{x} is
 #'considered for the computation of the score
 #'@param w numerical vector of weights the same length as
-#'\code{i}. It is used for the computation of the weighted scores
+#'\code{nrow(x)}. It is used for the computation of the weighted scores
 #'@param na.rm logical, whether to remove \code{NA}
 #'values from \code{x} before computation
 #'@param score character string indicating the summary score to compute
@@ -42,138 +42,15 @@ NULL
 #'A default \code{NA} value is returned if the score can't be
 #'computed, or if \code{i} values are not present in \code{x}.
 #'
-#'@details
-#'The function handles input matrices by calling
-#'\code{\link{computeColMeasures}}.
-#'Vectors are converted to 1 column matrices.
-#'
-#'Internally, \code{\link{computeColMeasures}} uses these
-#'functions to compute the measures:
-#'\describe{
-#' \item{\code{"sum"         }}{\code{\link{colSummations}}}
-#' \item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
-#' \item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
-#' \item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
-#' \item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
-#' \item{\code{"median"      }}{\code{\link{colMidpoints}}}
-#' \item{\code{"mode"        }}{\code{\link{colModes}}}
-#' \item{\code{"midrange"    }}{\code{\link{colMidranges}}}
-#' \item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
-#' \item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
-#' \item{\code{"iqr"         }}{\code{\link{colIQRs}}}
-#' \item{\code{"iqm"         }}{\code{\link{colIQMs}}}
-#' \item{\code{"mad"         }}{\code{\link{colMADs}}}
-#' \item{\code{"aad"         }}{\code{\link{colAADs}}}
-#' \item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
-#' \item{\code{"gsva"        }}{\code{\link{colGsva}}}
-#' \item{\code{"plage"       }}{\code{\link{colPlage}}}
-#' \item{\code{"zscore"      }}{\code{\link{colZscore}}}
-#'}
-#'
 #'@author Alessandro Barberis
 #'
 #'@seealso
-#'\code{\link{getDataTransformer}},
-#'\code{\link{computeColMeasures}}
+#'\code{\link{getDataTransformer}}
 #'
 #'@keywords internal
-genericScorer <- function(
-    x,
-    i     = NULL,
-    w     = NULL,
-    na.rm = T,
-    score  = c("sum", "weightedSum",
-               "mean", "trimmedMean", "weightedMean",
-               "median", "mode", "midrange", "midhinge",
-               "trimean", "iqr", "iqm", "mad", "aad",
-               "ssgsea", "gsva", "plage", "zscore"),
-    transform.fun  = NULL,
-    transform.args = list(),
-    transform.sub  = FALSE,
-    ...
-){
-
-  #check input ---------------------------------------------------
-  ##x
-  if(isFALSE(is.matrix(x))){
-    x = matrix(data = x, ncol = 1, dimnames = list(names(x)))
-  }
-  ##sample names
-  if(isTRUE(is.null(colnames(x)))){colnames(x) = colnames(x = x, do.NULL = FALSE, prefix = "S")}
-  ##gene names
-  if(isTRUE(is.null(rownames(x)))){rownames(x) = rownames(x = x, do.NULL = FALSE, prefix = "g")}
-
-  ##score
-  score = match.arg(score)
-
-  ##get dim
-  numRow = nrow(x)
-  numCol = ncol(x)
-
-  ##NA
-  if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
-
-  ##check i
-  if(isTRUE(missing(i) || is.null(i))) {i = seq_len(length.out = numRow)}
-  i = updateSig(x = x, i = i)
-  if(isTRUE(is.null(i))){ return(rep(x = getDefaultNaValue(), times = numCol)) }
-
-  #transform data ------------------------------------------------
-  if(isTRUE(score %in% c("ssgsea", "gsva", "plage", "zscore"))){
-    if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
-      x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
-    }
-  } else {
-    if(isTRUE(is.null(transform.fun) || !is.function(transform.fun))){
-      x = subsetData(x = x, i = i, rm.dupli = T)
-    } else {
-      if(isTRUE(transform.sub)){
-        x = subsetData(x = x, i = i, rm.dupli = T)
-        x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
-      } else {
-        x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
-        x = subsetData(x = x, i = i, rm.dupli = T)
-      }
-    }
-  }
-
-  if(isTRUE(score %in% c("weightedSum", "weightedMean"))){
-    #check w
-    if(isTRUE(missing(w) || is.null(w))) {w = rep(x = 1, times = length(i))}
-    #update
-    w = w[getIndex(i)]
-  }
-
-  #compute scores ------------------------------------------------
-  #compute
-  out = switch(
-    score,
-    "sum"             =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "weightedSum"     =  computeColMeasures(score = score, x = x,           w = w, na.rm = na.rm, ...),
-    "mean"            =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "trimmedMean"     =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "weightedMean"    =  computeColMeasures(score = score, x = x,           w = w, na.rm = na.rm, ...),
-    "median"          =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "mode"            =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "midrange"        =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "midhinge"        =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "trimean"         =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "bristow"         =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "iqr"             =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "iqm"             =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "mad"             =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "aad"             =  computeColMeasures(score = score, x = x,                  na.rm = na.rm, ...),
-    "ssgsea"          =  computeColMeasures(score = score, x = x, rows = i,        na.rm = na.rm, ...),
-    "gsva"            =  computeColMeasures(score = score, x = x, rows = i,        na.rm = na.rm, ...),
-    "plage"           =  computeColMeasures(score = score, x = x, rows = i,        na.rm = na.rm, ...),
-    "zscore"          =  computeColMeasures(score = score, x = x, rows = i,        na.rm = na.rm, ...)
-  )
-
-  #return
-  return(out)
-}
-
-
+#'
+#'@name genericScorer
+NULL
 
 # Scorers -----------------------------------------------------------------
 
@@ -192,26 +69,29 @@ genericScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colSummations}}
+#'\code{\link[matrixStats]{colSums2}}
+#'
+#'@export
 sumScorer <- function(
-  x,
-  i = NULL,
-  na.rm = TRUE,
-  transform.fun = NULL,
-  transform.args = list(),
-  transform.sub = F,
-  ...){
-  return(
-    genericScorer(
-      score = "sum",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
+    x,
+    i = NULL,
+    na.rm = TRUE,
+    transform.fun = NULL,
+    transform.args = list(),
+    transform.sub = F
+){
+
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = matrixStats::colSums2(
+    x     = x,
+    na.rm = na.rm,
+    rows  = i
   )
+  return(out)
+
 }
 
 #'Weighted Sum Scorer
@@ -229,7 +109,9 @@ sumScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colWeightedSums}}
+#'\code{\link[matrixStats]{colSums2}}
+#'
+#'@export
 weightedSumScorer <- function(
     x,
     i = NULL,
@@ -237,21 +119,36 @@ weightedSumScorer <- function(
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...
-){
-  return(
-    genericScorer(
-      score = "weightedSum" ,
-      x = x,
-      i = i,
-      w = w,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
+    transform.sub = F){
+
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+    w = w[i]
+  }
+
+  #compute
+  if(isTRUE(!is.null(w))){
+    ##multiply
+    out = w * x
+  } else {
+    out = x
+  }
+
+  ##sum
+  out = matrixStats::colSums2(
+    x     = out,
+    na.rm = na.rm
   )
+
+  #update
+  out = unlist(out)
+
+  return(out)
 }
 
 #'Arithmetic Mean Scorer
@@ -269,27 +166,25 @@ weightedSumScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colArithmeticMeans}}
+#'\code{\link[matrixStats]{colMeans2}}
+#'
+#'@export
 meanScorer <- function(
     x,
-    i = NULL,
+    i     = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "mean",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = matrixStats::colMeans2(
+    x     = x,
+    na.rm = na.rm,
+    rows  = i)
+  return(out)
 }
 
 #'Trimmed Mean Scorer
@@ -307,7 +202,9 @@ meanScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colTrimmedMeans}}
+#'\code{\link{trimmedMean}}
+#'
+#'@export
 trimmedMeanScorer <- function(
     x,
     i = NULL,
@@ -315,22 +212,25 @@ trimmedMeanScorer <- function(
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...
-){
-  return(
-    genericScorer(
-      score = "trimmedMean" ,
-      x = x,
-      i = i,
-      trim = trim,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
-  )
+    transform.sub = F){
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = trimmedMean, trim = trim, na.rm = na.rm,simplify = FALSE)
+
+  #update
+  out = unlist(out)
+
+  return(out)
 }
+
 
 #'Weighted Mean Scorer
 #'
@@ -347,7 +247,9 @@ trimmedMeanScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colWeightedArithmeticMeans}}
+#'\code{\link[matrixStats]{colWeightedMeans}}
+#'
+#'@export
 weightedMeanScorer <- function(
     x,
     i = NULL,
@@ -355,20 +257,17 @@ weightedMeanScorer <- function(
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "weightedMean",
-      x = x,
-      i = i,
-      w = w,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = matrixStats::colWeightedMeans(
+    x     = x,
+    w     = w,
+    na.rm = na.rm,
+    rows  = i)
+  return(out)
 }
 
 #'Median Scorer
@@ -386,27 +285,27 @@ weightedMeanScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colMidpoints}}
+#'\code{\link[matrixStats]{colMedians}}
+#'
+#'@export
 medianScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...
-){
-  return(
-    genericScorer(
-      score = "median",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #compute
+  out = matrixStats::colMedians(
+    x     = x,
+    na.rm = na.rm,
+    rows  = i)
+
+  return(out)
 }
 
 #'Mode Scorer
@@ -424,27 +323,32 @@ medianScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colModes}}
+#'\code{\link{modalValue}}
+#'
+#'@export
 modeScorer <- function(
-  x,
-  i = NULL,
-  na.rm = TRUE,
-  transform.fun = NULL,
-  transform.args = list(),
-  transform.sub = F,
-  ...){
-  return(
-    genericScorer(
-      score = "mode",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    x,
+    i = NULL,
+    na.rm = TRUE,
+    transform.fun = NULL,
+    transform.args = list(),
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = modalValue, na.rm = na.rm, simplify = FALSE)
+
+  #update
+  out = unlist(out)
+
+  return(out)
 }
 
 #'Midrange Scorer
@@ -462,27 +366,38 @@ modeScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colMidranges}}
+#'\code{\link[matrixStats]{colRanges}}
+#'
+#'@export
 midrangeScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "midrange",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  ##ranges
+  ranges = matrixStats::colRanges(
+    x     = x,
+    na.rm = na.rm)
+  ##max
+  maxValues = ranges[,2]
+  ##min
+  minValues = ranges[,1]
+  ##score
+  out = (maxValues + minValues) / 2
+
+  return(out)
 }
 
 #'Midhinge Scorer
@@ -500,26 +415,31 @@ midrangeScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colMidhinges}}
+#'\code{\link{midhinge}}
+#'
+#'@export
 midhingeScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "midhinge"    ,
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = midhinge, na.rm = na.rm, simplify = FALSE)
+
+  #update
+  out = unlist(out)
+  return(out)
 }
 
 #'Trimean Scorer
@@ -537,28 +457,32 @@ midhingeScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colTrimeans}}
+#'\code{\link{trimean}}
+#'
+#'@export
 trimeanScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...
-){
-  return(
-    genericScorer(
-      score = "trimean",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = trimean, na.rm = na.rm, simplify = FALSE)
+
+  #update
+  out = unlist(out)
+
+  return(out)
 }
 
 #'Interquartile Range (IQR) Scorer
@@ -576,27 +500,31 @@ trimeanScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colIQRs}}
+#'\code{\link{iqr}}
+#'
+#'@export
 iqrScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "iqr",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = iqr, na.rm = na.rm, simplify = FALSE)
+
+  #update
+  out = unlist(out)
+  return(out)
 }
 
 #'Interquartile Mean (IQM) Scorer
@@ -614,27 +542,31 @@ iqrScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colIQMs}}
+#'\code{\link{IQM}}
+#'
+#'@export
 iqmScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "iqm",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+
+  #compute
+  out = apply(X = x, MARGIN = 2, FUN = IQM, na.rm = na.rm, simplify = FALSE)
+
+  #update
+  out = unlist(out)
+  return(out)
 }
 
 #'Median Absolute Deviation (MAD) Scorer
@@ -652,28 +584,29 @@ iqmScorer <- function(
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colMADs}}
+#'\code{\link[matrixStats]{colMads}}
+#'
+#'@export
 madScorer <- function(
     x,
     i = NULL,
     na.rm = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "mad",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+    transform.sub = F){
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  #compute
+  out = matrixStats::colMads(
+    x     = x,
+    na.rm = na.rm,
+    rows  = i)
+
+  return(out)
 }
+
 
 #'Average Absolute Deviation (AAD) Scorer
 #'
@@ -687,13 +620,15 @@ madScorer <- function(
 #'@inherit genericScorer return
 #'
 #'@details
-#'Internally, it uses \code{\link{colAADs}} to
+#'Internally, it uses \code{\link[matrixStats]{colMeans2}} to
 #'compute the measure(s).
 #'
 #'@inherit genericScorer author
 #'
 #'@seealso
-#'\code{\link{colAADs}}
+#'\code{\link[matrixStats]{colMeans2}}
+#'
+#'@export
 aadScorer <- function(
     x,
     i = NULL,
@@ -701,20 +636,34 @@ aadScorer <- function(
     na.rm  = TRUE,
     transform.fun = NULL,
     transform.args = list(),
-    transform.sub = F,
-    ...){
-  return(
-    genericScorer(
-      score = "aad",
-      x = x,
-      i = i,
-      center = center,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub
-    )
+    transform.sub = F){
+  #update
+  if(isTRUE(!is.null(i))){
+    x = x[i,,drop=F]
+  }
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+
+  #check
+  if(isTRUE(missing(center) || is.null(center))) {
+    center = colMidpoints(x = x, na.rm = na.rm)
+  }
+  if(isTRUE(length(center)==1)){center = rep(x = center, times = ncol(x))}
+
+  #subtract
+  out = sweep(x = x, MARGIN = 2, STATS = center, FUN = "-")
+
+  #abs
+  out = abs(out)
+
+  #compute
+  out = matrixStats::colMeans2(
+    x     = out,
+    na.rm = na.rm
   )
+  return(out)
 }
 
 #'Single Sample Gene Set Enrichment Analysis (ssGSEA) Scorer
@@ -731,8 +680,9 @@ aadScorer <- function(
 #'
 #'@inherit genericScorer author
 #'
-#'@seealso
-#'\code{\link{colSsgsea}}
+#'@inherit colEnrichment seealso
+#'
+#'@export
 ssgseaScorer <- function(
     x,
     i = NULL,
@@ -742,18 +692,12 @@ ssgseaScorer <- function(
     transform.sub = F,
     ...
 ){
-  return(
-    genericScorer(
-      score = "ssgsea",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = colEnrichment(method = "ssgsea", x = x, rows = i, na.rm = na.rm, ...)
+  return(out)
 }
 
 #'Gene Set Variation Analysis (GSVA) Scorer
@@ -770,8 +714,9 @@ ssgseaScorer <- function(
 #'
 #'@inherit genericScorer author
 #'
-#'@seealso
-#'\code{\link{colGsva}}
+#'@inherit colEnrichment seealso
+#'
+#'@export
 gsvaScorer <- function(
     x,
     i = NULL,
@@ -780,17 +725,12 @@ gsvaScorer <- function(
     transform.args = list(),
     transform.sub = F,
     ...){
-  return(
-    genericScorer(
-      score = "gsva",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...)
-  )
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = colEnrichment(method = "gsva", x = x, rows = i, na.rm = na.rm, ...)
+  return(out)
 }
 
 #'Pathway Level Analysis of Gene Expression (PLAGE) Scorer
@@ -807,8 +747,9 @@ gsvaScorer <- function(
 #'
 #'@inherit genericScorer author
 #'
-#'@seealso
-#'\code{\link{colPlage}}
+#'@inherit colEnrichment seealso
+#'
+#'@export
 plageScorer <- function(
     x,
     i = NULL,
@@ -817,18 +758,12 @@ plageScorer <- function(
     transform.args = list(),
     transform.sub = F,
     ...){
-  return(
-    genericScorer(
-      score = "plage",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = colEnrichment(method = "plage", x = x, rows = i, na.rm = na.rm, ...)
+  return(out)
 }
 
 #'Z-Score Scorer
@@ -845,8 +780,9 @@ plageScorer <- function(
 #'
 #'@inherit genericScorer author
 #'
-#'@seealso
-#'\code{\link{colZscore}}
+#'@inherit colEnrichment seealso
+#'
+#'@export
 zscoreScorer <- function(
     x,
     i = NULL,
@@ -855,18 +791,13 @@ zscoreScorer <- function(
     transform.args = list(),
     transform.sub = F,
     ...){
-  return(
-    genericScorer(
-      score = "zscore",
-      x = x,
-      i = i,
-      na.rm = na.rm,
-      transform.fun = transform.fun,
-      transform.args = transform.args,
-      transform.sub = transform.sub,
-      ...
-    )
-  )
+  if(isTRUE(!is.null(transform.fun) && is.function(transform.fun))){
+    x = do.call(what = transform.fun, args = c(list(x = x), transform.args))
+  }
+
+  out = colEnrichment(method = "zscore", x = x, rows = i, na.rm = na.rm, ...)
+  return(out)
+
 }
 
 
@@ -1188,7 +1119,7 @@ computeScores <- function(
     logger    = NULL,
     filename  = "sigscores",
     outdir    = NULL
-  ){
+){
 
   #check input ------------------------------------------------
   ##x
@@ -1213,6 +1144,7 @@ computeScores <- function(
       }
     }
     scorers = getScorers(scores = scores)
+    areScoresInternal = T
   } else {
     if(isTRUE(is.list(scorers))){
       if(isFALSE(all(sapply(scorers, FUN = is.function)))){
@@ -1221,6 +1153,7 @@ computeScores <- function(
     } else {
       stop("Error: provided 'scorers' not valid. It should be a named list, where each element is a function computing a score.\n")
     }
+    areScoresInternal = F
   }
   ##args
   if(isFALSE(missing(args) | is.null(args))){
@@ -1234,7 +1167,13 @@ computeScores <- function(
 
   ##signature
   if(isTRUE(missing(i) | is.null(i))){
-    i = rownames(x)
+    i = seq_len(length.out = nrow(x))
+  } else {
+    #check i
+    if(isTRUE(is.character(i))){
+      #get as integer
+      i = match(table = rownames(x), x = i)
+    }
   }
   ##get size
   n = length(i)
@@ -1255,13 +1194,22 @@ computeScores <- function(
     .inorder = T,
     fun = function(iloop, scorers, args, ...) {
       #compute
-      o = do.call(
-        what = scorers[[iloop]],
-        args = c(
-          list(...),
-          args[[names(scorers)[[iloop]]]]
-        )
+      o = tryCatch(
+        expr = {
+          do.call(
+            what = scorers[[iloop]],
+            args = c(
+              list(...),
+              args[[names(scorers)[[iloop]]]]
+            )
+          )
+        },
+        error = function(err){
+          o = rep(x = getDefaultNaValue(), times = ncol(list(...)[['x']]))
+          return(o)
+        }
       )
+
       #return
       return(o)
     },

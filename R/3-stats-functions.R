@@ -1628,6 +1628,9 @@ colAADs <- function(
 #'
 #'@inherit computeColMeasures author
 #'
+#'@seealso
+#'\code{\link[GSVA]{gsva}}
+#'
 #'@keywords internal
 colEnrichment <- function(
   x,
@@ -1665,7 +1668,7 @@ colEnrichment <- function(
   numCol = ncol(x)
 
   #check
-  if(isTRUE(all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
+  if(isTRUE(!na.rm && all(is.na(x)))){return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(numRow < 2)){   return(rep(x = getDefaultNaValue(), times = numCol))}
   if(isTRUE(is.null(rownames(x))) & is.character(rows)){stop("Error: 'x' must have row names.\n")}
 

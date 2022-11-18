@@ -3,21 +3,6 @@
 \name{genericScorer}
 \alias{genericScorer}
 \title{Generic Scorer Function}
-\usage{
-genericScorer(
-  x,
-  i = NULL,
-  w = NULL,
-  na.rm = T,
-  score = c("sum", "weightedSum", "mean", "trimmedMean", "weightedMean", "median",
-    "mode", "midrange", "midhinge", "trimean", "iqr", "iqm", "mad", "aad", "ssgsea",
-    "gsva", "plage", "zscore"),
-  transform.fun = NULL,
-  transform.args = list(),
-  transform.sub = FALSE,
-  ...
-)
-}
 \arguments{
 \item{x}{(named) numerical vector or matrix}
 
@@ -27,12 +12,14 @@ If \code{missing} or \code{i = NULL}, the entire \code{x} is
 considered for the computation of the score}
 
 \item{w}{numerical vector of weights the same length as
-\code{i}. It is used for the computation of the weighted scores}
+\code{nrow(x)}. It is used for the computation of the weighted scores}
 
 \item{na.rm}{logical, whether to remove \code{NA}
 values from \code{x} before computation}
 
 \item{score}{character string indicating the summary score to compute}
+
+\item{...}{further arguments to \code{score}}
 
 \item{transform.fun}{function to transform the data.
 If provided, \code{x} is transformed
@@ -49,8 +36,6 @@ data transformation function}
 speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
-
-\item{...}{further arguments to \code{score}}
 }
 \value{
 A numerical value representing the computed score.
@@ -62,37 +47,8 @@ This function computes a summary score
 from an input vector or from each column vector
 of an input matrix.
 }
-\details{
-The function handles input matrices by calling
-\code{\link{computeColMeasures}}.
-Vectors are converted to 1 column matrices.
-
-Internally, \code{\link{computeColMeasures}} uses these
-functions to compute the measures:
-\describe{
-\item{\code{"sum"         }}{\code{\link{colSummations}}}
-\item{\code{"weightedSum" }}{\code{\link{colWeightedSums}}}
-\item{\code{"mean"        }}{\code{\link{colArithmeticMeans}}}
-\item{\code{"trimmedMean" }}{\code{\link{colTrimmedMeans}}}
-\item{\code{"weightedMean"}}{\code{\link{colWeightedArithmeticMeans}}}
-\item{\code{"median"      }}{\code{\link{colMidpoints}}}
-\item{\code{"mode"        }}{\code{\link{colModes}}}
-\item{\code{"midrange"    }}{\code{\link{colMidranges}}}
-\item{\code{"midhinge"    }}{\code{\link{colMidhinges}}}
-\item{\code{"trimean"     }}{\code{\link{colTrimeans}}}
-\item{\code{"iqr"         }}{\code{\link{colIQRs}}}
-\item{\code{"iqm"         }}{\code{\link{colIQMs}}}
-\item{\code{"mad"         }}{\code{\link{colMADs}}}
-\item{\code{"aad"         }}{\code{\link{colAADs}}}
-\item{\code{"ssgsea"      }}{\code{\link{colSsgsea}}}
-\item{\code{"gsva"        }}{\code{\link{colGsva}}}
-\item{\code{"plage"       }}{\code{\link{colPlage}}}
-\item{\code{"zscore"      }}{\code{\link{colZscore}}}
-}
-}
 \seealso{
-\code{\link{getDataTransformer}},
-\code{\link{computeColMeasures}}
+\code{\link{getDataTransformer}}
 }
 \author{
 Alessandro Barberis

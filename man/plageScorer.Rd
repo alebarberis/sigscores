@@ -57,7 +57,7 @@ It is a wrapper to \code{\link[GSVA]{gsva}}
 function.
 }
 \seealso{
-\code{\link{colPlage}}
+\code{\link[GSVA]{gsva}}
 }
 \author{
 Alessandro Barberis

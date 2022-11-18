@@ -10,8 +10,7 @@ trimeanScorer(
   na.rm = TRUE,
   transform.fun = NULL,
   transform.args = list(),
-  transform.sub = F,
-  ...
+  transform.sub = F
 )
 }
 \arguments{
@@ -40,8 +39,6 @@ data transformation function}
 speedup computation). Default is \code{FALSE},
 meaning the transformation would be applied directly
 to \code{x} provided in input}
-
-\item{...}{further arguments to \code{\link{trimean}}}
 }
 \value{
 A numerical value representing the computed score.
@@ -57,7 +54,7 @@ This function applies \code{\link{trimean}}
 to each column of the input matrix.
 }
 \seealso{
-\code{\link{colTrimeans}}
+\code{\link{trimean}}
 }
 \author{
 Alessandro Barberis
