@@ -90,7 +90,7 @@ forLoop <- function(
           #----------------------------------------------------------------------#
 
           #Open connection to log file
-          logger.task = open_con(logger);
+          logger.task = openCon(logger);
 
           logDebug(object = logger.task, message = paste0("[",i, "] : DONE"), sep = "\n", add.level = T, add.time = T)
 

@@ -52,4 +52,3 @@ devtools::install_github(
 ## Getting started
 If you are just getting started with **sigscores** we recommend starting with [Getting Started](articles/sigscores.html) section of the site.
 <!-- `vignette("sigscores")` -->
-
