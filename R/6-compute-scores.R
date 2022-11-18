@@ -146,6 +146,15 @@ NULL
 #'  i = rownames(x)[1:10]
 #')
 #'
+#'#Compute all scores and log
+#'computeSigScores(
+#'  x = x,
+#'  i = rownames(x)[1:10],
+#'  logger = createLogger(
+#'    verbose = T,
+#'    level = "DEBUG")
+#')
+#'
 #'#Compute one score
 #'computeSigScores(
 #'  x = x,
@@ -188,6 +197,22 @@ NULL
 #'  i        = rownames(x)[1:10],
 #'  sampling = "permutation",
 #'  n.repeat = 10
+#')
+#'
+#'#Compute scores with permutation;
+#'#save log file and the results
+#'computeSigScores(
+#'  x        = x,
+#'  i        = rownames(x)[1:10],
+#'  sampling = "permutation",
+#'  n.repeat = 10,
+#'  logger = createLogger(
+#'    verbose = T,
+#'    level = "DEBUG",
+#'    path = file.path("mydir/test/log.txt")
+#'    ),
+#'  outdir = "mydir/test",
+#'  filename = "sigscores"
 #')
 #'
 #'#Compute scores with bootstrap
@@ -233,12 +258,19 @@ computeSigScores <- function(
     args      = NULL,
     sampling  = c("none", "permutation", "bootstrap", "rndsig", "rndsigsub"),
     n.repeat  = 10L,
-    cores     = 1L
+    cores     = 1L,
+    logger    = NULL,
+    outdir    = NULL,
+    filename  = "sigscores"
 ){
 
   #check input ------------------------------------------------
-   ##sampling
+  ##sampling
   sampling = match.arg(sampling)
+
+  ##logger
+  logger = openCon(logger)
+  logInfo(object = logger, message = "SIGSCORES", sep = "\n", add.level = TRUE, add.time = TRUE)
 
   #compute scores ------------------------------------------------
   if(isTRUE(identical(sampling, "none"))){
@@ -251,7 +283,8 @@ computeSigScores <- function(
       scorers   = scorers,
       sample.id = T,
       cores     = cores,
-      args      = args
+      args      = args,
+      logger    = logger
     )
 
   } else {
@@ -296,7 +329,8 @@ computeSigScores <- function(
         scores  = scores,
         scorers = scorers,
         i       = i,
-        args    = args
+        args    = args,
+        logger  = logger
       )
     } else if(isTRUE(sampling %in% c("rndsig", "rndsigsub"))){
       ##random signatures  ------------------------------------------
@@ -342,7 +376,8 @@ computeSigScores <- function(
         na.rm   = na.rm,
         scores  = scores,
         scorers = scorers,
-        args    = args
+        args    = args,
+        logger  = logger
       )
 
     } else {
@@ -352,6 +387,25 @@ computeSigScores <- function(
     ##shape as data frame
     out = data.table::setDF(x = data.table::rbindlist(l = out, use.names = TRUE, idcol = FALSE))
   }
+
+
+  #save         --------------------------------------------------
+  saveRes = dirExists(outdir);
+  if(isTRUE(saveRes)){
+    if(isTRUE(!missing(filename) & is.character(filename))){
+      #Save locally
+      logDebug(object = logger, message = "Saving the results...", sep = "", add.level = TRUE, add.time = TRUE)
+      saveRDS(object = out, file = file.path(outdir, paste0(filename, ".rds")));
+      logDebug(object = logger, message = "DONE.", sep = "\n", add.level = F, add.time = F)
+
+    } else {
+      warning("Output directory was provided but 'filename' is missing without default. Data won't be saved.\n")
+    }
+  }
+
+  #clean ---------------------------------------------------------
+  ##logger
+  closeCon(logger)
 
   #return         ---------------------------------------------------
   return(out)

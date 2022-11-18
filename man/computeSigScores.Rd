@@ -15,7 +15,10 @@ computeSigScores(
   args = NULL,
   sampling = c("none", "permutation", "bootstrap", "rndsig", "rndsigsub"),
   n.repeat = 10L,
-  cores = 1L
+  cores = 1L,
+  logger = NULL,
+  outdir = NULL,
+  filename = "sigscores"
 )
 }
 \arguments{
@@ -79,6 +82,17 @@ for further details}
 to generate}
 
 \item{cores}{number of cores to use for parallel execution.}
+
+\item{logger}{(optional) a \code{\link{Logger}} object.
+If provided, it will be used to report extra information
+on progress. To create a Logger use \code{\link{createLogger}}}
+
+\item{outdir}{(optional) character string, path to
+the output directory. If provided the returned data
+will be stored}
+
+\item{filename}{(optional) character string, a name without
+extension for the output file}
 }
 \value{
 A data frame containing the computed
@@ -187,6 +201,15 @@ computeSigScores(
  i = rownames(x)[1:10]
 )
 
+#Compute all scores and log
+computeSigScores(
+ x = x,
+ i = rownames(x)[1:10],
+ logger = createLogger(
+   verbose = T,
+   level = "DEBUG")
+)
+
 #Compute one score
 computeSigScores(
  x = x,
@@ -229,6 +252,22 @@ computeSigScores(
  i        = rownames(x)[1:10],
  sampling = "permutation",
  n.repeat = 10
+)
+
+#Compute scores with permutation;
+#save log file and the results
+computeSigScores(
+ x        = x,
+ i        = rownames(x)[1:10],
+ sampling = "permutation",
+ n.repeat = 10,
+ logger = createLogger(
+   verbose = T,
+   level = "DEBUG",
+   path = file.path("mydir/test/log.txt")
+   ),
+ outdir = "mydir/test",
+ filename = "sigscores"
 )
 
 #Compute scores with bootstrap

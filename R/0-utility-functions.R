@@ -968,3 +968,29 @@ openCon <- function(object){
   object = setCon(object = object, value = con)
   return(object)
 }
+
+# Directory ---------------------------------------------------------------
+
+#'Check the existence of a directory
+#'
+#'@description This function checks the existence of a directory in input.
+#'See the **Details** section below for further information.
+#'
+#'@param path character string, a directory path
+#'
+#'@return \code{TRUE} if \code{output} is a path to a directory,
+#'\code{FALSE} otherwise.
+#'
+#'@details The function checks that the path exists.
+#'If not, it creates the entire path by using
+#'\code{\link[base]{dir.create}} with \code{recursive = TRUE}.
+#'
+#'@author Alessandro Barberis
+#'
+#'@keywords internal
+dirExists <- function(path){
+  if(!missing(path) && !is.null(path)){hasDir = T} else {hasDir = F}
+  if(hasDir && !dir.exists(path)){dir.create(path, recursive = TRUE)}
+
+  return(hasDir)
+}

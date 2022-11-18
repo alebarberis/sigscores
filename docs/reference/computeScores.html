@@ -69,7 +69,9 @@ considering each column vector in the input matrix
 <span>  args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sample.id <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cores <span class="op">=</span> <span class="fl">1L</span>,</span>
-<span>  logger <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  logger <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filename <span class="op">=</span> <span class="st">"sigscores"</span>,</span>
+<span>  outdir <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -129,15 +131,29 @@ sample ID as a column in the output data frame</p></dd>
 
 
 <dt>logger</dt>
-<dd><p>a <code><a href="Logger.html">Logger</a></code></p></dd>
+<dd><p>(optional) a <code><a href="Logger.html">Logger</a></code> object.
+If provided, it will be used to report extra information
+on progress. To create a Logger use <code><a href="createLogger.html">createLogger</a></code></p></dd>
+
+
+<dt>filename</dt>
+<dd><p>(optional) character string, a name without
+extension for the output file</p></dd>
+
+
+<dt>outdir</dt>
+<dd><p>(optional) character string, path to
+the output directory. If provided the returned data
+will be stored</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A numerical vector containing the computed
-score for each sample.</p>
+<p>A data frame containing the computed
+score(s) for each sample. Each row corresponds to
+a different sample.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

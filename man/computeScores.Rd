@@ -13,7 +13,9 @@ computeScores(
   args = NULL,
   sample.id = TRUE,
   cores = 1L,
-  logger = NULL
+  logger = NULL,
+  filename = "sigscores",
+  outdir = NULL
 )
 }
 \arguments{
@@ -54,11 +56,21 @@ sample ID as a column in the output data frame}
 
 \item{cores}{number of cores to use for parallel execution.}
 
-\item{logger}{a \code{\link{Logger}}}
+\item{logger}{(optional) a \code{\link{Logger}} object.
+If provided, it will be used to report extra information
+on progress. To create a Logger use \code{\link{createLogger}}}
+
+\item{filename}{(optional) character string, a name without
+extension for the output file}
+
+\item{outdir}{(optional) character string, path to
+the output directory. If provided the returned data
+will be stored}
 }
 \value{
-A numerical vector containing the computed
-score for each sample.
+A data frame containing the computed
+score(s) for each sample. Each row corresponds to
+a different sample.
 }
 \description{
 This function computes summary

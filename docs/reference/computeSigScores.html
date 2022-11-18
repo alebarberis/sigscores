@@ -86,7 +86,10 @@ than <code>1</code>.</p>
 <span>  args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sampling <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"permutation"</span>, <span class="st">"bootstrap"</span>, <span class="st">"rndsig"</span>, <span class="st">"rndsigsub"</span><span class="op">)</span>,</span>
 <span>  n.repeat <span class="op">=</span> <span class="fl">10L</span>,</span>
-<span>  cores <span class="op">=</span> <span class="fl">1L</span></span>
+<span>  cores <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  logger <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  outdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filename <span class="op">=</span> <span class="st">"sigscores"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -175,6 +178,23 @@ to generate</p></dd>
 
 <dt>cores</dt>
 <dd><p>number of cores to use for parallel execution.</p></dd>
+
+
+<dt>logger</dt>
+<dd><p>(optional) a <code><a href="Logger.html">Logger</a></code> object.
+If provided, it will be used to report extra information
+on progress. To create a Logger use <code><a href="createLogger.html">createLogger</a></code></p></dd>
+
+
+<dt>outdir</dt>
+<dd><p>(optional) character string, path to
+the output directory. If provided the returned data
+will be stored</p></dd>
+
+
+<dt>filename</dt>
+<dd><p>(optional) character string, a name without
+extension for the output file</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -330,6 +350,15 @@ built-in data transformers</p></div>
 <span class="r-in"><span> i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Compute all scores and log</span></span></span>
+<span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
+<span class="r-in"><span> x <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span> i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> logger <span class="op">=</span> <span class="fu"><a href="createLogger.html">createLogger</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   verbose <span class="op">=</span> <span class="cn">T</span>,</span></span>
+<span class="r-in"><span>   level <span class="op">=</span> <span class="st">"DEBUG"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Compute one score</span></span></span>
 <span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
 <span class="r-in"><span> x <span class="op">=</span> <span class="va">x</span>,</span></span>
@@ -372,6 +401,22 @@ built-in data transformers</p></div>
 <span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"permutation"</span>,</span></span>
 <span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Compute scores with permutation;</span></span></span>
+<span class="r-in"><span><span class="co">#save log file and the results</span></span></span>
+<span class="r-in"><span><span class="fu">computeSigScores</span><span class="op">(</span></span></span>
+<span class="r-in"><span> x        <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span> i        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> sampling <span class="op">=</span> <span class="st">"permutation"</span>,</span></span>
+<span class="r-in"><span> n.repeat <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span> logger <span class="op">=</span> <span class="fu"><a href="createLogger.html">createLogger</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   verbose <span class="op">=</span> <span class="cn">T</span>,</span></span>
+<span class="r-in"><span>   level <span class="op">=</span> <span class="st">"DEBUG"</span>,</span></span>
+<span class="r-in"><span>   path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">"mydir/test/log.txt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span>,</span></span>
+<span class="r-in"><span> outdir <span class="op">=</span> <span class="st">"mydir/test"</span>,</span></span>
+<span class="r-in"><span> filename <span class="op">=</span> <span class="st">"sigscores"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Compute scores with bootstrap</span></span></span>

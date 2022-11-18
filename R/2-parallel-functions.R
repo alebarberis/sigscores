@@ -33,7 +33,7 @@ forLoop <- function(
   if(isTRUE(is.null(logger))){logger = createLogger(verbose = FALSE)}
   logger = openCon(logger)
   # verbose = get_verbose(logger)
-
+  logDebug(object = logger, message = getLogLine("short.line.1"), sep = "\n", add.level = F, add.time = F)
   #-----------------------------------------------------------------------------------#
   #Check cores
   if(isTRUE(is.null(cores) | is.na(cores)) | cores < 0){cores = 1L}
@@ -44,22 +44,22 @@ forLoop <- function(
   #-----------------------------------------------------------------------------------#
   if(isTRUE(parallel)){
     #Setup parallel
-    # log_info(object = logger, message = "Detecting the number of available cores: ", sep = "", add.level = TRUE, add.time = TRUE)
+    logDebug(object = logger, message = "Detecting the number of available cores: ", sep = "", add.level = TRUE, add.time = TRUE)
 
     numCores.max = parallel::detectCores();
 
-    # log_info(object = logger, message = numCores.max, sep = "\n", add.level = F, add.time = F)
+    logDebug(object = logger, message = numCores.max, sep = "\n", add.level = F, add.time = F)
 
 
     if(isTRUE(!is.na(numCores.max) && numCores.max>1)){
-      # log_info(object = logger, message = "Setting up parallel environment...", sep = "", add.level = TRUE, add.time = TRUE)
+      logDebug(object = logger, message = "Setting up parallel environment...", sep = "", add.level = TRUE, add.time = TRUE)
 
       if(isTRUE(cores >= numCores.max)) {cores = numCores.max - 1}
 
       cl <- parallel::makeCluster(spec = cores)
       doParallel::registerDoParallel(cl);
 
-      # log_info(object = logger, message = paste("DONE:", cores, "cores selected"), sep = "\n", add.level = F, add.time = F)
+      logDebug(object = logger, message = paste("DONE:", cores, "cores selected"), sep = "\n", add.level = F, add.time = F)
     } else {
       parallel     = FALSE;
       warning("The number of detected cores is 1 or not available. Execution set to sequential.")
@@ -89,14 +89,13 @@ forLoop <- function(
 
           #----------------------------------------------------------------------#
 
-          # #Open connection to log file
-          # logger.task = open_con(logger);
-          #
-          # log_info(object = logger.task, message = paste0("[",i, "] : DONE"), sep = "\n", add.level = T, add.time = T)
-          # log_info(object = logger.task, message = get_log_line("long.line.1"), sep = "\n", add.level = F, add.time = F)
-          #
-          # #Close connection to log file
-          # close_con(logger.task);
+          #Open connection to log file
+          logger.task = open_con(logger);
+
+          logDebug(object = logger.task, message = paste0("[",i, "] : DONE"), sep = "\n", add.level = T, add.time = T)
+
+          #Close connection to log file
+          close_con(logger.task);
           #----------------------------------------------------------------------#
 
           return(res);
@@ -104,16 +103,15 @@ forLoop <- function(
 
     }, finally = {
       #Stop cluster
-      # log_info(object = logger, message = "Shut down workers and stop parallel socket cluster...", sep = "", add.level = T, add.time = T)
+      logDebug(object = logger, message = "Shut down workers and stop parallel socket cluster...", sep = "", add.level = T, add.time = T)
 
       parallel::stopCluster(cl = cl);
 
-      # log_info(object = logger, message = "DONE", sep = "\n", add.level = F, add.time = F)
+      logDebug(object = logger, message = "DONE", sep = "\n", add.level = F, add.time = F)
     })
 
   } else {
     for(i in 1L:n.iter){
-      # log_info(object = logger, message = paste("Iteration", i), sep = "\n", add.level = T, add.time = T)
       logDebug(object = logger, message = paste("Iteration", i), sep = "\n", add.level = T, add.time = T)
 
       #Fit the model
@@ -121,7 +119,7 @@ forLoop <- function(
     }#END FOR(time in 1L:repeats)
   }
   #-----------------------------------------------------------------------------------#
-
+  logDebug(object = logger, message = getLogLine("short.line.1"), sep = "\n", add.level = F, add.time = F)
   closeCon(logger)
 
   #-----------------------------------------------------------------------------------#

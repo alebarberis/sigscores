@@ -166,6 +166,8 @@ getLogLevels = function(
     OFF   = ""
   )
 
+  return(out)
+
 }
 
 #'Get log levels
@@ -183,6 +185,7 @@ logLevelNameFixedLength <- function(level){
     INFO  = "[INFO] ",
     OFF   = ""
   )
+  return(out)
 }
 
 

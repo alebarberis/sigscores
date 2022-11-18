@@ -1047,10 +1047,18 @@ getScorers <- function(
 #'@param sample.id logical, whether to report the
 #'sample ID as a column in the output data frame
 #'@inheritParams forLoop
-#'@param logger a \code{\link{Logger}}
+#'@param logger (optional) a \code{\link{Logger}} object.
+#'If provided, it will be used to report extra information
+#'on progress. To create a Logger use \code{\link{createLogger}}
+#'@param filename (optional) character string, a name without
+#'extension for the output file
+#'@param outdir (optional) character string, path to
+#'the output directory. If provided the returned data
+#'will be stored
 #'
-#'@return A numerical vector containing the computed
-#'score for each sample.
+#'@return A data frame containing the computed
+#'score(s) for each sample. Each row corresponds to
+#'a different sample.
 #'
 #'@author Alessandro Barberis
 #'
@@ -1177,7 +1185,9 @@ computeScores <- function(
     args      = NULL,
     sample.id = TRUE,
     cores     = 1L,
-    logger    = NULL
+    logger    = NULL,
+    filename  = "sigscores",
+    outdir    = NULL
   ){
 
   #check input ------------------------------------------------
@@ -1229,7 +1239,12 @@ computeScores <- function(
   ##get size
   n = length(i)
 
+  ##logger
+  logger = openCon(logger)
+
   #compute scores ------------------------------------------------
+  logDebug(object = logger, message = "Starting the computation.", sep = "\n", add.level = TRUE, add.time = TRUE)
+
   ##loop over scores
   ###number of iteration
   n.iter = length(scorers)
@@ -1259,6 +1274,12 @@ computeScores <- function(
     args   = args
   )
 
+  logDebug(object = logger, message = "Computation finished.", sep = "\n", add.level = TRUE, add.time = TRUE)
+
+  #output --------------------------------------------------------
+
+  logDebug(object = logger, message = "Creating output object...", sep = "", add.level = TRUE, add.time = TRUE)
+
   ##set names
   names(out) = names(scorers)
 
@@ -1277,6 +1298,27 @@ computeScores <- function(
     #re-order columns
     out = out[,unique(c("sampleID", colnames(out))), drop=F]
   }
+
+  logDebug(object = logger, message = "DONE", sep = "\n", add.level = F, add.time = F)
+
+
+  #save         --------------------------------------------------
+  saveRes = dirExists(outdir);
+  if(isTRUE(saveRes)){
+    if(isTRUE(!missing(filename) & is.character(filename))){
+      #Save locally
+      logDebug(object = logger, message = "Saving the results...", sep = "", add.level = TRUE, add.time = TRUE)
+      saveRDS(object = out, file = file.path(outdir, paste0(filename, ".rds")));
+      logDebug(object = logger, message = "DONE.", sep = "\n", add.level = F, add.time = F)
+
+    } else {
+      warning("Output directory was provided but 'filename' is missing without default. Data won't be saved.\n")
+    }
+  }
+
+  #clean ---------------------------------------------------------
+  ##logger
+  closeCon(logger)
 
   #return         ------------------------------------------------
   return(out)
