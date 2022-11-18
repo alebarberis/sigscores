@@ -95,7 +95,7 @@ forLoop <- function(
           logDebug(object = logger.task, message = paste0("[",i, "] : DONE"), sep = "\n", add.level = T, add.time = T)
 
           #Close connection to log file
-          close_con(logger.task);
+          closeCon(logger.task);
           #----------------------------------------------------------------------#
 
           return(res);
