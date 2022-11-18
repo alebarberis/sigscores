@@ -5,7 +5,8 @@ NULL
 
 #'Logger Structure
 #'
-#'@description Creates a Logger object.
+#'@description The Logger class serves as the core element for the
+#'logging system in \code{sigscores}.
 #'
 #' @param path a path to the log file to use
 #' @param con (optional) connection to a file
@@ -20,7 +21,7 @@ NULL
 #' }
 #' Levels are considered ordered: \code{OFF < INFO < DEBUG < TRACE < ALL}
 #'
-#' @return a Logger object
+#' @return A Logger object.
 #'
 #' @author Alessandro Barberis
 #'
@@ -68,7 +69,7 @@ Logger <- function(path, con, verbose, level){
 #' }
 #' Levels are considered ordered: \code{OFF < INFO < DEBUG < TRACE < ALL}
 #'
-#' @return a Logger object
+#' @return A \code{\link{Logger}} object.
 #'
 #'@seealso
 #'\code{\link{logAll}},

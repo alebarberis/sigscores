@@ -24,10 +24,11 @@ Logger(path, con, verbose, level)
 Levels are considered ordered: \code{OFF < INFO < DEBUG < TRACE < ALL}}
 }
 \value{
-a Logger object
+A Logger object.
 }
 \description{
-Creates a Logger object.
+The Logger class serves as the core element for the
+logging system in \code{sigscores}.
 }
 \author{
 Alessandro Barberis

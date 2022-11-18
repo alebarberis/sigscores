@@ -457,6 +457,49 @@ scores = sigscores::computeSigScores(
 head(x = scores, n = 6L)
 ```
 
+## Logging
+**sigscores** provides a basic event logging system. It can be easily set-up by providing a `?Logger` to `?computeSigScores`. A `?Logger` can be created by calling the `?createLogger` function.
+
+```{r summary_scores_log}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  logger   = createLogger(verbose = TRUE, level = "DEBUG")
+)
+```
+
+## Save to File
+The result of the computation and a log file can be automatically saved to disk.
+
+```{r summary_scores_save_to_disk, eval=FALSE}
+#define your output directory
+outdir = "mydir/test"
+#choose a name for the result file
+#(without file extension)
+resfile = "sigscores"
+#choose a name for the log file
+#(with file extension)
+logfile = "log.txt"
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  logger   = createLogger(
+    verbose = TRUE, 
+    level   = "DEBUG",
+    path    = file.path(outdir, logfile)
+  ),
+  outdir   = outdir,
+  filename = resfile
+)
+```
+
+
 ## Parallel Execution
 **sigscores** provides a simple approach to speed up computation on a multi-core computer via the usage of [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/html/00Index.html), [doParallel](https://cran.r-project.org/package=doParallel), and [foreach](https://cran.r-project.org/package=foreach) R packages. 
 

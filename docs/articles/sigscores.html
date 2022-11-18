@@ -220,9 +220,16 @@ select a step function as data transformer.</p>
 <span><span class="co">#&gt;   na.rm  = TRUE</span></span>
 <span><span class="co">#&gt; ){</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     UseMethod("stepFunctionTranformation", x)</span></span>
+<span><span class="co">#&gt;   if(isTRUE(is.vector(x))){</span></span>
+<span><span class="co">#&gt;     out = stepFunctionTranformationForVector(x=x,y=y,thr=thr,method=method,na.rm=na.rm)</span></span>
+<span><span class="co">#&gt;   } else if(isTRUE(is.matrix(x))){</span></span>
+<span><span class="co">#&gt;     out = stepFunctionTranformationForMatrix(x=x,y=y,thr=thr,method=method,by=by,na.rm=na.rm)</span></span>
+<span><span class="co">#&gt;   } else {</span></span>
+<span><span class="co">#&gt;     stop("Error: 'x' class is not supported.\n")</span></span>
+<span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt;   return(out)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x000000001641da18&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x0000000017968238&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 <p>Looking at the documentation of <code><a href="../reference/getDataTransformer.html">?getDataTransformer</a></code> we
 can see the function for computing the step function is called
@@ -462,7 +469,7 @@ we can do:</p>
 <span><span class="co">#&gt;       ...)</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x0000000008247ee8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x00000000139f2218&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:sigscores&gt;</span></span></code></pre></div>
 </div>
 </div>
@@ -906,6 +913,76 @@ all possible elements of <code>x</code> after removing the value from
 </div>
 </div>
 <div class="section level2">
+<h2 id="logging">Logging<a class="anchor" aria-label="anchor" href="#logging"></a>
+</h2>
+<p><strong>sigscores</strong> provides a basic event logging system. It
+can be easily set-up by providing a <code><a href="../reference/Logger.html">?Logger</a></code> to
+<code><a href="../reference/computeSigScores.html">?computeSigScores</a></code>. A <code><a href="../reference/Logger.html">?Logger</a></code> can be created by
+calling the <code><a href="../reference/createLogger.html">?createLogger</a></code> function.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
+<span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
+<span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
+<span>  logger   <span class="op">=</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span>, level <span class="op">=</span> <span class="st">"DEBUG"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [INFO]  2022-11-18 09:14:52 SIGSCORES</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Starting the computation.</span></span>
+<span><span class="co">#&gt; ------------------------------------------</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 1</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 2</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 3</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 4</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 5</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 6</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 7</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 8</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 9</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 10</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 11</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 12</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 13</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 14</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 15</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 16</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 17</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Iteration 18</span></span>
+<span><span class="co">#&gt; ------------------------------------------</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Computation finished.</span></span>
+<span><span class="co">#&gt; [DEBUG] 2022-11-18 09:14:52 Creating output object...DONE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="save-to-file">Save to File<a class="anchor" aria-label="anchor" href="#save-to-file"></a>
+</h2>
+<p>The result of the computation and a log file can be automatically
+saved to disk.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#define your output directory</span></span>
+<span><span class="va">outdir</span> <span class="op">=</span> <span class="st">"mydir/test"</span></span>
+<span><span class="co">#choose a name for the result file</span></span>
+<span><span class="co">#(without file extension)</span></span>
+<span><span class="va">resfile</span> <span class="op">=</span> <span class="st">"sigscores"</span></span>
+<span><span class="co">#choose a name for the log file</span></span>
+<span><span class="co">#(with file extension)</span></span>
+<span><span class="va">logfile</span> <span class="op">=</span> <span class="st">"log.txt"</span></span>
+<span><span class="co">#compute summary scores</span></span>
+<span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
+<span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  i        <span class="op">=</span> <span class="va">signature</span>,</span>
+<span>  na.rm    <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  scores   <span class="op">=</span> <span class="va">summary.scores.ids</span>,</span>
+<span>  logger   <span class="op">=</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span></span>
+<span>    verbose <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>    level   <span class="op">=</span> <span class="st">"DEBUG"</span>,</span>
+<span>    path    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">outdir</span>, <span class="va">logfile</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  outdir   <span class="op">=</span> <span class="va">outdir</span>,</span>
+<span>  filename <span class="op">=</span> <span class="va">resfile</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="parallel-execution">Parallel Execution<a class="anchor" aria-label="anchor" href="#parallel-execution"></a>
 </h2>
 <p><strong>sigscores</strong> provides a simple approach to speed up
@@ -916,7 +993,7 @@ packages.</p>
 <p>To enable parallel execution we just need to set the argument
 <code>cores</code> in the <code><a href="../reference/computeSigScores.html">?computeSigScores</a></code> function with
 an integer greater than 1. For example, let’s try to use 2 cores.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores with parallel execution</span></span>
 <span><span class="va">scores</span> <span class="op">=</span> <span class="fu">sigscores</span><span class="fu">::</span><span class="fu"><a href="../reference/computeSigScores.html">computeSigScores</a></span><span class="op">(</span></span>
 <span>  x        <span class="op">=</span> <span class="va">x</span>,</span>
@@ -940,7 +1017,7 @@ an higher number of repeats. To time the execution of the function calls
 we can use the <code><a href="https://rdrr.io/r/base/system.time.html" class="external-link">?system.time</a></code> R function.</p>
 <p>Let’s consider 500 permutations of the original data and compute the
 scores in a serial fashion first.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_serial</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -956,7 +1033,7 @@ scores in a serial fashion first.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now we can run the parallel execution with the same number of repeats
 and selecting 5 cores.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#compute summary scores</span></span>
 <span><span class="va">time_parallel</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  expr <span class="op">=</span> <span class="op">{</span></span>
@@ -981,7 +1058,7 @@ Logical Processor(s)</li>
 </ul>
 <p>the execution times for the serial and parallel computations
 were:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#create a matrix</span></span>
 <span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  serial   <span class="op">=</span> <span class="va">time_serial</span>,</span>

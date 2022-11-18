@@ -29,7 +29,7 @@ createLogger(
 Levels are considered ordered: \code{OFF < INFO < DEBUG < TRACE < ALL}}
 }
 \value{
-a Logger object
+A \code{\link{Logger}} object.
 }
 \description{
 Constructor for the object.
