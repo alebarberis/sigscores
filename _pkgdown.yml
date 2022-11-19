@@ -33,7 +33,6 @@ reference:
   - gsvaScorer
   - plageScorer
   - zscoreScorer
-
 - title: Statistical Measures for Matrix
   desc: These are the functions used to compute the statistical measures
   contents:
@@ -56,7 +55,6 @@ reference:
   - colGsva
   - colPlage
   - colZscore
-
 - title: Statistical Measures for Vector
   desc: These are the functions used to compute the statistical measures
   contents:
@@ -79,20 +77,17 @@ reference:
   - gsva
   - plage
   - zscore
-
 - title: Random Sampling
   desc: These functions are used to generate random samples of the data
   contents:
   - sampleData
   - randomSignatures
-
 - title: Data Transformation
   desc: These functions are used to transform the data before computation
   contents:
   - transformData
   - stepFunctionTranformation
   - quantileNormalization
-
 - title: Utility Functions
   contents:
   - getAvailableScores
