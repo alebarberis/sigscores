@@ -1,0 +1,608 @@
+---
+title: "An introduction to `sigscores`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{An introduction to `sigscores`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Introduction
+**sigscores** is an helpful package providing an easy way to compute summary scores for gene signatures.
+
+There is one main function `?computeSigScores`, that can be used to compute all the available scores. The scores can be selected via summary score ids (`scores` argument) or scorers (`scorers` argument).
+
+## Setup
+Firstly, we load `sigscores` and other needed packages:
+
+```{r setup}
+library(sigscores)
+```
+
+
+## Seed
+Now we want to set a seed for the random number generation (RNG). In fact, different R sessions have different seeds created from current time and process ID by default, and consequently different simulation results. By fixing a seed we ensure we will be able to reproduce the results of this vignette. We can specify a seed by calling `?set.seed`.
+
+
+```{r set_seed}
+#Set a seed for RNG
+set.seed(
+  #A seed
+  seed = 5381L,                   #a randomly chosen integer value
+  #The kind of RNG to use
+  kind = "Mersenne-Twister",      #we make explicit the current R default value
+  #The kind of Normal generation
+  normal.kind = "Inversion"       #we make explicit the current R default value
+)
+```
+
+
+## Data
+We create now some simulated data to use. For this vignette, we will consider a matrix with 100 genes and 10 samples.
+
+```{r create_data}
+#number of samples
+nc = 10
+#number of genes
+nr = 100
+#create matrix
+x = matrix(
+  data = sample(x = nr*nc),
+  nrow = nr,
+  ncol = nc,
+  dimnames = list(
+    paste0("g",seq_len(nr)), 
+    paste0("S",seq_len(nc))
+  )
+)
+```
+
+
+We can inspect the data by using the `?head` function, which returns the first parts of a vector, matrix, table, data frame or function. Let's print the first 6 rows of our matrix.
+
+
+```{r inspect_data}
+#print
+head(x = x, n = 6L)
+```
+
+
+We can now define our gene signature. For example, we can randomly select some genes from the matrix. Let's select 20 genes.
+
+
+```{r create_data_signature}
+#number of genes in signature
+ng = 20
+
+#select genes
+signature = rownames(x)[sample(x = seq_len(nr), size = ng)]
+
+#print
+signature
+```
+
+
+## Data Transformation
+We may want to compute some of the scores on transformed data. Users can obviously directly provide the data to work on as `x`. 
+
+However, to facilitate this task, `sigscores` provides `r length(getAvailableDataTransformers()$id)` built-in data transformation functions. A list of currently supported data transformers is available through the `?getAvailableDataTransformers` function call.
+
+```{r list_data_transformers}
+#list transformers
+data.transformers = getAvailableDataTransformers()
+
+#print in table
+knitr::kable(x = data.transformers)
+```
+
+
+We can extract the ids by selecting the `id` column.
+
+
+```{r data_transformers_ids}
+#transformer ids
+data.transformers.ids = data.transformers$id
+
+#print
+print(data.transformers.ids)
+```
+
+The data transformation function can be obtained through the `?getDataTransformer` function call. For example, let's select a step function as data transformer.
+
+```{r data_transformer}
+#transformer
+data.transformer = getDataTransformer(f = 'stepFunction')
+
+#function
+data.transformer
+```
+
+Looking at the documentation of `?getDataTransformer` we can see the function for computing the step function is called `?stepFunctionTranformation`, which accepts different arguments. In particular, `method` indicates the score to be used as
+threshold in the step function, and `by` indicates whether to compute the threshold by applying `method` to rows or columns of `x`.
+
+We can then use the transformer to create a new data set to be used for the computation of the scores.
+
+```{r transform_data}
+#transform data
+newx = do.call(
+  what = data.transformer, 
+  args = list(x = x, method = 'median', by = 'rows')
+)
+
+#print
+head(x = newx, n = 6L)
+```
+
+
+## Summary Scores
+A list of currently supported scores is available through the `?getAvailableScores` function call, which returns a table with two columns:
+
+* `id`: the id of the summary score, to be used in the function calls
+* `name`: the name of the summary score
+
+
+```{r list_summary_scores}
+#list summary scores
+summary.scores = getAvailableScores()
+
+#print in table
+knitr::kable(x = summary.scores)
+```
+
+As we previously wrote, `?computeSigScores` accepts in input summary score ids or scorers.
+
+### Score IDs
+We can extract the ids by selecting the `id` column in the previous table.
+
+```{r summary_scores_ids}
+#summary score ids
+summary.scores.ids = summary.scores$id
+
+#print
+print(summary.scores.ids)
+```
+
+Internally, the score ids are used to create scorers, that will be used for the computation of the scores.
+
+
+### Scorers
+Under the hood, `sigscores` uses scorers, i.e. functions that compute the summary scores. All scorers in `sigscores` share some common parameters:
+
+* `x`: a (named) numerical vector or matrix
+* `i`: a signature
+* `na.rm`: a logical value, indicating whether to remove `NA` values before the computation of the score
+* `...`: further parameters to the specific scoring function
+* `transform.fun`: it is used to provide a transformation function
+* `transform.args`: a list containing the parameters for `transform.fun`
+* `transform.sub`: a logical value indicating whether to transform `x` after it is subset for the signature `i` (used to speedup computation, as transformation function should take less time on a reduced data set)
+
+The option of providing a data transformer to a scorer is given to facilitate the application of specific transformation functions to a selected summary measure via an automated process.
+
+We can retrieve a scorer by providing a single score id to the function `?getScorer` or multiple ids to `?getScorers`. For example, let's get the scorer for a weighted sum. We know the related score id (i.e. `weightedSum`) from the table obtained through the `?getAvailableScores` function call, so to obtain the scorer we can do: 
+
+```{r get_scorer}
+#get one scorer
+scorer = getScorer(score = "weightedSum")
+
+#see function
+scorer
+```
+
+
+## Compute the Scores
+Finally, we can compute our summary scores. 
+
+### Using `scores`
+The easiest way for doing so is by passing the score ids to the function via the `scores` argument. Internally, a scoring function is retrieved for each provided score id by calling `?getScorers`.
+
+```{r summary_scores}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = FALSE,
+  scores = summary.scores.ids
+)
+
+#print
+head(scores)
+```
+
+### Using `scorers`
+Alternatively, we can define our own list by providing scoring functions. Let's retrieve two scorers by using the function `?getScorer`.
+
+```{r summary_scores_by_scorers}
+#create scorers list
+scorers = list(
+  'mean'     = getScorer("mean"),
+  'midpoint' = getScorer("median")#we name this score 'midpoint'
+)
+
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scorers = scorers
+)
+
+#print
+head(scores)
+```
+
+
+### Changing Default Arguments
+
+To change the default arguments of a specific score function, we can use `args`: the argument accept a named list, where the name of the element must match the id of the score we want to compute. For example, we may want to compute a trimmed mean considering a specific fraction of elements to be trimmed from each end. Looking at the documentation of `?computeSigScores` we can see the scorer computing the trimmed mean is called `?trimmedMeanScorer`, which accepts an argument `trim`. We can then pass the argument from `?computeSigScores` via `args`:
+
+```{r summary_scores_w_args}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scores = summary.scores.ids,
+  args   = list(trimmedMean = list(trim = 0.2))
+)
+
+#print
+head(scores)
+```
+
+### `scorers` and `args`
+By using `scorers` and `args` we can define our list of scorers having specific names and parameters.
+
+
+```{r summary_scores_by_scorers_and_args}
+#create scorers list
+scorers = list(
+  'trimmedMean03' = getScorer("trimmedMean"),
+  'trimmedMean04' = getScorer("trimmedMean")
+)
+
+#compute summary scores
+scores2 = sigscores::computeSigScores(
+  x      = x,
+  i      = signature,
+  na.rm  = T,
+  scorers = scorers,
+  args   = list(
+    trimmedMean03 = list(trim = 0.3),
+    trimmedMean04 = list(trim = 0.4)
+  )
+)
+
+#print
+head(scores2)
+```
+
+### Transforming the Data
+To facilitate the application of specific transformation functions to selected scores via an automated process, it is possible to provide a data transformer in input to the scorers. The provided transformer is used to transform the data before the computation of the scores.
+
+To pass the needed parameters to the scorer from `?computeSigScores` we can again use `args`.
+
+```{r summary_scores_and_transformers, fig.height = 5, fig.width = 6}
+#Transform data and compute the scores
+scoresTD = computeSigScores(
+  x = x,
+  i = signature,
+  scorers = list(
+   'score1' = getScorer('weightedSum'),
+   'score2' = getScorer('trimmedMean')
+  ),
+  args = list(
+   'score1' = list(
+      transform.fun = getDataTransformer('quantile')
+    ),
+   'score2' = list(
+      trim = 0.2,
+      transform.fun = getDataTransformer('stepFunction'),
+      transform.args = list(
+        method = 'median',
+        by = 'rows'
+      )
+    )
+  )
+)
+
+#print
+head(scoresTD)
+```
+
+## Visualisation
+`sigscores` provides some basic functions for plotting. For example, we can plot our computed results via an heat map by using the `?heatmapSigScores` function, which requires the output of `?computeSigScores` as the `data` parameter.
+
+```{r summary_scores_w_args_plot_heatmap, fig.height = 5, fig.width = 6}
+#create plot
+p = sigscores::heatmapSigScores(
+  data   = scores
+)
+
+#visualise
+p
+```
+
+
+We can visualise the correlation of the summary scores by using another built-in function, i.e. `?heatmapCorSigScores`. The correlation matrix can be directly provided via the `cor` parameter. If `cor = NULL`, `?heatmapCorSigScores` internally computes the correlation by using the default settings of `?computeSigScoresCorrelation`.
+
+
+```{r summary_scores_correlation_plot_heatmap, fig.height=6, fig.width=6}
+#create plot
+p = sigscores::heatmapCorSigScores(
+  data = scores,
+  cor  = NULL
+)
+
+#visualise
+p
+```
+
+
+
+It is also possible to represent the summary scores via box plots thanks to another built-in function, i.e. `?boxplotSigScores`. We can also subset the scores we want to plot by using the `scores` parameter.
+
+
+```{r summary_scores_plot_boxplot, fig.height=6, fig.width=6}
+#create plot
+p = sigscores::boxplotSigScores(
+  data   = scores,
+  scores = c("mean", "mode", "median", "iqm", "midrange", "midhinge", "trimean")
+)
+
+#visualise
+p
+```
+
+
+## Significance of the Scores
+We may want to understand if the computed scores are due to the selected genes in our signature, or if we might have ended up with similar scores also with different lists of genes. 
+
+
+### Sampling the Data
+To associate significance to each of the computed scores we can use a resampling method. The idea is to calculate the probability of observing a resampling value as extreme as the one calculated on the original data. The main steps involved in this process are:
+
+1. Draw random samples from the original data
+2. Compute the summary scores on the simulated data
+3. Create a sampling distribution for each score
+4. Calculate the significance for each score
+
+To facilitate this computation, `?computeSigScores` can also calculate the summary scores for data sets generated using resampling. Two techniques are provided out-of-the-box in `?computeSigScores`: **permutation** (i.e. sampling without replacement) and **bootstrap** (i.e. sampling with replacement). The main new arguments we need to set are `sampling`, which indicates the technique we want to use, and `n.repeat`, which tells the function how many random samples we want to generate. 
+
+Let's create summary scores for 10 data sets generated using sampling without replacement.
+
+
+```{r summary_scores_data_permutation}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = F,
+  scores   = summary.scores.ids,
+  sampling = "permutation",
+  n.repeat = 10
+)
+
+#print
+head(scores)
+```
+
+
+To use bootstrap instead, we just need change the `sampling` argument.
+
+```{r summary_scores_data_bootstrap_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = F,
+  scores   = summary.scores.ids,
+  sampling = "bootstrap",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
+
+
+### Random Signatures
+Instead of creating new data sets via resampling, we can also generate random signatures, i.e. randomly generated vectors of the same size as `i`. 
+
+To facilitate this computation, `?computeSigScores`allows two options: **rndsig** (where all elements - row indices - of `x` can be randomly selected) and **rndsigsub** (where only the elements - row indices - of `x` that are not in `i` can be randomly selected). We can still use the `sampling` parameter to indicate the technique we want to use, and `n.repeat`, to tell the function how many random signatures we want to generate.
+
+
+Let's create summary scores for 10 random signatures. For doing so, we just need to write `sampling = 'rndsig'`.
+
+```{r summary_scores_random_signatures_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "rndsig",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
+
+
+A final available option is to generate random signatures by using all possible elements of `x` after removing the value from `i`. For this scenario, we just need to use `sampling = 'rndsigsub'`.
+
+```{r summary_scores_random_signatures_sub_serial}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "rndsigsub",
+  n.repeat = 10
+)
+
+#print
+head(x = scores, n = 6L)
+```
+
+## Logging
+**sigscores** provides a basic event logging system. It can be easily set-up by providing a `?Logger` to `?computeSigScores`. A `?Logger` can be created by calling the `?createLogger` function.
+
+```{r summary_scores_log}
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  logger   = createLogger(verbose = TRUE, level = "DEBUG")
+)
+```
+
+## Save to File
+The result of the computation and a log file can be automatically saved to disk.
+
+```{r summary_scores_save_to_disk, eval=FALSE}
+#define your output directory
+outdir = "mydir/test"
+#choose a name for the result file
+#(without file extension)
+resfile = "sigscores"
+#choose a name for the log file
+#(with file extension)
+logfile = "log.txt"
+#compute summary scores
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  logger   = createLogger(
+    verbose = TRUE, 
+    level   = "DEBUG",
+    path    = file.path(outdir, logfile)
+  ),
+  outdir   = outdir,
+  filename = resfile
+)
+```
+
+
+## Parallel Execution
+**sigscores** provides a simple approach to speed up computation on a multi-core computer via the usage of [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/html/00Index.html), [doParallel](https://cran.r-project.org/package=doParallel), and [foreach](https://cran.r-project.org/package=foreach) R packages. 
+
+To enable parallel execution we just need to set the argument `cores` in the `?computeSigScores` function with an integer greater than 1. For example, let's try to use 2 cores.
+
+
+```{r summary_scores_random_signatures_parallel, eval=FALSE}
+#compute summary scores with parallel execution
+scores = sigscores::computeSigScores(
+  x        = x,
+  i        = signature,
+  na.rm    = T,
+  scores   = summary.scores.ids,
+  sampling = "permutation",
+  n.repeat = 2,
+  cores    = 2
+)
+```
+
+
+As a note, the function internally perform some checks before setting a parallel environment, so if the provided number of cores is too high it will set `cores` as the maximum number of available (logical) processors on the machine minus 1.
+
+
+### Serial vs Parallel
+We could see the advantage of using a parallel execution by comparing the computation time between a serial and parallel setting when having an higher number of repeats. To time the execution of the function calls we can use the `?system.time` R function.
+
+Let's consider 500 permutations of the original data and compute the scores in a serial fashion first. 
+
+```{r summary_scores_random_signatures_sequential_time, eval=FALSE}
+#compute summary scores
+time_serial = system.time(
+  expr = {
+    scoresS = sigscores::computeSigScores(
+      x        = x,
+      i        = signature,
+      na.rm    = T,
+      scores   = summary.scores.ids,
+      sampling = "permutation",
+      n.repeat = 500
+    )
+  }
+)
+```
+
+
+Now we can run the parallel execution with the same number of repeats and selecting 5 cores. 
+
+```{r summary_scores_random_signatures_parallel_time, eval=FALSE}
+#compute summary scores
+time_parallel = system.time(
+  expr = {
+    scoresP = sigscores::computeSigScores(
+      x        = x,
+      i        = signature,
+      na.rm    = T,
+      scores   = summary.scores.ids,
+      sampling = "permutation",
+      n.repeat = 500,
+      cores    = 5
+    )
+  }
+)
+```
+
+```{r summary_scores_random_signatures_default_time, include=FALSE}
+#Data was retrieved from an execution.
+#We decided to use fixed numbers to avoid re-running 
+#the computation in case of changes of this vignette
+
+time_serial   = c(170.17, 0.06, 170.50, NA, NA)
+time_parallel = c(1.20,   2.08,  84.03, NA, NA)
+
+names(time_serial)   = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")
+names(time_parallel) = c("user.self", "sys.self", "elapsed", "user.child", "sys.child")
+```
+
+
+Finally, we can compare the execution time. On a laptop having the following hardware:
+
+* Intel(R) Core(TM) i7-8650 CPU @ 1.90GHz, 2112MHz, 4 Core(s), 8 Logical Processor(s)
+* 1TB SSD Hard Drive
+* 16GB RAM
+
+the execution times for the serial and parallel computations were:
+
+```{r summary_scores_random_signatures_time_comparison}
+#create a matrix
+m = rbind(
+  serial   = time_serial,
+  parallel = time_parallel
+)
+
+#print
+print(m)
+```
+
+
+The parallel execution was around `r round(x = time_serial["elapsed"] / time_parallel["elapsed"], digits = 2)` times faster than the serial execution.
+
+<!-- ## Session Info -->
+
+<!-- The version number of R and packages loaded for generating the vignette. -->
+
+<!-- ```{r session_info} -->
+<!-- sessionInfo() -->
+<!-- ``` -->

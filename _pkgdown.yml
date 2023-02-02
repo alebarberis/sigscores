@@ -1,0 +1,100 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: Summary Scores
+  desc: This is the main function to compute the summary scores
+  contents: computeSigScores
+- title: Plot Summary Scores
+  desc: These are the main functions to visualise the summary scores
+  contents:
+  - heatmapSigScores
+  - heatmapCorSigScores
+  - boxplotSigScores
+  - scatterplotSigScores
+- title: Scorers
+  desc: These are the scorers to compute the summary scores
+  contents:
+  - sumScorer
+  - weightedSumScorer
+  - meanScorer
+  - trimmedMeanScorer
+  - weightedMeanScorer
+  - medianScorer
+  - modeScorer
+  - midrangeScorer
+  - midhingeScorer
+  - trimeanScorer
+  - iqrScorer
+  - iqmScorer
+  - madScorer
+  - aadScorer
+  - ssgseaScorer
+  - gsvaScorer
+  - plageScorer
+  - zscoreScorer
+- title: Statistical Measures for Matrix
+  desc: These are the functions used to compute the statistical measures
+  contents:
+  - computeColMeasures
+  - colSummations
+  - colWeightedSums
+  - colArithmeticMeans
+  - colTrimmedMeans
+  - colWeightedArithmeticMeans
+  - colMidpoints
+  - colModes
+  - colMidranges
+  - colMidhinges
+  - colTrimeans
+  - colIQRs
+  - colIQMs
+  - colMADs
+  - colAADs
+  - colSsgsea
+  - colGsva
+  - colPlage
+  - colZscore
+- title: Statistical Measures for Vector
+  desc: These are the functions used to compute the statistical measures
+  contents:
+  - computeVectorMeasure
+  - summation
+  - weightedSum
+  - arithmeticMean
+  - trimmedMean
+  - weightedMean
+  - midpoint
+  - modalValue
+  - midrange
+  - midhinge
+  - trimean
+  - iqr
+  - IQM
+  - MAD
+  - AAD
+  - ssgsea
+  - gsva
+  - plage
+  - zscore
+- title: Random Sampling
+  desc: These functions are used to generate random samples of the data
+  contents:
+  - sampleData
+  - randomSignatures
+- title: Data Transformation
+  desc: These functions are used to transform the data before computation
+  contents:
+  - transformData
+  - stepFunctionTranformation
+  - stepFunction
+  - quantileNormalization
+- title: Utility Functions
+  contents:
+  - getAvailableScores
+  - getAvailableDataTransformers
+  - getAvailableRandomSamplers
+  - getScorer
+  - getScorers
+  - getDataTransformer
+  - createLogger

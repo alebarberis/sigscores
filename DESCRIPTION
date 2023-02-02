@@ -1,0 +1,47 @@
+Package: sigscores
+Type: Package
+Title: Compute Summary Scores for Gene Signatures
+Version: 0.0.0.9000
+Authors@R: c(
+  person(given="Alessandro", family="Barberis", email="abarberis.sw@gmail.com", role=c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6718-855X"))
+  )
+Maintainer: Alessandro Barberis <abarberis.sw@gmail.com>
+Description: This package contains a set of useful functions to compute summary scores for 
+    gene signatures.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 4.1.0)
+Imports: 
+    data.table,
+    doParallel,
+    foreach,
+    GSVA,
+    matrixStats,
+    parallel,
+    stats
+Suggests: 
+    circlize,
+    ComplexHeatmap,
+    ggplot2,
+    grid,
+    knitr,
+    psych,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    usethis
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+RoxygenNote: 7.2.3
+Collate: 
+    '0-utility-functions.R'
+    '1-log-functions.R'
+    '2-parallel-functions.R'
+    '3-stats-functions.R'
+    '4-data-preprocessing.R'
+    '5-scorers.R'
+    '6-compute-scores.R'
+    '7-significance.R'
+    '8-plot-scores.R'
