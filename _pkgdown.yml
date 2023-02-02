@@ -1,4 +1,4 @@
-url: ~
+url: https://alebarberis.github.io/sigscores/
 template:
   bootstrap: 5
 reference:
@@ -98,3 +98,4 @@ reference:
   - getScorers
   - getDataTransformer
   - createLogger
+

@@ -45,5 +45,6 @@ Collate:
     '6-compute-scores.R'
     '7-significance.R'
     '8-plot-scores.R'
-URL: https://github.com/alebarberis/sigscores
+URL: https://github.com/alebarberis/sigscores,
+    https://alebarberis.github.io/sigscores/
 BugReports: https://github.com/alebarberis/sigscores/issues
