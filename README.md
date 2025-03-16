@@ -50,3 +50,14 @@ devtools::install_github(
 
 If you are just getting started with **sigscores**, we recommend looking
 at the [Getting Started](articles/sigscores.html) section of the site.
+
+## Credits
+
+**sigscores** was conceived, developed, and is maintained by Dr
+Alessandro Barberis ([@alebarberis](https://github.com/alebarberis)).
+
+## Acknowledgment
+
+I would like to express my sincere gratitude to [Prostate Cancer
+UK](https://prostatecanceruk.org/) for their generous funding, which
+made it possible for me to develop the first version of this package.
