@@ -1624,7 +1624,8 @@ colAADs <- function(
 #' \item{\code{'zscore'}}{Z-Score}
 #'}
 #'@inheritParams GSVA::gsva
-#'@param ... further arguments to \code{\link[GSVA]{gsva}}
+#'@param ... further arguments to the method-specific parameters object used
+#'in \code{\link[GSVA]{gsva}}
 #'
 #'@inherit computeColMeasures return
 #'
@@ -1697,7 +1698,20 @@ colEnrichment <- function(
   #compute
   ##Check if has matching elements to avoid Error in .mapGeneSetsToFeatures(gset.idx.list, rownames(expr))
   if(hasElements){
-    out = unlist(t(GSVA::gsva(expr = x, gset.idx.list = list(gs1 = rows), verbose=verbose, method = method, ...))[,1])
+    gsvaParams = switch(
+      method,
+      "ssgsea" = GSVA::ssgseaParam(exprData = x, geneSets = list(gs1 = rows), ...),
+      "gsva"   = GSVA::gsvaParam(exprData = x, geneSets = list(gs1 = rows), ...),
+      "plage"  = GSVA::plageParam(exprData = x, geneSets = list(gs1 = rows), ...),
+      "zscore" = GSVA::zscoreParam(exprData = x, geneSets = list(gs1 = rows), ...)
+    )
+
+    ##suppress the output from gsva
+    sink(nullfile())
+    ##compute
+    out = unlist(t(GSVA::gsva(param = gsvaParams, verbose=verbose))[,1])
+    ##reset the output
+    sink()
   } else {
     out = rep(x = getDefaultNaValue(), times = numCol)
   }
