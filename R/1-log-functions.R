@@ -339,7 +339,7 @@ logInfo <- function(object, message, sep, add.level = FALSE, add.time = FALSE){
 #'
 #'@keywords internal
 getLogLine <- function(line = c("long.line.1", "long.line.2", "long.line.3",
-                                  "short.line.1", "short.line.2", "short.line.3")){
+                                "short.line.1", "short.line.2", "short.line.3")){
   line = match.arg(line);
 
   message = switch(line,
