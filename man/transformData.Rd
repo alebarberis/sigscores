@@ -4,7 +4,7 @@
 \alias{transformData}
 \title{Transform Data}
 \usage{
-transformData(x, f = c("none", "stepFunction", "quantile"), ...)
+transformData(x, f = c("none", "stepFunction", "quantile", "z"), ...)
 }
 \arguments{
 \item{x}{numerical matrix, features-by-samples}
@@ -15,9 +15,10 @@ Available options are:
 \item{\code{'none'}}{\code{x} is returned}
 \item{\code{'stepFunction'}}{step function}
 \item{\code{'quantile'}}{quantile normalisation}
+\item{\code{'z'}}{z-standardisation}
 }}
 
-\item{...}{further arguments to the transformation method}
+\item{...}{further arguments to the transformation method.}
 }
 \value{
 A numerical matrix containing the transformed
@@ -30,6 +31,7 @@ selected transformation method.
 \seealso{
 \code{\link{stepFunctionTranformation}},
 \code{\link{quantileNormalization}}
+\code{\link{zStandardisation}}
 }
 \author{
 Alessandro Barberis

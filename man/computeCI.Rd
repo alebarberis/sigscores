@@ -18,8 +18,8 @@ replication of the statistics}
 \item{type}{character string indicating which formula to use
 in the computation of the confidence interval. Available options are:
 \describe{
-  \item{\code{"standard"}}{the standard confidence interval}
-  \item{\code{"percentile"}}{the percentile confidence interval}
+\item{\code{"standard"}}{the standard confidence interval}
+\item{\code{"percentile"}}{the percentile confidence interval}
 }}
 }
 \value{

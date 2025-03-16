@@ -66,13 +66,13 @@ randomly assigned from the possible values in
 
 Five options are available:
 \describe{
-  \item{\code{none}}{use \code{x} as it is}
-  \item{\code{permutation}}{random sampling without replacement from row elements of \code{x}}
-  \item{\code{bootstrap}}{random sampling with replacement from row elements of \code{x}}
-  \item{\code{rndsig}}{random signatures of same length of \code{i} generated
-  from all possible values in \code{x}}
-  \item{\code{rndsigsub}}{random signatures of same length of \code{i} generated
-  from all possible values in \code{x} after removing \code{i} values}
+\item{\code{none}}{use \code{x} as it is}
+\item{\code{permutation}}{random sampling without replacement from row elements of \code{x}}
+\item{\code{bootstrap}}{random sampling with replacement from row elements of \code{x}}
+\item{\code{rndsig}}{random signatures of same length of \code{i} generated
+from all possible values in \code{x}}
+\item{\code{rndsigsub}}{random signatures of same length of \code{i} generated
+from all possible values in \code{x} after removing \code{i} values}
 }
 
 See \code{\link{sampleData}} and \code{\link{randomSignatures}}
@@ -106,9 +106,9 @@ the data frame contains a column with the run information.
 The two columns containing the run/sample information are:
 
 \describe{
-  \item{sampleID}{the name of the sample}
-  \item{run}{integer indicating in which run -
-      out of the \code{n.repeat} - was computed the score}
+\item{sampleID}{the name of the sample}
+\item{run}{integer indicating in which run -
+out of the \code{n.repeat} - was computed the score}
 }
 }
 \description{
@@ -122,7 +122,7 @@ on a multi-core machine can be run by setting
 the argument \code{cores} with a number greater
 than \code{1}.
 
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 \code{\link{computeSigScores}} uses internally
@@ -164,8 +164,7 @@ where \code{transform.args} is a list of parameters passed
 to the transformation function.
 Look at a scorer for further details.
 A transformation function and related arguments can be
-passed via the \code{args} parameter (see **Examples**).
-
+passed via the \code{args} parameter (see \strong{Examples}).
 
 The functions used for random sampling are:
 \describe{

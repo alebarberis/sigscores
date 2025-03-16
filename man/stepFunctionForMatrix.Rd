@@ -41,8 +41,8 @@ The default settings of \code{thr} and \code{y}
 makes this function equivalent to a sign function.
 }
 \description{
-This function implements a *Step Function*.
-See the **Details** section below for further information.
+This function implements a \emph{Step Function}.
+See the \strong{Details} section below for further information.
 }
 \details{
 This function implements a piecewise function

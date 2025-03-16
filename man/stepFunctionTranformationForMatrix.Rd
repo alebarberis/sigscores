@@ -46,7 +46,7 @@ A matrix with the transformed values.
 }
 \description{
 This function transform input data via
-a *Step Function*.
+a \emph{Step Function}.
 See \code{\link{stepFunction}} for further information.
 }
 \keyword{internal}

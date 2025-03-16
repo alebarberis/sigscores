@@ -23,13 +23,13 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *interquartile range*
+This function computes the \emph{interquartile range}
 of the \code{x} values.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
-The *interquartile range* (also called *midspread*
-or *H-spread*) is a measure of statistical dispersion.
+The \emph{interquartile range} (also called \emph{midspread}
+or \emph{H-spread}) is a measure of statistical dispersion.
 It is defined as the difference between the 75th and 25th
 percentiles of the data:
 

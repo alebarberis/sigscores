@@ -7,7 +7,7 @@
 normaliseData(x, method = c("quantile"), ...)
 }
 \arguments{
-\item{x}{numerical matrix, features-by-samples}
+\item{x}{numerical matrix, features-by-samples.}
 
 \item{method}{string, the normalisation method.
 Available options are:
@@ -15,7 +15,7 @@ Available options are:
 \item{quantile}{quantile normalisation}
 }}
 
-\item{...}{further arguments to the normalisation method}
+\item{...}{further arguments to the normalisation method.}
 }
 \value{
 A numerical matrix containing the normalized

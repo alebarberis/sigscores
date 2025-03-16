@@ -33,8 +33,7 @@ heatMap(
 
 \item{cluster_columns}{Whether make cluster on columns? Same settings as \code{cluster_rows}.}
 
-\item{...}{further arguments to internal
-function call}
+\item{...}{further arguments to \code{\link[ComplexHeatmap]{Heatmap}}}
 }
 \value{
 A \code{ComplexHeatmap} object.

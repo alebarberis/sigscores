@@ -36,8 +36,7 @@ the summary score(s) to plot from \code{data}}
 
 \item{cluster_columns}{Whether make cluster on columns? Same settings as \code{cluster_rows}.}
 
-\item{...}{further arguments to internal
-function call}
+\item{...}{further arguments to internal function \code{\link{heatMap}}}
 }
 \value{
 A \code{ComplexHeatmap} object.

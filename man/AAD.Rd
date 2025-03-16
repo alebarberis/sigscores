@@ -25,7 +25,7 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *average absolute deviation*,
+This function computes the \emph{average absolute deviation},
 i.e. the mean of the absolute deviations from a central point
 (median by default).
 }

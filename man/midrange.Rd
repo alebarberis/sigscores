@@ -23,9 +23,9 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *midrange* score, i.e.
+This function computes the \emph{midrange} score, i.e.
 the average of the lowest and highest values in a set of data.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 The midrange score is a measure of central tendency like

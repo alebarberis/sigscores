@@ -26,9 +26,9 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *median*
+This function computes the \emph{median}
 for each column in an input matrix.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[matrixStats]{colMedians}}

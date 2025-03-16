@@ -26,7 +26,7 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *sum*
+This function computes the \emph{sum}
 for each column in an input matrix.
 }
 \details{

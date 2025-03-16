@@ -36,9 +36,10 @@ Current available options are:
 \item{\code{'zscore'}}{Z-Score}
 }}
 
-\item{verbose}{Gives information about each calculation step. Default: \code{FALSE}.}
+\item{verbose}{Gives information about each calculation step. Default: \code{TRUE}.}
 
-\item{...}{further arguments to \code{\link[GSVA]{gsva}}}
+\item{...}{further arguments to the method-specific parameters object used
+in \code{\link[GSVA]{gsva}}}
 }
 \value{
 A numerical vector containing the computed
@@ -47,7 +48,7 @@ score for each column in \code{x}.
 \description{
 This function computes an enrichment score
 for each column vector in the input matrix \code{x}.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[GSVA]{gsva}}

@@ -46,8 +46,8 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-This scorer returns the *sum* score(s).
-See the **Details** section below for further information.
+This scorer returns the \emph{sum} score(s).
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[matrixStats]{colSums2}}

@@ -15,7 +15,7 @@ dirExists(path)
 }
 \description{
 This function checks the existence of a directory in input.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 The function checks that the path exists.

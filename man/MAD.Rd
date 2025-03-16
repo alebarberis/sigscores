@@ -25,7 +25,7 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *median absolute deviation*.
+This function computes the \emph{median absolute deviation}.
 }
 \details{
 It is a wrapper to \code{\link[stats]{mad}}

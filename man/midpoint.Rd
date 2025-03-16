@@ -25,7 +25,7 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *median*.
+This function computes the \emph{median}.
 }
 \details{
 It is a wrapper to \code{\link[stats]{median}}

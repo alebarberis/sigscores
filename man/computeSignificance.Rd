@@ -21,16 +21,16 @@ statistics}
 \item{type}{character string indicating the significance to
 compute. Three options are available:
 \describe{
-  \item{\code{asl}}{achieved significance level}
-  \item{\code{ci}}{confidence interval}
-  \item{\code{se}}{standard error}
+\item{\code{asl}}{achieved significance level}
+\item{\code{ci}}{confidence interval}
+\item{\code{se}}{standard error}
 }}
 
 \item{ci}{character string indicating the type of
 confidence interval. Two options are available:
 \describe{
-  \item{\code{standard}}{the standard confidence interval}
-  \item{\code{percentile}}{the percentile confidence interval}
+\item{\code{standard}}{the standard confidence interval}
+\item{\code{percentile}}{the percentile confidence interval}
 }}
 }
 \description{

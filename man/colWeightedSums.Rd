@@ -29,9 +29,9 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *weighted sum*
+This function computes the \emph{weighted sum}
 for each column in an input matrix.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 This function applies \code{\link[matrixStats]{colSums2}}

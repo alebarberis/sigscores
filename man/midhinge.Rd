@@ -23,9 +23,9 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-The *midhinge* of a set of values
+The \emph{midhinge} of a set of values
 is the mean of the first and third quartiles.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 This measure of location is computed as:

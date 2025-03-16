@@ -25,12 +25,12 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *interquartile mean*
+This function computes the \emph{interquartile mean}
 of the \code{x} values.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
-The *interquartile mean* is a statistical measure
+The \emph{interquartile mean} is a statistical measure
 of central tendency based on the truncated mean of the
 interquartile range. It is computed as:
 

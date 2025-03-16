@@ -14,9 +14,9 @@ Available options are:
 
 Three options are available:
 \describe{
-  \item{\code{none}}{a sequence from 1 to \code{nrow(x)} is returned}
-  \item{\code{permutation}}{random sampling without replacement}
-  \item{\code{bootstrap}}{random sampling with replacement}
+\item{\code{none}}{a sequence from 1 to \code{nrow(x)} is returned}
+\item{\code{permutation}}{random sampling without replacement}
+\item{\code{bootstrap}}{random sampling with replacement}
 }}
 
 \item{n}{integer, number of repeated samples

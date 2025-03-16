@@ -49,8 +49,8 @@ A default \code{NA} value is returned if the score can't be
 computed, or if \code{i} values are not present in \code{x}.
 }
 \description{
-This scorer returns the *average absolute deviation* score(s).
-See the **Details** section below for further information.
+This scorer returns the \emph{average absolute deviation} score(s).
+See the \strong{Details} section below for further information.
 }
 \details{
 Internally, it uses \code{\link[matrixStats]{colMeans2}} to

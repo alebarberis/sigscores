@@ -43,12 +43,12 @@ of the individual summary measures as points in the plot}
 \item{point.shape}{the shape to use to plot the scores. It can take
 five types of values:
 \itemize{
-  \item An integer in `[0, 25]`
-  \item The name of the shape
-  \item A single character, used as a plotting symbol
-  \item A . to draw the smallest rectangle that is visible,
-  usually 1 pixel
-  \item An \code{NA}, to draw nothing
+\item An integer in \verb{[0, 25]}
+\item The name of the shape
+\item A single character, used as a plotting symbol
+\item A . to draw the smallest rectangle that is visible,
+usually 1 pixel
+\item An \code{NA}, to draw nothing
 }
 
 See \code{vignette("ggplot2-specs")} for further details}

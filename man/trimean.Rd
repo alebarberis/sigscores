@@ -23,9 +23,9 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-The *trimean* contains information about the
+The \emph{trimean} contains information about the
 center and some of the position of the data.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 The trimean is defined as a weighted average of

@@ -29,9 +29,9 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *weighted mean*
+This function computes the \emph{weighted mean}
 for each column in an input matrix.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[matrixStats]{colWeightedMeans}}

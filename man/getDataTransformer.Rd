@@ -4,7 +4,7 @@
 \alias{getDataTransformer}
 \title{Get Data Transformation Function}
 \usage{
-getDataTransformer(f = c("stepFunction", "quantile"))
+getDataTransformer(f = c("stepFunction", "quantile", "z"))
 }
 \arguments{
 \item{f}{string, the transformation method.
@@ -12,6 +12,7 @@ Available options are:
 \describe{
 \item{\code{'stepFunction'}}{step function}
 \item{\code{'quantile'}}{quantile normalisation}
+\item{\code{'z'}}{z-standardisation}
 }}
 }
 \value{
@@ -23,7 +24,8 @@ selected transformation method.
 }
 \seealso{
 \code{\link{stepFunctionTranformation}},
-\code{\link{quantileNormalization}}
+\code{\link{quantileNormalization}},
+\code{\link{zStandardisation}}
 }
 \author{
 Alessandro Barberis

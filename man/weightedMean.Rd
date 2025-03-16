@@ -27,7 +27,7 @@ A default \code{NA} value is returned if the score can't be
 computed.
 }
 \description{
-This function computes the *weighted arithmetic mean*.
+This function computes the \emph{weighted arithmetic mean}.
 }
 \details{
 It is a wrapper to \code{\link[stats]{weighted.mean}}

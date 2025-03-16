@@ -18,12 +18,12 @@ repeats to plot from \code{data}}
 \value{
 A data frame in long format with 4 columns:
 \describe{
-  \item{\code{run}}{contains an integer run IDs; \code{0}
-  corresponds to the signature, IDs greater than \code{0}
-  correspond to the random signatures}
-  \item{\code{sampleID}}{contains the sample ID}
-  \item{\code{score}}{contains the summary score for each sample}
-  \item{\code{summaryScore}}{contains summary score name}
+\item{\code{run}}{contains an integer run IDs; \code{0}
+corresponds to the signature, IDs greater than \code{0}
+correspond to the random signatures}
+\item{\code{sampleID}}{contains the sample ID}
+\item{\code{score}}{contains the summary score for each sample}
+\item{\code{summaryScore}}{contains summary score name}
 }
 }
 \description{

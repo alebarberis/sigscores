@@ -26,9 +26,9 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *median absolute deviation*
+This function computes the \emph{median absolute deviation}
 for each column vector in the input matrix \code{x}.
-See the **Details** section below for further information.
+See the \strong{Details} section below for further information.
 }
 \details{
 It is a wrapper to \code{\link[matrixStats]{colMads}}

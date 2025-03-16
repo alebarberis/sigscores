@@ -35,8 +35,8 @@ A \code{\link{Logger}} object.
 Constructor for the object.
 }
 \details{
-A log request in a Logger of \code{level} **l**
-is enabled if the level of the request is **<= l**.
+A log request in a Logger of \code{level} \strong{l}
+is enabled if the level of the request is \strong{<= l}.
 }
 \seealso{
 \code{\link{logAll}},

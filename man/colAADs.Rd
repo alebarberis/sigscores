@@ -28,7 +28,7 @@ A numerical vector containing the computed
 score for each column in \code{x}.
 }
 \description{
-This function computes the *average absolute deviation*
+This function computes the \emph{average absolute deviation}
 for each column vector in the input matrix \code{x}.
 }
 \examples{

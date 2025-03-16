@@ -22,8 +22,7 @@ the summary score(s) to plot from \code{data}}
 
 \item{column_title}{Title on the column.}
 
-\item{...}{further arguments to internal
-function call}
+\item{...}{further arguments to internal function \code{\link{heatMap}}}
 }
 \value{
 A \code{ComplexHeatmap} object.

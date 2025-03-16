@@ -47,7 +47,7 @@ of the transformation.
 }
 \description{
 This function transform input data via
-a *Step Function*.
+a \emph{Step Function}.
 See \code{\link{stepFunction}} for further information.
 }
 \examples{

@@ -21,7 +21,7 @@ values from \code{x} before computation}
 A length-one numerical vector.
 }
 \description{
-Compute the *mode* of a vector, i.e. the value
+Compute the \emph{mode} of a vector, i.e. the value
 that has highest number of occurrences. If different values have
 the same number of occurrences, the first one is reported.
 }

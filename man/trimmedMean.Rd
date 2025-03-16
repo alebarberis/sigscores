@@ -7,7 +7,7 @@
 trimmedMean(x, trim = 0, i = NULL, na.rm = TRUE, ...)
 }
 \arguments{
-\item{x}{An \R object.  Currently there are methods for
+\item{x}{an \R object.  Currently there are methods for
     numeric/logical vectors and \link[base:Dates]{date},
     \link[base]{date-time} and \link[base]{time interval} objects.  Complex vectors
     are allowed for \code{trim = 0}, only.}
@@ -39,7 +39,7 @@ If \code{trim} is zero (the default), the arithmetic mean of the
   before the mean is computed.
 }
 \description{
-This function computes the *trimmed arithmetic mean*
+This function computes the \emph{trimmed arithmetic mean}
 using \code{\link[base]{mean}}.
 }
 \details{
