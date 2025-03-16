@@ -11,8 +11,7 @@ NULL
 #'the summary score(s) to plot from \code{data}
 #'@inheritParams heatMap
 #'@inheritParams ComplexHeatmap::Heatmap
-#'@param ... further arguments to internal
-#'function call
+#'@param ... further arguments to internal function \code{\link{heatMap}}
 #'
 #'@return A \code{ComplexHeatmap} object.
 #'
@@ -109,8 +108,7 @@ heatmapSigScores <- function(
 #'the summary score(s) to plot from \code{data}
 #'@inheritParams heatMap
 #'@inheritParams ComplexHeatmap::Heatmap
-#'@param ... further arguments to internal
-#'function call
+#'@param ... further arguments to internal function \code{\link{heatMap}}
 #'
 #'@return A \code{ComplexHeatmap} object.
 #'
@@ -275,8 +273,7 @@ heatmapCorSigScores <- function(
 #'
 #'@param data data frame, output of \code{\link{computeSigScores}}
 #'@inheritParams ComplexHeatmap::Heatmap
-#'@param ... further arguments to internal
-#'function call
+#'@param ... further arguments to \code{\link[ComplexHeatmap]{Heatmap}}
 #'
 #'@return A \code{ComplexHeatmap} object.
 #'
@@ -606,7 +603,177 @@ scatterplotSigScores <- function(
 
 }
 
+#'Plot Summary Scores as Histograms
+#'
+#'@description This function generates a
+#'\code{ggplot} object.
+#'
+#'@param rndata data frame, output of \code{\link{computeSigScores}} containing random scores.
+#'@param data (optional) data frame, output of \code{\link{computeSigScores}}.
+#'@param obs character string, indicating the sample to plot from \code{rndata} and \code{data}.
+#'@param score character string, indicating the score to plot from \code{rndata} and \code{data}.
+#'@param hist.colour,hist.fill character strings, aesthetics parameters indicating
+#'the colors used to draw the contours and the inside areas of the histogram bars.
+#'See also \code{\link[ggplot2]{geom_histogram}}.
+#'@param bins integer, number of bins.
+#'@param vline.colour,vline.linetype,vline.linewidth character strings, indicating
+#'the color, type, and width of the vertical line.
+#'See also \code{\link[ggplot2]{geom_vline}}
+#'@param labs.title The text for the plot title.
+#'@param labs.x The title of the x axis.
+#'@param labs.y The title of the y axis.
+#'@param ... further arguments to \code{\link[ggplot2]{geom_histogram}}.
+#'
+#'@return A \code{ggplot} object.
+#'
+#'@author Alessandro Barberis
+#'
+#'@seealso
+#'\code{\link[ggplot2]{geom_histogram}}
+#'
+#'@examples
+#'#Set seed for reproducibility
+#'set.seed(seed = 5381L)
+#'
+#'#Define signature size
+#'nsig = 8
+#'
+#'#Define row/col size
+#'nr = nsig + 50
+#'nc = 10
+#'
+#'#Create input matrix
+#'x = matrix(
+#'  data = c(
+#'     stats::runif(n = nsig*nc, min = 500, max = 1000),
+#'     stats::runif(n = (nr-nsig)*nc, min = 0, max = 700)
+#'  ),
+#'  nrow = nr,
+#'  ncol = nc,
+#'  dimnames = list(
+#'     paste0("g",seq(nr)),
+#'     paste0("S",seq(nc))
+#'  ),
+#'  byrow = TRUE
+#')
+#'
+#'#Define signature
+#'sig = rownames(x)[1:nsig]
+#'
+#'#Compute Summary Scores
+#'scores = computeSigScores(
+#'  x = x,
+#'  i = sig
+#')
+#'
+#'#Compute Random Summary Scores
+#'rndscores = computeSigScores(
+#'  x = x,
+#'  i = sig,
+#'  sampling = "bootstrap",
+#'  n.repeat = 100
+#')
+#'
+#'#Plot null distribution
+#'histogramRndSigScores(
+#'  rndata = rndscores,
+#'  data = scores,
+#'  obs = "S1",
+#'  score = "sum"
+#')
+#'
+#'@export
+histogramRndSigScores <- function(
+    #data
+    rndata,
+    data = NULL,
 
+    #subset sample and score to plot
+    obs,
+    score,
+
+    #histogram
+    hist.colour     = "black",
+    hist.fill       = "white",
+    bins            = 30,
+
+    #vline
+    vline.colour    = "darkred",
+    vline.linetype  = "dashed",
+    vline.linewidth = 1,
+
+    #plot labels
+    labs.title      = "Diagnostic Plot",
+    labs.x          = "Summary Score",
+    labs.y          = "Count",
+
+    #further arguments
+    ...
+  ){
+
+  #check input    ------------------------------------------------
+  if(isTRUE(!missing(data) & !is.null(data))){
+    has.data = TRUE
+  } else {
+    has.data = FALSE
+  }
+
+  #prepare data   ------------------------------------------------
+  ##data
+  rndata = prepareDataForPlot(
+    data   = rndata,
+    scores = score
+  )
+  ##subset
+  rndata = subset(x = rndata, subset = sampleID == obs)
+  ##data
+  if(isTRUE(has.data)){
+    data = prepareDataForPlot(
+      data   = data,
+      scores = score
+    )
+    ##subset
+    data = subset(x = data, subset = sampleID == obs)
+  }
+
+  #plot           ------------------------------------------------
+  ##create ggplot
+  out = ggplot2::ggplot(
+    data    = rndata,
+    mapping = ggplot2::aes(
+      x     = .data[["score"]],
+    )
+  )
+  ##Plot empirical null distribution
+  out = out + ggplot2::geom_histogram(
+    colour = hist.colour,
+    fill   = hist.fill,
+    bins   = bins,
+    ...
+  )
+
+  ##Original score
+  if(isTRUE(has.data)){
+    out = out + ggplot2::geom_vline(
+      mapping   = ggplot2::aes(xintercept=.data[["score"]]),
+      data      = data,
+      colour    = vline.colour,
+      linetype  = vline.linetype,
+      linewidth = vline.linewidth
+    )
+  }
+
+  ##labels
+  out = out +
+    ggplot2::labs(
+      title = labs.title
+    ) +
+    ggplot2::xlab(label = labs.x) +
+    ggplot2::ylab(label = labs.y)
+
+  #return         ------------------------------------------------
+  return(out)
+}
 
 
 
@@ -751,9 +918,9 @@ ggPlot <- function(
   out = ggplot2::ggplot(
     data    = data,
     mapping = ggplot2::aes(
-      x     = data[[x]],
-      y     = data[[y]],
-      color = data[[color]],
+      x     = .data[[x]],
+      y     = .data[[y]],
+      color = .data[[color]],
     )
   )
 
