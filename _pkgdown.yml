@@ -12,6 +12,7 @@ reference:
   - heatmapCorSigScores
   - boxplotSigScores
   - scatterplotSigScores
+  - histogramRndSigScores
 - title: Scorers
   desc: These are the scorers to compute the summary scores
   contents:
@@ -89,6 +90,7 @@ reference:
   - stepFunctionTranformation
   - stepFunction
   - quantileNormalization
+  - zStandardisation
 - title: Utility Functions
   contents:
   - getAvailableScores
