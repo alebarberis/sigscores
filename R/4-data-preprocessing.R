@@ -6,13 +6,13 @@ NULL
 #'@description This function is a dispatcher for the
 #'selected normalisation method.
 #'
-#'@param x numerical matrix, features-by-samples
+#'@param x numerical matrix, features-by-samples.
 #'@param method string, the normalisation method.
 #'Available options are:
 #'\describe{
 #'\item{quantile}{quantile normalisation}
 #'}
-#'@param ... further arguments to the normalisation method
+#'@param ... further arguments to the normalisation method.
 #'
 #'@return A numerical matrix containing the normalized
 #'values.
@@ -55,8 +55,9 @@ normaliseData <- function(
 #' \item{\code{'none'}}{\code{x} is returned}
 #' \item{\code{'stepFunction'}}{step function}
 #' \item{\code{'quantile'}}{quantile normalisation}
+#' \item{\code{'z'}}{z-standardisation}
 #'}
-#'@param ... further arguments to the transformation method
+#'@param ... further arguments to the transformation method.
 #'
 #'@return A numerical matrix containing the transformed
 #'values.
@@ -66,11 +67,12 @@ normaliseData <- function(
 #'@seealso
 #'\code{\link{stepFunctionTranformation}},
 #'\code{\link{quantileNormalization}}
+#'\code{\link{zStandardisation}}
 #'
 #'@keywords internal
 transformData <- function(
     x,
-    f = c('none', 'stepFunction', 'quantile'),
+    f = c('none', 'stepFunction', 'quantile', 'z'),
     ...){
 
   #match arg
@@ -81,7 +83,8 @@ transformData <- function(
     f,
     'none'         = x,
     'stepFunction' = stepFunctionTranformation(x = x, ...),
-    'quantile'     = quantileNormalization(x = x, ...)
+    'quantile'     = quantileNormalization(x = x, ...),
+    'z'            = zStandardisation(x = x, ...)
   )
 
   #return
@@ -99,6 +102,7 @@ transformData <- function(
 #'\describe{
 #' \item{\code{'stepFunction'}}{step function}
 #' \item{\code{'quantile'}}{quantile normalisation}
+#' \item{\code{'z'}}{z-standardisation}
 #'}
 #'
 #'@return A data transformation function.
@@ -107,11 +111,12 @@ transformData <- function(
 #'
 #'@seealso
 #'\code{\link{stepFunctionTranformation}},
-#'\code{\link{quantileNormalization}}
+#'\code{\link{quantileNormalization}},
+#'\code{\link{zStandardisation}}
 #'
 #'@export
 getDataTransformer <- function(
-    f = c('stepFunction', 'quantile')
+    f = c('stepFunction', 'quantile', 'z')
   ){
   #match arg
   f = match.arg(f)
@@ -120,7 +125,8 @@ getDataTransformer <- function(
   x = switch(
     f,
     'stepFunction' = stepFunctionTranformation,
-    'quantile'     = quantileNormalization
+    'quantile'     = quantileNormalization,
+    'z'            = zStandardisation
   )
 
   #return
@@ -363,6 +369,10 @@ stepFunctionTranformation <- function(
   na.rm  = TRUE
 ){
 
+  #match
+  method = match.arg(method)
+  by     = match.arg(by)
+
   if(isTRUE(is.vector(x))){
     out = stepFunctionTranformationForVector(x=x,y=y,thr=thr,method=method,na.rm=na.rm)
   } else if(isTRUE(is.matrix(x))){
@@ -458,6 +468,220 @@ stepFunctionTranformationForMatrix <- function(
 
   #compute
   x = stepFunction(x = x, y = y, thr = thr, by = by)
+
+  return(x)
+}
+
+
+
+#'Z-Standardisation
+#'
+#'@description This function transform the input
+#'data via z-standardisation.
+#'See the **Details** section below for further information.
+#'
+#'@param x a (named) numerical vector or a matrix features-by-samples.
+#'@param by character string, indicating whether to compute the
+#'standardisation by rows or columns of \code{x}.
+#'It is used when \code{x} is a matrix.
+#'@param robust logical, whether to compute a robust z-standardisation.
+#'@param na.rm logical, whether to remove \code{NA} values
+#'before the computation.
+#'
+#'@return A numerical vector or matrix, containing the output
+#'of the transformation.
+#'
+#'@details The z-standardisation (or z-score normalisation) is a method for
+#'transforming the data so that it has a mean of zero and a standard deviation
+#'of one. It is computed as:
+#'
+#'\deqn{z(x) = \frac{x - \mu}{\sigma}}
+#'
+#'where \eqn{\mu} and \eqn{\sigma} are the mean and standard deviation of the
+#'population, respectively.
+#'
+#'Since z-scores can be affected by unusually large or small data values,
+#'we can also compute a more robust modified version as:
+#'
+#'\deqn{z(x) = \frac{x - \mathrm{median}}{\mathrm{MAD}}}
+#'
+#'where \eqn{\mathrm{MAD}} is the median absolute deviation of the population.
+#'
+#'@author Alessandro Barberis
+#'
+#'@seealso
+#'\code{\link{zStandardisationForVector}},
+#'\code{\link{zStandardisationForMatrix}}
+#'
+#'
+#'@examples
+#'#set seed for reproducibility
+#'set.seed(seed = 5381L)
+#'
+#'#x is a vector
+#'x = sample(x = -10:10, size = 10)
+#'#Standard z-score transformation
+#'zStandardisation(x)
+#'#Robust z-score transformation
+#'zStandardisation(x=x,robust=TRUE)
+#'
+#'#x is a matrix
+#'#Define row/col size
+#'nr = 20
+#'nc = 10
+#'
+#'#Create input matrix
+#'x = matrix(
+#'  data = stats::runif(n = nr*nc, min = 0, max = 1000),
+#'  nrow = nr,
+#'  ncol = nc,
+#'  dimnames = list(
+#'    paste0("g",seq(nr)),
+#'    paste0("S",seq(nc))
+#'  )
+#')
+#'#Standardise the features
+#'zStandardisation(x=x,by="rows")
+#'
+#'@export
+zStandardisation <- function(
+  x,
+  robust = FALSE,
+  by     = c("rows", "cols"),
+  na.rm  = TRUE
+){
+  # Match
+  by = match.arg(by)
+
+  if(isTRUE(is.vector(x))){
+    out = zStandardisationForVector(x=x,robust=robust,na.rm=na.rm)
+  } else if(isTRUE(is.matrix(x))){
+    out = zStandardisationForMatrix(x=x,robust=robust,by=by,na.rm=na.rm)
+  } else {
+    stop("Error: 'x' class is not supported.\n")
+  }
+  return(out)
+}
+
+#'Z-Standardisation for Vector
+#'
+#'@description This function transform the input
+#'data via z-standardisation.
+#'See the **Details** section below for further information.
+#'@param x a (named) numerical vector.
+#'@inheritParams zStandardisation
+#'
+#'@return A vector with the transformed values.
+#'
+#'@details The z-standardisation (or z-score normalisation) is a method for
+#'transforming the data so that it has a mean of zero and a standard deviation
+#'of one. It is computed as:
+#'
+#'\deqn{z(x) = \frac{x - \mu}{\sigma}}
+#'
+#'where \eqn{\mu} and \eqn{\sigma} are the mean and standard deviation of the
+#'population, respectively.
+#'
+#'Since z-scores can be affected by unusually large or small data values,
+#'we can also compute a more robust modified version as:
+#'
+#'\deqn{z(x) = \frac{x - \mathrm{median}}{\mathrm{MAD}}}
+#'
+#'where \eqn{\mathrm{MAD}} is the median absolute deviation of the population.
+#'
+#'@inherit zStandardisation author
+#'
+#'@references https://en.wikipedia.org/wiki/Standard_score
+#'
+#'@keywords internal
+zStandardisationForVector <- function(
+    x,
+    robust = FALSE,
+    na.rm  = TRUE
+){
+
+  # Check
+  if(isTRUE(robust)){
+    # Center
+    center = stats::median(x = x, na.rm = na.rm)
+    # Scale
+    scale = stats::mad(x = x, center = center, na.rm = na.rm)
+  } else {
+    # Center
+    center = mean(x = x, trim = 0, na.rm = na.rm)
+    # Scale
+    scale = stats::sd(x = x, na.rm = na.rm)
+  }
+  # Compute
+  x = (x - center) / scale
+
+  return(x)
+
+}
+
+#'Z-Standardisation for Matrix
+#'
+#'@description This function transform the input
+#'data via z-standardisation.
+#'See the **Details** section below for further information.
+#'
+#'@param x numerical matrix, features-by-samples.
+#'@param robust logical, whether to compute a robust z-standardisation.
+#'@param by character string, indicating whether to compute the
+#'standardisation by rows or columns of \code{x}.
+#'@param na.rm logical, whether to remove \code{NA} values
+#'before the computation.
+#'
+#'@inherit zStandardisationForVector details
+#'
+#'@inherit zStandardisation author
+#'
+#'@references https://en.wikipedia.org/wiki/Standard_score
+#'
+#'@keywords internal
+zStandardisationForMatrix <- function(
+    x,
+    robust = FALSE,
+    by     = c("rows", "cols"),
+    na.rm  = TRUE
+){
+  # Match arg
+  by = match.arg(by)
+
+  # Compute
+  if(identical(by, "rows")){
+    if(isTRUE(robust)){
+      # Center
+      center = matrixStats::rowMedians(x = x, na.rm = na.rm)
+      # Scale
+      scale = matrixStats::rowMads(x = x, center = center, na.rm = na.rm)
+      # Standardise
+      x = (x - center) / scale
+    } else {
+      # Center
+      center = matrixStats::rowMeans2(x = x, na.rm = na.rm)
+      # Scale
+      scale = matrixStats::rowSds(x = x, center = center, na.rm = na.rm)
+    }
+    # Standardise
+    x = (x - center) / scale
+  } else {
+    if(isTRUE(robust)){
+      # Center
+      center = matrixStats::colMedians(x = x, na.rm = na.rm)
+      # Scale
+      scale = matrixStats::colMads(x = x, center = center, na.rm = na.rm)
+      # Standardise
+      x = (x - center) / scale
+    } else {
+      # Center
+      center = matrixStats::colMeans2(x = x, na.rm = na.rm)
+      # Scale
+      scale = matrixStats::colSds(x = x, center = center, na.rm = na.rm)
+    }
+    # Standardise
+    x = sweep(x = x, MARGIN = 2L, STATS = center, FUN = "-") / scale
+  }
 
   return(x)
 }
