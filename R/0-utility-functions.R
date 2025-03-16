@@ -89,7 +89,8 @@ getAvailableDataTransformers <- function(){
 
   out = c(
     "stepFunction" = "Step Function",
-    "quantile"     = "Quantile Normalization"
+    "quantile"     = "Quantile Normalization",
+    "z"            = "Z-Standardisation"
   )
 
   out = data.frame(
