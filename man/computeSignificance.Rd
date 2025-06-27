@@ -2,21 +2,22 @@
 % Please edit documentation in R/7-significance.R
 \name{computeSignificance}
 \alias{computeSignificance}
-\title{Compute the Significance of the Test}
+\title{Compute Significance of a Summary Statistic}
 \usage{
 computeSignificance(
   obs,
   rnd,
   type = c("asl", "ci", "se"),
   ci = c("standard", "percentile"),
-  conf.level = 0.95
+  conf.level = 0.95,
+  ...
 )
 }
 \arguments{
-\item{obs}{numerical vector containing the test statistic}
+\item{obs}{a numeric scalar representing the observed value of the summary statistic.}
 
 \item{rnd}{numerical vector containing the permutation/bootstrap
-statistics}
+statistics.}
 
 \item{type}{character string indicating the significance to
 compute. Three options are available:
@@ -32,9 +33,16 @@ confidence interval. Two options are available:
 \item{\code{standard}}{the standard confidence interval}
 \item{\code{percentile}}{the percentile confidence interval}
 }}
+
+\item{conf.level}{numeric scalar, the desired confidence level. Used if \code{type = "ci"}.}
+
+\item{...}{further arguments passed to \code{\link{computeASL}},
+\code{\link{computeCI}}, or \code{\link{computeSE}}. For example,
+\code{alternative} for \code{type = "asl"}, \code{distribution} or \code{n}
+for \code{type = "ci"} with \code{ci = "standard"}.}
 }
 \description{
-Compute the Significance of the Test
+Compute Significance of a Summary Statistic
 }
 \seealso{
 \code{\link{computeASL}},
@@ -44,4 +52,3 @@ Compute the Significance of the Test
 \author{
 Alessandro Barberis
 }
-\keyword{internal}

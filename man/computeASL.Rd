@@ -7,15 +7,14 @@
 computeASL(obs, rnd, alternative = c("two.sided", "less", "greater"))
 }
 \arguments{
-\item{obs}{numerical vector containing the observed value of
-the test statistic}
+\item{obs}{a numeric scalar representing the observed value of the summary statistic.}
 
 \item{rnd}{numerical vector containing the permutation/bootstrap
-replication of the statistics}
+replication of the statistics.}
 
 \item{alternative}{a character string specifying the
-alternative hypothesis, must be one of \code{"two.sided"} (default),
-\code{"greater"} or \code{"less"}}
+alternative hypothesis. Must be one of \code{"two.sided"} (default),
+\code{"greater"} or \code{"less"}.}
 }
 \value{
 A numerical value representing the approximate
@@ -31,10 +30,10 @@ It is computed as:
 
 \deqn{\hat{ASL}_{sample}(x) = \frac{1}{n}\sum_{i=1}^{n}  {\hat{\theta}_{i}}^{*} \ge \hat{\theta}}
 
-where \eqn{\hat{\theta}} is a test statistic; \eqn{{\hat{\theta}}^{*}}
+where \eqn{\hat{\theta}} is a summary statistic; \eqn{{\hat{\theta}}^{*}}
 is the permutation/bootstrap distribution of \eqn{\hat{\theta}};
 \eqn{{\hat{\theta}_{i}}^{*}} is the computed statistic on the
-\eqn{i}-th permutation/boostrap vector.
+\eqn{i}-th permutation/bootstrap vector.
 
 \eqn{\hat{\theta}} is observed, and the ASL of the test
 represents the probability of observing at least that large

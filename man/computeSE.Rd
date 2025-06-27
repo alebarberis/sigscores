@@ -4,10 +4,10 @@
 \alias{computeSE}
 \title{Standard Error Estimate}
 \usage{
-computeSE(rnd, na.rm = T)
+computeSE(rnd, na.rm = FALSE)
 }
 \arguments{
-\item{rnd}{sampling replication of the test statistic}
+\item{rnd}{sampling replication of the summary statistic}
 
 \item{na.rm}{a logical evaluating to \code{TRUE} or \code{FALSE}
     indicating whether \code{NA} values should be stripped before the
@@ -15,11 +15,11 @@ computeSE(rnd, na.rm = T)
 }
 \value{
 A numerical value, the estimate of the
-standard error of the test statistic.
+standard error of the summary statistic.
 }
 \description{
 This function computes an estimate
-of the standard error of the test statistic.
+of the standard error of the summary statistic.
 }
 \details{
 It is computed as:
@@ -27,14 +27,14 @@ It is computed as:
 \deqn{\hat{se}_{sample}(x) = \sqrt{ \frac{1}{n - 1}\sum_{i=1}^{n}  {\hat{\theta}_{i}}^{*} -  \hat{\theta}_{M}}^{*} }
 
 where \eqn{n} is the number of replications;
-\eqn{{\hat{\theta}}^{*}} is the sampling replication of the test statistic;
+\eqn{{\hat{\theta}}^{*}} is the sampling replication of the summary statistic;
 \eqn{{\hat{\theta}_{i}}^{*}} is the computed statistic on the
 \eqn{i}-th sampled vector;
 \eqn{{\hat{\theta}_{M}}^{*} = \sum_{i=1}^{n}{{\hat{\theta}_{i}}^{*} / n} } is the mean
 of the sampled statistics.
 }
 \seealso{
-Efron, B. and Tibshirani, R.J., An Introduction to the Bootstrap, pp.47 (1994)
+Efron, B. and Tibshirani, R.J., An Introduction to the Bootstrap, pp.47-49 (1994)
 }
 \author{
 Alessandro Barberis

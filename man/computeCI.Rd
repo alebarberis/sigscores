@@ -4,16 +4,23 @@
 \alias{computeCI}
 \title{Confidence interval of estimate}
 \usage{
-computeCI(obs, rnd, conf.level = 0.95, type = c("standard", "percentile"), ...)
+computeCI(
+  obs,
+  rnd,
+  conf.level = 0.95,
+  type = c("standard", "percentile"),
+  na.rm = FALSE,
+  ...
+)
 }
 \arguments{
-\item{obs}{numerical vector containing the observed value of
-the test statistic}
+\item{obs}{a numeric scalar representing the observed value of the summary
+statistic. Used only if \code{type = "standard"}}
 
 \item{rnd}{numerical vector containing the permutation/bootstrap
-replication of the statistics}
+replication of the statistics.}
 
-\item{conf.level}{the desired confidence level}
+\item{conf.level}{the desired confidence level.}
 
 \item{type}{character string indicating which formula to use
 in the computation of the confidence interval. Available options are:
@@ -21,6 +28,10 @@ in the computation of the confidence interval. Available options are:
 \item{\code{"standard"}}{the standard confidence interval}
 \item{\code{"percentile"}}{the percentile confidence interval}
 }}
+
+\item{na.rm}{logical, whether NA values should be removed before computation. Defaults to \code{FALSE}.}
+
+\item{...}{further arguments to \code{\link{computeStandardCI}} or \code{\link{computePercentileCI}}}
 }
 \value{
 A named numeric vector with 2 elements, \code{lower} and \code{upper},
@@ -32,7 +43,8 @@ This function computes an approximate confidence interval of
 a point estimate (i.e. the test statistic).
 }
 \seealso{
-\code{\link{computeStandardCi}}
+\code{\link{computeStandardCI}},
+\code{\link{computePercentileCI}}
 }
 \author{
 Alessandro Barberis
