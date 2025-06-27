@@ -83,6 +83,10 @@ reference:
   contents:
   - sampleData
   - randomSignatures
+- title: Significance
+  desc: Functions to compute statistical significance, confidence intervals, and standard errors.
+  contents:
+  - computeSignificance
 - title: Data Transformation
   desc: These functions are used to transform the data before computation
   contents:
