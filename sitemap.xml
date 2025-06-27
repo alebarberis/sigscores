@@ -1,381 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/404.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/articles/sigscores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/AAD.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/IQM.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/Logger.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/MAD.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/aadScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/areRowValuesEqual.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/arithmeticMean.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/boxplotSigScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colAADs.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colArithmeticMeans.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colEnrichment.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colGsva.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colIQMs.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colIQRs.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colMADs.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colMidhinges.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colMidpoints.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colMidranges.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colModes.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colPlage.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colSsgsea.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colSummations.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colTrimeans.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colTrimmedMeans.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colWeightedArithmeticMeans.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colWeightedSums.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/colZscore.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeASL.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeCI.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeColMeasures.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeMeasure.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeSE.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeSigScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeSigScoresCorrelation.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeSignificance.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeStandardCi.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/computeVectorMeasure.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/connectionUtilityFunctions.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/createLogger.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/dirExists.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/enrichment.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/forLoop.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/genericScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getArgsInFunFormals.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getAvailableDataTransformers.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getAvailableRandomSamplers.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getAvailableScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getDataTransformer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getDefaultNaValue.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getIndex.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getLogLevels.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getLogLine.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getScorers.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getSigScoresAsMatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/getThisPackageName.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/ggPlot.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/gsva.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/gsvaScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/heatMap.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/heatmapCorSigScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/heatmapSigScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/iqmScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/iqr.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/iqrScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logAll.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logDebug.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logDefault.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logInfo.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logLevelNameFixedLength.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/logTrace.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/loggerGettersAndSetters.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/madScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/meanScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/medianScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/midhinge.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/midhingeScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/midpoint.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/midrange.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/midrangeScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/modalValue.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/modeScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/normaliseData.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/plage.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/plageScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/prepareDataForPlot.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/printLog.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/quantileNormalization.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/quantileNormalizationForMatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/quantileNormalizationForVector.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/randomSignatures.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/sampleData.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/scatterplotSigScores.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/ssgsea.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/ssgseaScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunction.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunctionForMatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunctionForVector.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformation.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformationForMatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformationForVector.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/subsetData.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/subsetMatrix.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/subsetVector.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/sumScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/summation.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/transformData.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/trimean.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/trimeanScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/trimmedMean.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/trimmedMeanScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/updateSig.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/weightedMean.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/weightedMeanScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/weightedSum.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/weightedSumScorer.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/zscore.html</loc>
-  </url>
-  <url>
-    <loc>https://alebarberis.github.io/sigscores/reference/zscoreScorer.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://alebarberis.github.io/sigscores/404.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/articles/index.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/articles/sigscores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/authors.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/index.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/news/index.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/AAD.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/IQM.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/Logger.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/MAD.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/aadScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/areRowValuesEqual.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/arithmeticMean.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/boxplotSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colAADs.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colArithmeticMeans.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colEnrichment.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colGsva.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colIQMs.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colIQRs.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colMADs.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colMidhinges.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colMidpoints.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colMidranges.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colModes.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colPlage.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colSsgsea.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colSummations.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colTrimeans.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colTrimmedMeans.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colWeightedArithmeticMeans.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colWeightedSums.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/colZscore.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeASL.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeBcaCI.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeCI.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeColMeasures.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeMeasure.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computePercentileCI.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeSE.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeSigScoresCorrelation.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeSignificance.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeStandardCi.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/computeVectorMeasure.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/connectionUtilityFunctions.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/createLogger.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/dirExists.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/enrichment.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/forLoop.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/genericScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getArgsInFunFormals.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getAvailableDataTransformers.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getAvailableRandomSamplers.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getAvailableScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getDataTransformer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getDefaultNaValue.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getIndex.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getLogLevels.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getLogLine.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getScorers.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getSigScoresAsMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/getThisPackageName.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/ggPlot.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/gsva.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/gsvaScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/heatMap.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/heatmapCorSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/heatmapSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/histogramRndSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/index.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/iqmScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/iqr.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/iqrScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logAll.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logDebug.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logDefault.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logInfo.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logLevelNameFixedLength.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/logTrace.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/loggerGettersAndSetters.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/madScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/meanScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/medianScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/midhinge.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/midhingeScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/midpoint.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/midrange.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/midrangeScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/modalValue.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/modeScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/normaliseData.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/plage.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/plageScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/prepareDataForPlot.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/printLog.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/quantileNormalization.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/quantileNormalizationForMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/quantileNormalizationForVector.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/randomSignatures.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/sampleData.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/scatterplotSigScores.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/ssgsea.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/ssgseaScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunction.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunctionForMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunctionForVector.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformation.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformationForMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/stepFunctionTranformationForVector.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/subsetData.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/subsetMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/subsetVector.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/sumScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/summation.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/transformData.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/trimean.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/trimeanScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/trimmedMean.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/trimmedMeanScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/updateSig.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/weightedMean.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/weightedMeanScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/weightedSum.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/weightedSumScorer.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/zStandardisation.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/zStandardisationForMatrix.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/zStandardisationForVector.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/zscore.html</loc></url>
+<url><loc>https://alebarberis.github.io/sigscores/reference/zscoreScorer.html</loc></url>
 </urlset>
+
