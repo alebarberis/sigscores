@@ -1,6 +1,10 @@
 #'@include 0-utility-functions.R
 NULL
 
+# Declare global variables to avoid R CMD check notes for non-standard evaluation (NSE)
+# used in ggplot2 and dplyr expressions
+utils::globalVariables(c(".data", "sampleID"))
+
 #'Plot Summary Scores as Heatmap
 #'
 #'@description This function generates a
