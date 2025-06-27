@@ -1,7 +1,7 @@
 Package: sigscores
 Type: Package
 Title: Compute Summary Scores for Gene Signatures
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
   person(given="Alessandro", family="Barberis", email="abarberis.sw@gmail.com", role=c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6718-855X"))
@@ -18,7 +18,7 @@ Imports:
     data.table,
     doParallel,
     foreach,
-    GSVA,
+    GSVA (>= 1.52.2),
     matrixStats,
     parallel,
     stats
