@@ -53,7 +53,7 @@ devtools::install_github(
 
 ## Getting started
 If you are just getting started with **sigscores**, we recommend looking at the
-[Getting Started](articles/sigscores.html) section of the site.
+[Getting Started](https://alebarberis.github.io/sigscores/articles/sigscores.html) section of the site.
 
 ## Credits
 **sigscores** was conceived, developed, and is maintained by Dr Alessandro Barberis ([@alebarberis](https://github.com/alebarberis)).

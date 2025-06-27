@@ -1,15 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit the README.Rmd file -->
+
 <!-- # ```{r, include = FALSE} -->
+
 <!-- # knitr::opts_chunk$set( -->
+
 <!-- #   collapse = TRUE, -->
+
 <!-- #   comment = "#>", -->
+
 <!-- #   # fig.path = "man/figures/README-", -->
+
 <!-- #   fig.path = "articles/figures/", -->
+
 <!-- #   # fig.path = "vignettes/figures/", -->
+
 <!-- #   # fig.path = "man/figures/", -->
+
 <!-- #   out.width = "100%" -->
+
 <!-- # ) -->
+
 <!-- # ``` -->
 
 # sigscores
@@ -27,6 +38,7 @@ Different strategies are currently supported, including the common mean,
 median, and mode scores.
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 ## Installation
@@ -49,7 +61,9 @@ devtools::install_github(
 ## Getting started
 
 If you are just getting started with **sigscores**, we recommend looking
-at the [Getting Started](articles/sigscores.html) section of the site.
+at the [Getting
+Started](https://alebarberis.github.io/sigscores/articles/sigscores.html)
+section of the site.
 
 ## Credits
 
