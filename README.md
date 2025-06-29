@@ -67,8 +67,9 @@ section of the site.
 
 ## Credits
 
-**sigscores** was conceived, developed, and is maintained by Dr
-Alessandro Barberis ([@alebarberis](https://github.com/alebarberis)).
+**sigscores** was conceived by Dr Alessandro Barberis and Prof Francesca
+Buffa. It was designed, developed, and is maintained by Dr Alessandro
+Barberis ([@alebarberis](https://github.com/alebarberis)).
 
 ## Acknowledgment
 
